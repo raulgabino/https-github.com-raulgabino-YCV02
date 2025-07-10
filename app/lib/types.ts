@@ -29,7 +29,15 @@ export interface RankRequest {
 
 export interface RankResponse {
   places: Place[]
-  explanation?: string
+  total: number
+  fallback?: boolean
+  message?: string
+  debug?: {
+    originalMood: string
+    processedTokens: string[]
+    cityPlacesCount: number
+    topScores: Array<{ name: string; score: number }>
+  }
 }
 
 export interface ExplainRequest {

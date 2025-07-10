@@ -1,73 +1,95 @@
 import { type NextRequest, NextResponse } from "next/server"
-import { levenshteinDistance } from "../../lib/utils"
+import { processVibeInput, calculateScore } from "../../lib/vibeProcessor"
 import placesData from "../../data/places.json"
-import tokensData from "../../data/tokens.json"
 
 export async function POST(request: NextRequest) {
   try {
     const { mood, city } = await request.json()
 
+    console.log("🚀 API /rank called with:", { mood, city })
+
     if (!mood || !city) {
+      console.log("❌ Missing mood or city")
       return NextResponse.json({ error: "Mood and city are required" }, { status: 400 })
     }
 
-    // Normalize mood input
-    const moodTokens = Array.isArray(mood) ? mood.map((m) => m.toLowerCase().trim()) : [mood.toLowerCase().trim()]
+    // Procesar vibe input
+    const vibeTokens = processVibeInput(mood)
+    console.log("🎯 Processed vibe tokens:", vibeTokens)
 
-    // Filter places by city
-    const cityPlaces = placesData.filter((place) => place.city === city)
+    // Filtrar por ciudad (más flexible)
+    const cityPlaces = placesData.filter(
+      (place) =>
+        place.city.toLowerCase().includes(city.toLowerCase()) || city.toLowerCase().includes(place.city.toLowerCase()),
+    )
+    console.log(`🏙️ Found ${cityPlaces.length} places in ${city}`)
 
     if (cityPlaces.length === 0) {
-      return NextResponse.json({ error: "No places found for this city" }, { status: 404 })
+      console.log("❌ No places found for city:", city)
+      return NextResponse.json(
+        {
+          error: "No places found for this city",
+          availableCities: [...new Set(placesData.map((p) => p.city))],
+        },
+        { status: 404 },
+      )
     }
 
-    // Calculate scores for each place
+    // Calcular scores
     const scoredPlaces = cityPlaces.map((place) => {
-      let totalScore = 0
-
-      moodTokens.forEach((moodToken) => {
-        // Find matching or similar tokens
-        const matchingTokens = tokensData.filter((token) => {
-          return token.token === moodToken || levenshteinDistance(token.token, moodToken) <= 2
-        })
-
-        // Calculate score based on tag presence and token weight
-        matchingTokens.forEach((token) => {
-          const tagPresence = place.tags.filter(
-            (tag) => tag.toLowerCase().includes(token.token) || token.token.includes(tag.toLowerCase()),
-          ).length
-
-          if (tagPresence > 0) {
-            totalScore += token.peso * tagPresence
-          }
-        })
-      })
-
-      // Boost score for high-rated places
-      const rating = Number.parseFloat(place.google_rating)
-      if (rating >= 4.6) {
-        totalScore *= 1.1
-      }
-
+      const score = calculateScore(place.tags, vibeTokens)
+      console.log(`📊 ${place.name}: score=${score}, tags=[${place.tags.join(", ")}]`)
       return {
         ...place,
-        score: totalScore,
+        score,
       }
     })
 
-    // Sort by score and return top 3
-    const topPlaces = scoredPlaces
-      .filter((place) => place.score > 0)
-      .sort((a, b) => b.score - a.score)
-      .slice(0, 3)
-      .map(({ score, ...place }) => place)
+    // Ordenar por score y tomar top 3
+    const topPlaces = scoredPlaces.sort((a, b) => b.score - a.score).slice(0, 3)
+
+    console.log(
+      "🏆 Top places with scores:",
+      topPlaces.map((p) => ({ name: p.name, score: p.score })),
+    )
+
+    // FALLBACK: Si todos tienen score 0, retornar lugares populares (mejor rating)
+    if (topPlaces.every((p) => p.score === 0)) {
+      console.log("⚠️ All scores are 0, using fallback (best rated places)")
+      const fallbackPlaces = cityPlaces
+        .sort((a, b) => Number.parseFloat(b.google_rating) - Number.parseFloat(a.google_rating))
+        .slice(0, 3)
+        .map(({ score, ...place }) => place) // Remove score property
+
+      return NextResponse.json({
+        places: fallbackPlaces,
+        total: fallbackPlaces.length,
+        fallback: true,
+        message: `No exact matches found for "${mood}", showing popular places in ${city}`,
+      })
+    }
+
+    // Remover score del response final
+    const finalPlaces = topPlaces.map(({ score, ...place }) => place)
 
     return NextResponse.json({
-      places: topPlaces,
-      total: topPlaces.length,
+      places: finalPlaces,
+      total: finalPlaces.length,
+      debug: {
+        originalMood: mood,
+        processedTokens: vibeTokens,
+        cityPlacesCount: cityPlaces.length,
+        topScores: topPlaces.map((p) => ({ name: p.name, score: p.score })),
+      },
     })
   } catch (error) {
-    console.error("Error in rank API:", error)
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 })
+    console.error("❌ Error in rank API:", error)
+    return NextResponse.json(
+      {
+        error: "Internal server error",
+        details: error instanceof Error ? error.message : "Unknown error",
+      },
+      { status: 500 },
+    )
   }
 }
