@@ -53,7 +53,14 @@ Return JSON format:
     }
 
     const data = await response.json()
-    const suggestions = JSON.parse(data.choices[0]?.message?.content || '{"suggested_tokens": []}')
+    let suggestions
+    try {
+      const content = data.choices[0]?.message?.content || '{"suggested_tokens": []}'
+      suggestions = JSON.parse(content)
+    } catch (error) {
+      console.error("Error parsing OpenAI response:", error)
+      suggestions = { suggested_tokens: [] }
+    }
 
     // In production, this would save to /app/data/tokens_next.json
     // and create a GitHub PR for review

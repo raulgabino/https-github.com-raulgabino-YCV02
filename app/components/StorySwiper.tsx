@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { useGesture } from "@use-gesture/react"
 import { Heart, MapPin, Share2 } from "lucide-react"
@@ -41,6 +41,7 @@ export default function StorySwiper() {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [translateY, setTranslateY] = useState(0)
   const [favorites, setFavorites] = useState<Set<number>>(new Set())
+  const [windowHeight, setWindowHeight] = useState(0)
 
   const bind = useGesture({
     onDrag: ({ offset: [, y], direction: [, dy], velocity: [, vy] }) => {
@@ -58,6 +59,17 @@ export default function StorySwiper() {
       }
     },
   })
+
+  useEffect(() => {
+    setWindowHeight(window.innerHeight)
+
+    const handleResize = () => {
+      setWindowHeight(window.innerHeight)
+    }
+
+    window.addEventListener("resize", handleResize)
+    return () => window.removeEventListener("resize", handleResize)
+  }, [])
 
   const toggleFavorite = (index: number) => {
     setFavorites((prev) => {
@@ -81,6 +93,14 @@ export default function StorySwiper() {
     console.log(`Sharing ${mockPlaces[currentIndex].name}`)
   }
 
+  if (windowHeight === 0) {
+    return (
+      <div className="h-screen w-full bg-black flex items-center justify-center">
+        <div className="text-white">Cargando...</div>
+      </div>
+    )
+  }
+
   return (
     <div className="h-screen w-full relative overflow-hidden bg-black">
       {/* Story Cards Stack */}
@@ -96,8 +116,8 @@ export default function StorySwiper() {
               <motion.div
                 key={index}
                 className="absolute inset-0 h-screen w-full"
-                initial={{ y: offset * window.innerHeight }}
-                animate={{ y: offset * window.innerHeight }}
+                initial={{ y: offset * windowHeight }}
+                animate={{ y: offset * windowHeight }}
                 transition={{ duration: 0.3, ease: "easeOut" }}
                 {...bind()}
                 style={{ touchAction: "pan-y" }}
