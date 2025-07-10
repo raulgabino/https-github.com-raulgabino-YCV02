@@ -123,7 +123,7 @@ export default function PersonalityArticlePage() {
               {profile.emoji}
             </div>
           </motion.div>
-          <h2 className="text-2xl font-bold mb-2">Generando artículo personalizado...</h2>
+          <h2 className="text-2xl font-bold mb-2">Cargando artículo personalizado...</h2>
           <p className="text-gray-600 mb-4">
             Creando la ruta perfecta de {profile.name} en {city}
           </p>
@@ -292,9 +292,9 @@ export default function PersonalityArticlePage() {
             className="bg-gray-100 rounded-lg p-6 text-sm text-gray-600"
           >
             <p>
-              <strong>Disclaimer:</strong> Este artículo es una interpretación creativa basada en el estilo público y
+              <strong>Disclaimer:</strong> Este artículo es una interpretación editorial basada en el estilo público y
               preferencias conocidas de {profile.name}. No implica endorsement real ni lugares visitados confirmados. El
-              contenido es generado por IA para fines de entretenimiento.
+              contenido es creado para fines de entretenimiento e inspiración.
             </p>
           </motion.div>
         </div>

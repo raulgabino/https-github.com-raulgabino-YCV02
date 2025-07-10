@@ -130,7 +130,7 @@ ESTRUCTURA REQUERIDA:
 TONO: Informativo pero entretenido, como Rolling Stone en español
 INCLUIR: Referencias específicas a su música, colaboraciones, estilo
 EVITAR: Información falsa, claims de visitas reales
-DISCLAIMER: Aclarar que es interpretación creativa
+DISCLAIMER: Aclarar que es interpretación editorial
 
 Responde SOLO con el artículo en formato markdown, sin texto adicional.`
 
@@ -197,6 +197,6 @@ Este ${place.category} sería perfecto para ${profile.name} por su ambiente ${pl
 Esta ruta por ${city} reflejaría perfectamente el estilo único de ${profile.name}, combinando su amor por ${profile.lifestyle.join(" y ")} con los mejores lugares que la ciudad tiene para ofrecer.
 
 ---
-*Disclaimer: Este artículo es una interpretación creativa basada en el estilo público de ${profile.name}. No implica endorsement real ni lugares visitados confirmados.*`
+*Disclaimer: Este artículo es una interpretación editorial basada en el estilo público de ${profile.name}. No implica endorsement real ni lugares visitados confirmados.*`
   }
 }

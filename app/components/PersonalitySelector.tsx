@@ -58,7 +58,7 @@ export default function PersonalitySelector({ city }: PersonalitySelectorProps) 
 
             <div className="flex items-center gap-2 text-fuchsia-300 text-sm font-medium">
               <Sparkles size={14} />
-              <span>Generar artículo AI</span>
+              <span>Leer artículo</span>
             </div>
           </motion.button>
         ))}
@@ -72,10 +72,10 @@ export default function PersonalitySelector({ city }: PersonalitySelectorProps) 
       >
         <div className="flex items-center gap-2 mb-2">
           <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-          <span className="text-white/80 text-sm font-medium">Powered by AI</span>
+          <span className="text-white/80 text-sm font-medium">Contenido Editorial</span>
         </div>
         <p className="text-white/60 text-xs">
-          Cada artículo es único y generado en tiempo real basado en el estilo y preferencias de cada artista.
+          Artículos únicos basados en el estilo y preferencias conocidas de cada artista.
         </p>
       </motion.div>
     </motion.section>

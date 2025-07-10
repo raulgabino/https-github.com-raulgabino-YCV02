@@ -93,7 +93,7 @@ export default function PersonalitiesPage() {
 
                 <div className="flex items-center gap-2 text-fuchsia-300 text-sm font-medium">
                   <Sparkles size={14} />
-                  <span>Generar artículo</span>
+                  <span>Leer artículo</span>
                 </div>
               </div>
             </motion.button>
@@ -115,7 +115,7 @@ export default function PersonalitiesPage() {
           <div className="space-y-3 text-white/80">
             <p>• Selecciona tu artista favorito</p>
             <p>• Elige una ciudad para explorar</p>
-            <p>• Recibe un artículo único generado por IA</p>
+            <p>• Lee un artículo único y personalizado</p>
             <p>• Descubre lugares que encajan con su estilo</p>
             <p>• Explora los lugares en modo swipe</p>
           </div>
