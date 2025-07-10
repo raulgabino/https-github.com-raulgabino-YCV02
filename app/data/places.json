@@ -627,5 +627,1245 @@
     "review_snippets": ["Paseo en trajinera con música y comida tradicional mexicana"],
     "last_checked": "2025-07-10",
     "media": []
+  },
+  {
+    "name": "Quintonil",
+    "category": "restaurante",
+    "city": "Ciudad de México",
+    "address": "Av. Isaac Newton 55, Polanco, Miguel Hidalgo, 11560",
+    "lat": 19.430882,
+    "lng": -99.191757,
+    "phone": "55 5280 2680",
+    "website": "http://www.quintonil.com",
+    "google_rating": "4.4",
+    "price_level": "$$",
+    "opening_hours": "Mon-Sat 13:00-22:00",
+    "tags": ["mexican", "author cuisine", "chill"],
+    "review_snippets": [
+      "Cocina mexicana elevada a su máxima expresión, cada platillo sorprende.",
+      "El lugar es elegante y tranquilo, ideal para una cena romántica y chill."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "El Cardenal",
+    "category": "restaurante",
+    "city": "Ciudad de México",
+    "address": "Palma 23, Centro Histórico, Cuauhtémoc, 06000",
+    "lat": 19.43335,
+    "lng": -99.13538,
+    "phone": "55 5521 8813",
+    "website": "http://www.restauranteelcardenal.com",
+    "google_rating": "4.7",
+    "price_level": "$",
+    "opening_hours": "Mon-Sun 08:00-18:00",
+    "tags": ["tradicional", "familiar", "mariachi"],
+    "review_snippets": [
+      "Desayunar aquí es un clásico, el pan dulce y el chocolate son deliciosos.",
+      "Ambiente familiar y tradicional, con mariachis tocando boleros - te pone un poco nostálgico."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Contramar",
+    "category": "restaurante",
+    "city": "Ciudad de México",
+    "address": "Calle Durango 200, Roma Norte, Cuauhtémoc, 06700",
+    "lat": 19.41637,
+    "lng": -99.16798,
+    "phone": "55 5511 1395",
+    "website": "http://www.contramar.com.mx",
+    "google_rating": "4.6",
+    "price_level": "$$",
+    "opening_hours": "Tue-Sun 12:00-18:30",
+    "tags": ["seafood", "trendy", "chill"],
+    "review_snippets": [
+      "El mejor pescado de la ciudad, fresquísimo y bien preparado.",
+      "Atmósfera relajada junto con música suave, muy chill para una comida entre amigos."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "El Bajío (Polanco)",
+    "category": "restaurante",
+    "city": "Ciudad de México",
+    "address": "Alejandro Dumas 7, Polanco, Miguel Hidalgo, 11560",
+    "lat": 19.4305,
+    "lng": -99.197,
+    "phone": "55 5281 8245",
+    "website": "http://www.restauranteelbajio.com.mx",
+    "google_rating": "4.5",
+    "price_level": "$",
+    "opening_hours": "Mon-Sun 08:00-19:00",
+    "tags": ["mexican", "tradicional", "corridos"],
+    "review_snippets": [
+      "Comida casera mexicana llena de sabor, como de la abuela.",
+      "El lugar siempre alegre con música de mariachi y hasta uno que otro corridos en vivo."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Taquería Orinoco (Roma Norte)",
+    "category": "restaurante",
+    "city": "Ciudad de México",
+    "address": "Av. Insurgentes Sur 559, Roma Norte, Cuauhtémoc, 06700",
+    "lat": 19.4146,
+    "lng": -99.1615,
+    "phone": "55 5264 7550",
+    "website": "",
+    "google_rating": "4.6",
+    "price_level": "$",
+    "opening_hours": "Mon-Sun 12:00-04:00",
+    "tags": ["tacos", "norteño", "corridos"],
+    "review_snippets": [
+      "Tacos espectaculares, auténticos del norte, mis favoritos a cualquier hora.",
+      "A veces ponen música norteña y corridos, el ambiente es casual y divertido."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "La Casa de Toño (Zona Rosa)",
+    "category": "restaurante",
+    "city": "Ciudad de México",
+    "address": "Londres 144, Juárez, Cuauhtémoc, 06600",
+    "lat": 19.4262,
+    "lng": -99.1629,
+    "phone": "55 5533 0786",
+    "website": "http://www.lacasadetono.com.mx",
+    "google_rating": "4.5",
+    "price_level": "$",
+    "opening_hours": "Mon-Sun 07:00-00:00",
+    "tags": ["pozole", "familiar", "chill"],
+    "review_snippets": [
+      "El pozole delicioso y a buen precio, un lugar que nunca falla.",
+      "Siempre lleno pero bien organizado, ambiente familiar y chill para disfrutar comida típica."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Café de Tacuba",
+    "category": "restaurante",
+    "city": "Ciudad de México",
+    "address": "Calle de Tacuba 28, Centro Histórico, Cuauhtémoc, 06010",
+    "lat": 19.4365,
+    "lng": -99.1352,
+    "phone": "55 5521 2048",
+    "website": "http://cafedetacuba.com.mx",
+    "google_rating": "4.5",
+    "price_level": "$",
+    "opening_hours": "Mon-Sun 08:00-22:00",
+    "tags": ["histórico", "tradicional", "corridos"],
+    "review_snippets": [
+      "Un lugar histórico con decoración hermosa, comer aquí es viajar en el tiempo.",
+      "Mariachis amenizan la velada, la vibra es festiva - entre danzón y corridos clásicos."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Los Danzantes Coyoacán",
+    "category": "restaurante",
+    "city": "Ciudad de México",
+    "address": "Jardín Centenario 12, Villa Coyoacán, Coyoacán, 04000",
+    "lat": 19.3515,
+    "lng": -99.1626,
+    "phone": "55 5554 1213",
+    "website": "http://losdanzantes.com",
+    "google_rating": "4.7",
+    "price_level": "$$",
+    "opening_hours": "Tue-Sun 13:00-22:00",
+    "tags": ["oaxaqueño", "mezcal", "eco"],
+    "review_snippets": [
+      "Excelente cocina oaxaqueña, mezcal de la casa muy recomendable.",
+      "El patio es precioso, muy eco con sus plantas y la atmósfera chill invita a largas sobremesas."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "El Huequito (Centro)",
+    "category": "restaurante",
+    "city": "Ciudad de México",
+    "address": "Calle Ayuntamiento 21, Centro, Cuauhtémoc, 06040",
+    "lat": 19.4268,
+    "lng": -99.1422,
+    "phone": "55 5521 3152",
+    "website": "http://www.elhuequito.com.mx",
+    "google_rating": "4.4",
+    "price_level": "$",
+    "opening_hours": "Mon-Sun 11:00-22:00",
+    "tags": ["tacos", "pastor", "reggaetón"],
+    "review_snippets": [
+      "Tacos al pastor legendarios, de los mejores de la ciudad sin duda.",
+      "Es un lugar pequeño y concurrido, con música movida - hasta suena reggaetón para perrear mientras esperas."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Azul Histórico",
+    "category": "restaurante",
+    "city": "Ciudad de México",
+    "address": "Isabel la Católica 30, Centro Histórico, Cuauhtémoc, 06000",
+    "lat": 19.434,
+    "lng": -99.1359,
+    "phone": "55 5521 3295",
+    "website": "http://azulhistorico.com",
+    "google_rating": "4.5",
+    "price_level": "$$",
+    "opening_hours": "Mon-Sun 09:00-23:00",
+    "tags": ["mexicana gourmet", "romántico", "chill"],
+    "review_snippets": [
+      "Hermoso restaurante bajo un patio iluminado, comida mexicana contemporánea deliciosa.",
+      "El ambiente es romántico y chill, con música suave y luces tenues que te relajan por completo."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Máximo Bistrot",
+    "category": "restaurante",
+    "city": "Ciudad de México",
+    "address": "Tonalá 133, Colonia Roma Norte, Cuauhtémoc, 06700",
+    "lat": 19.41705,
+    "lng": -99.16098,
+    "phone": "55 5264 4291",
+    "website": "http://maximobistrot.com.mx",
+    "google_rating": "4.7",
+    "price_level": "$$",
+    "opening_hours": "Tue-Sat 13:00-23:00; Sun 13:00-17:00",
+    "tags": ["farm-to-table", "trendy", "productivo"],
+    "review_snippets": [
+      "Ingredientes locales y frescos en platillos innovadores, se siente la dedicación en cada bocado.",
+      "El entorno es tranquilo y elegante, ideal para una cita o comida productiva de negocios."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Pasillo de Humo",
+    "category": "restaurante",
+    "city": "Ciudad de México",
+    "address": "Av. Nuevo León 107, Hipódromo, Cuauhtémoc, 06100",
+    "lat": 19.40881,
+    "lng": -99.17212,
+    "phone": "55 5211 7263",
+    "website": "",
+    "google_rating": "4.6",
+    "price_level": "$",
+    "opening_hours": "Mon-Sun 09:00-23:00",
+    "tags": ["oaxaqueño", "mole", "chill"],
+    "review_snippets": [
+      "Sabor auténtico oaxaqueño, mole increíble y tlayudas deliciosas.",
+      "Ambiente relajado, a veces con música tradicional; una experiencia chill para disfrutar con amigos."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Nicos",
+    "category": "restaurante",
+    "city": "Ciudad de México",
+    "address": "Av. Cuitláhuac 3102, Clavería, Azcapotzalco, 02080",
+    "lat": 19.4657,
+    "lng": -99.1856,
+    "phone": "55 5396 7090",
+    "website": "http://nicosmexico.mx",
+    "google_rating": "4.7",
+    "price_level": "$$",
+    "opening_hours": "Mon-Sat 08:00-18:00; Sun 08:00-17:00",
+    "tags": ["mexicana tradicional", "nostálgico", "familiar"],
+    "review_snippets": [
+      "Sabor mexicano tradicional con toques modernos, atención cálida de toda la vida.",
+      "Un clásico que no falla, tranquilo y hogareño, te sientes nostálgico con sus guisos como en casa."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "El Pescadito (Escandón)",
+    "category": "restaurante",
+    "city": "Ciudad de México",
+    "address": "Av. Baja California 320, Condesa, Cuauhtémoc, 06100",
+    "lat": 19.40505,
+    "lng": -99.17832,
+    "phone": "55 5273 9201",
+    "website": "",
+    "google_rating": "4.5",
+    "price_level": "$",
+    "opening_hours": "Mon-Sun 11:00-18:00",
+    "tags": ["tacos de pescado", "casual", "rock"],
+    "review_snippets": [
+      "Tacos de pescado y camarón espectaculares, con salsas para chuparse los dedos.",
+      "Es informal y alegre, ponen rock en las bocinas, buen ambiente chill para echar tacos con buena vibra."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Rosetta",
+    "category": "restaurante",
+    "city": "Ciudad de México",
+    "address": "Colima 166, Roma Norte, Cuauhtémoc, 06700",
+    "lat": 19.42044,
+    "lng": -99.16139,
+    "phone": "55 5533 7804",
+    "website": "http://rosetta.com.mx",
+    "google_rating": "4.5",
+    "price_level": "$$",
+    "opening_hours": "Mon-Sat 13:00-23:00",
+    "tags": ["italiano", "panadería", "romántico"],
+    "review_snippets": [
+      "Panadería divina y restaurante con platillos italo-mexicanos exquisitos, altamente recomendable.",
+      "Decoración vintage y flores por doquier, ambiente romántico y chill que te hace sentir en una película."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Restaurante San Ángel Inn",
+    "category": "restaurante",
+    "city": "Ciudad de México",
+    "address": "Diego Rivera 50, San Ángel Inn, Álvaro Obregón, 01060",
+    "lat": 19.3446,
+    "lng": -99.2023,
+    "phone": "55 5616 2222",
+    "website": "http://sanangelinn.com",
+    "google_rating": "4.8",
+    "price_level": "$$",
+    "opening_hours": "Mon-Sun 12:00-22:00",
+    "tags": ["ex-hacienda", "elegante", "chill"],
+    "review_snippets": [
+      "Restaurante elegante en una ex-hacienda, perfecta atención y platillos clásicos deliciosos.",
+      "La atmósfera es tranquila con piano de fondo, un lugar chill para comidas de celebración."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "La Ópera Bar",
+    "category": "restaurante",
+    "city": "Ciudad de México",
+    "address": "Av. 5 de Mayo 10, Centro Histórico, Cuauhtémoc, 06000",
+    "lat": 19.43443,
+    "lng": -99.1369,
+    "phone": "55 5512 8959",
+    "website": "",
+    "google_rating": "4.4",
+    "price_level": "$",
+    "opening_hours": "Mon-Sun 12:00-02:00",
+    "tags": ["cantina histórica", "boleros", "nostálgico"],
+    "review_snippets": [
+      "Cantina histórica con gran carácter, ideal para tomar un trago y botana tradicional.",
+      "Los balazos en el techo y el piano en vivo crean un ambiente único; a veces suena tango y uno se pone melancólico en este lugar emblemático."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Bellini",
+    "category": "restaurante",
+    "city": "Ciudad de México",
+    "address": "Montecito 38, Piso 45, Col. Nápoles, Benito Juárez, 03810",
+    "lat": 19.3936,
+    "lng": -99.1737,
+    "phone": "55 9000 8325",
+    "website": "http://www.bellini.com.mx",
+    "google_rating": "4.3",
+    "price_level": "$$",
+    "opening_hours": "Mon-Sun 13:00-01:00",
+    "tags": ["mirador", "romántico", "chill"],
+    "review_snippets": [
+      "Vista espectacular de la ciudad desde lo alto, gira lentamente mientras disfrutas la cena.",
+      "La experiencia es muy chill y romántica, con música suave y panorámica que quita el aliento."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Fonda Margarita",
+    "category": "restaurante",
+    "city": "Ciudad de México",
+    "address": "Adolfo Prieto 136, Col. Del Valle, Benito Juárez, 03100",
+    "lat": 19.3813,
+    "lng": -99.1616,
+    "phone": "55 5559 5214",
+    "website": "",
+    "google_rating": "4.6",
+    "price_level": "$",
+    "opening_hours": "Tue-Sun 05:30-12:00",
+    "tags": ["desayuno", "tradicional", "traka"],
+    "review_snippets": [
+      "Desayuno mexicano auténtico, frijoles con huevo memorables y tortillas hechas a mano.",
+      "Mariachis mañaneros alegran el ambiente, sales con pilas - ¡mañana muy traka con música y buen humor!"
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Café 123",
+    "category": "cafetería",
+    "city": "Ciudad de México",
+    "address": "Artículo 123 #123, Col. Centro, Cuauhtémoc, 06040",
+    "lat": 19.431,
+    "lng": -99.15,
+    "phone": "55 5700 0123",
+    "website": "",
+    "google_rating": "4.5",
+    "price_level": "$",
+    "opening_hours": "Mon-Sun 12:00-20:00",
+    "tags": ["galería", "funk", "chill"],
+    "review_snippets": [
+      "Café con estilo artístico, comida fusión deliciosa y gran ambiente.",
+      "Música soul y funk vintage, se siente muy chill pasar el rato aquí."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Farmacia Internacional",
+    "category": "cafetería",
+    "city": "Ciudad de México",
+    "address": "Av. Nuevo León 120, Hipódromo, Cuauhtémoc, 06100",
+    "lat": 19.4063,
+    "lng": -99.1725,
+    "phone": "55 1137 8445",
+    "website": "",
+    "google_rating": "4.1",
+    "price_level": "$",
+    "opening_hours": "Mon-Sat 08:30-23:00; Sun 08:30-18:00",
+    "tags": ["vintage", "healthy", "retro"],
+    "review_snippets": [
+      "Decoración estilo Wes Anderson, platillos saludables y sabores únicos.",
+      "Ambiente hip y retro, perfecto para un brunch tranquilo pero con estilo."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Café Negro",
+    "category": "cafetería",
+    "city": "Ciudad de México",
+    "address": "Plaza Centenario 16, Villa Coyoacán, Coyoacán, 04000",
+    "lat": 19.3519,
+    "lng": -99.1618,
+    "phone": "55 5658 1234",
+    "website": "",
+    "google_rating": "4.6",
+    "price_level": "$",
+    "opening_hours": "Mon-Sun 08:00-23:00",
+    "tags": ["especialidad", "coyoacán", "chill"],
+    "review_snippets": [
+      "Espacio luminoso en Coyoacán, café de gran calidad y postres caseros.",
+      "Muy chill para trabajar, tan relajado que hasta probé leche de macadamia por primera vez."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Oveja Negra Café",
+    "category": "cafetería",
+    "city": "Ciudad de México",
+    "address": "Obrero Mundial 119, Del Valle Norte, Benito Juárez, 03103",
+    "lat": 19.397,
+    "lng": -99.1575,
+    "phone": "55 1100 8899",
+    "website": "",
+    "google_rating": "4.7",
+    "price_level": "$",
+    "opening_hours": "Mon-Fri 09:00-21:00; Sat-Sun 10:00-20:00",
+    "tags": ["barrio", "especialidad", "productivo"],
+    "review_snippets": [
+      "Café de barrio tranquilo, atención amable y excelente café de Chiapas.",
+      "Lugar productivo y sereno, ideal para concentrarse entre plantas y buena vibra."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Mimo Café Bueno",
+    "category": "cafetería",
+    "city": "Ciudad de México",
+    "address": "Amores 1403, Col. Del Valle Centro, Benito Juárez, 03100",
+    "lat": 19.375,
+    "lng": -99.163,
+    "phone": "55 7572 5217",
+    "website": "https://www.facebook.com/MimoCAFEBUENO/",
+    "google_rating": "4.5",
+    "price_level": "$",
+    "opening_hours": "Mon-Fri 07:00-20:30; Sat-Sun 09:00-20:00",
+    "tags": ["acogedor", "café de especialidad", "chill"],
+    "review_snippets": [
+      "Pequeño café acogedor, espresso increíble y tostadas deliciosas.",
+      "Ambiente cálido y local, muy chill para ir con amigos o simplemente relajarte con un libro."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Chez Vous Time Café",
+    "category": "cafetería",
+    "city": "Ciudad de México",
+    "address": "Varsovia 36, Juárez, Cuauhtémoc, 06600",
+    "lat": 19.4275,
+    "lng": -99.1622,
+    "phone": "55 5200 0044",
+    "website": "",
+    "google_rating": "4.4",
+    "price_level": "$",
+    "opening_hours": "Mon-Sun 07:30-22:30",
+    "tags": ["coworking", "wifi", "productivo"],
+    "review_snippets": [
+      "Café coworking con opción de snacks ilimitados, perfecto para estudiar.",
+      "Wifi rápido, ambiente productivo; te puedes quedar horas trabajando sin molestias."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Blend Station",
+    "category": "cafetería",
+    "city": "Ciudad de México",
+    "address": "Av. Tamaulipas 60, Hipódromo, Cuauhtémoc, 06170",
+    "lat": 19.41,
+    "lng": -99.1733,
+    "phone": "55 5555 0606",
+    "website": "http://blendstation.com.mx",
+    "google_rating": "4.5",
+    "price_level": "$",
+    "opening_hours": "Mon-Sat 08:00-23:00; Sun 09:00-22:00",
+    "tags": ["Condesa", "laptops", "productivo"],
+    "review_snippets": [
+      "Café famoso en Condesa, siempre lleno de gente con laptops y buena energía.",
+      "Espacio amplio y bien decorado, excelente para un día productivo con buen café y enchufes disponibles."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Boicot Café (Condesa)",
+    "category": "cafetería",
+    "city": "Ciudad de México",
+    "address": "Av. Tamaulipas 141, Hipódromo, Cuauhtémoc, 06170",
+    "lat": 19.4109,
+    "lng": -99.1744,
+    "phone": "55 5555 1515",
+    "website": "",
+    "google_rating": "4.7",
+    "price_level": "$",
+    "opening_hours": "Mon-Fri 07:00-22:00; Sat-Sun 08:00-22:00",
+    "tags": ["Condesa", "cafés creativos", "productivo"],
+    "review_snippets": [
+      "Mi lugar favorito para trabajar, servicio muy agradable y café creativo (¡prueba el de Oreo!).",
+      "Ambiente dinámico pero tranquilo, perfecto para concentrarse - muy chill a pesar de la gente."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Cardinal Casa de Café (Condesa)",
+    "category": "cafetería",
+    "city": "Ciudad de México",
+    "address": "Campeche 346, Hipódromo, Cuauhtémoc, 06170",
+    "lat": 19.4094,
+    "lng": -99.173,
+    "phone": "55 5555 3434",
+    "website": "",
+    "google_rating": "4.6",
+    "price_level": "$",
+    "opening_hours": "Mon-Sat 08:00-21:00; Sun 09:00-21:00",
+    "tags": ["especialidad", "plantas", "eco"],
+    "review_snippets": [
+      "Café de especialidad con gran selección de granos mexicanos y métodos de preparación.",
+      "Espacio hermoso con azulejos turquesa y plantas, atmósfera chill y decorado eco friendly."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Efímero Café",
+    "category": "cafetería",
+    "city": "Ciudad de México",
+    "address": "Campeche 429, Condesa, Cuauhtémoc, 06170",
+    "lat": 19.4087,
+    "lng": -99.172,
+    "phone": "55 5555 5550",
+    "website": "",
+    "google_rating": "4.8",
+    "price_level": "$",
+    "opening_hours": "Mon-Fri 07:00-22:00; Sat-Sun 09:00-21:00",
+    "tags": ["Condesa", "acogedor", "productivo"],
+    "review_snippets": [
+      "Café de barrio pequeño y tranquilo, bancos cómodos y flat white delicioso.",
+      "Ambiente relajado, ideal para largas horas de trabajo con la laptop - súper productivo."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Centro Café",
+    "category": "cafetería",
+    "city": "Ciudad de México",
+    "address": "Av. Nuevo León 42, Hipódromo, Cuauhtémoc, 06100",
+    "lat": 19.4113,
+    "lng": -99.1738,
+    "phone": "55 5555 4242",
+    "website": "",
+    "google_rating": "4.4",
+    "price_level": "$",
+    "opening_hours": "Mon-Sun 09:00-21:00",
+    "tags": ["terraza", "jazz", "chill"],
+    "review_snippets": [
+      "Terraza con plantas y un local cómodo, un oasis de tranquilidad en la ciudad.",
+      "Jazz de fondo y cero ruido de la calle, muy chill y tranquilo para desconectarte del caos."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Alegre Café",
+    "category": "cafetería",
+    "city": "Ciudad de México",
+    "address": "Insurgentes Sur 257, Roma Sur, Cuauhtémoc, 06760",
+    "lat": 19.402,
+    "lng": -99.1635,
+    "phone": "55 5555 2626",
+    "website": "",
+    "google_rating": "4.3",
+    "price_level": "$",
+    "opening_hours": "Mon-Fri 08:00-18:30; Sat-Sun 09:00-17:30",
+    "tags": ["moderno", "colorido", "chill"],
+    "review_snippets": [
+      "Café moderno con servicio amable, ideal para esperar el metrobús con un latte.",
+      "Decoración colorida que te pone de buen humor, música agradable - vibe chill y verdaderamente alegre."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Baveno Café",
+    "category": "cafetería",
+    "city": "Ciudad de México",
+    "address": "Monterrey 194, Roma Norte, Cuauhtémoc, 06700",
+    "lat": 19.4182,
+    "lng": -99.1675,
+    "phone": "55 5555 6464",
+    "website": "",
+    "google_rating": "4.7",
+    "price_level": "$",
+    "opening_hours": "Tue-Fri 09:00-18:00; Sat 09:00-17:00; Sun 09:00-15:00",
+    "tags": ["Roma", "pet-friendly", "reggaetón"],
+    "review_snippets": [
+      "Café espacioso en Roma Norte, su pan de chocolate es excelente.",
+      "Buen lugar para trabajar, aunque la música puede ser alta con toques de reggaetón; si necesitas concentrarte, lleva audífonos."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Palo de Rosa Café",
+    "category": "cafetería",
+    "city": "Ciudad de México",
+    "address": "Monterrey 177, Roma Norte, Cuauhtémoc, 06700",
+    "lat": 19.4175,
+    "lng": -99.1663,
+    "phone": "55 5555 4545",
+    "website": "",
+    "google_rating": "4.8",
+    "price_level": "$",
+    "opening_hours": "Everyday 09:00-18:00 (Closed Tue)",
+    "tags": ["panadería", "cute", "chill"],
+    "review_snippets": [
+      "Panadería-café con panes increíbles (el de guanábana y coco es de otro mundo).",
+      "Equipo muy simpático y ambiente dulce - literalmente huele a mantequilla y azúcar, super chill y cute."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Bou Café",
+    "category": "cafetería",
+    "city": "Ciudad de México",
+    "address": "Tonalá 110, Roma Norte, Cuauhtémoc, 06700",
+    "lat": 19.42,
+    "lng": -99.162,
+    "phone": "55 5555 7878",
+    "website": "",
+    "google_rating": "4.2",
+    "price_level": "$",
+    "opening_hours": "Tue-Sun 08:00-19:00",
+    "tags": ["desayunos", "Condesa", "traka"],
+    "review_snippets": [
+      "Café concurrido los fines de semana, desayunos ricos y abre temprano.",
+      "Lugar conveniente y cerca de casa, vibe animado en las mañanas - perfecto para iniciar el día con energía traka."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Café Curado",
+    "category": "cafetería",
+    "city": "Ciudad de México",
+    "address": "Sinaloa 10, Roma Norte, Cuauhtémoc, 06700",
+    "lat": 19.4208,
+    "lng": -99.1632,
+    "phone": "55 5555 9090",
+    "website": "",
+    "google_rating": "4.5",
+    "price_level": "$",
+    "opening_hours": "Mon-Fri 08:00-22:00; Sat-Sun 09:00-20:00",
+    "tags": ["intimo", "carajillos", "chill"],
+    "review_snippets": [
+      "Café íntimo con decoración moderna, carta amplia de desayunos, cafés y cervezas artesanales.",
+      "El carajillo es delicioso y los viernes es 3×2, ambiente chill para relajarse después de un largo día."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Café Trucha",
+    "category": "cafetería",
+    "city": "Ciudad de México",
+    "address": "Plaza Río de Janeiro 53, Roma Norte, Cuauhtémoc, 06700",
+    "lat": 19.423,
+    "lng": -99.1615,
+    "phone": "55 5555 3210",
+    "website": "",
+    "google_rating": "4.6",
+    "price_level": "$",
+    "opening_hours": "Tue-Fri 08:00-23:00; Sat 09:00-23:00; Sun 09:00-18:00",
+    "tags": ["rústico", "vino", "chill"],
+    "review_snippets": [
+      "Café rústico estilo Montreal, relajado, perfecto para un croissant y una copa de vino con amigos.",
+      "Diseño de madera único en la ciudad, vibe tranquilo que te transporta - realmente chill para charlar horas."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Constela Café",
+    "category": "cafetería",
+    "city": "Ciudad de México",
+    "address": "Colima 209, Roma Norte, Cuauhtémoc, 06700",
+    "lat": 19.42,
+    "lng": -99.159,
+    "phone": "55 5555 8899",
+    "website": "",
+    "google_rating": "4.8",
+    "price_level": "$",
+    "opening_hours": "Mon-Thu 08:00-20:00; Fri-Sun 08:00-21:00",
+    "tags": ["terraza", "moderno", "productivo"],
+    "review_snippets": [
+      "Café nuevo en Roma Norte con diseño moderno, gran flat white y terraza soleada.",
+      "Se llena rápido por lo bueno que es; enchufes por doquier, muy productivo para trabajar y disfrutar al sol."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "WO Barra de Café",
+    "category": "cafetería",
+    "city": "Ciudad de México",
+    "address": "Cholula 62, Roma Norte, Cuauhtémoc, 06700",
+    "lat": 19.414,
+    "lng": -99.166,
+    "phone": "55 5555 7788",
+    "website": "",
+    "google_rating": "4.5",
+    "price_level": "$",
+    "opening_hours": "Mon-Sat 08:00-20:00; Sun 09:00-19:00",
+    "tags": ["terraza", "ensaladas", "chill"],
+    "review_snippets": [
+      "Café con terraza linda, ensaladas deliciosas y cold brew de horchata muy recomendado.",
+      "Aire fresco en su terraza, ambiente relajado - definitivamente un lugar chill para tomarte un break en el día."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "UNAM (Ciudad Universitaria)",
+    "category": "universidad",
+    "city": "Ciudad de México",
+    "address": "Av. Universidad 3000, C.U., Coyoacán, 04510",
+    "lat": 19.33224,
+    "lng": -99.1883,
+    "phone": "55 5622 1332",
+    "website": "https://www.unam.mx",
+    "google_rating": "4.8",
+    "price_level": "",
+    "opening_hours": "Mon-Sun 00:00-23:59",
+    "tags": ["pública", "gigante", "eco"],
+    "review_snippets": [
+      "La máxima casa de estudios de México, campus enorme y lleno de vida cultural; oportunidades académicas de primer nivel.",
+      "Me encanta caminar por Ciudad Universitaria, tantos jardines y murales - ambiente eco y chill para estudiar o simplemente reflexionar bajo una ceiba."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Instituto Politécnico Nacional (IPN)",
+    "category": "universidad",
+    "city": "Ciudad de México",
+    "address": "Av. Luis Enrique Erro s/n, Zacatenco, Gustavo A. Madero, 07738",
+    "lat": 19.5047,
+    "lng": -99.1463,
+    "phone": "55 5729 6000",
+    "website": "https://www.ipn.mx",
+    "google_rating": "4.7",
+    "price_level": "",
+    "opening_hours": "Mon-Sun 00:00-23:59",
+    "tags": ["ingenierías", "tradición", "corridos"],
+    "review_snippets": [
+      "Instituto Politécnico con tradición, excelentes carreras de ingeniería y gran espíritu politécnico.",
+      "Sus instalaciones en Zacatenco son amplias; hay ambientes productivos en sus bibliotecas pero también mucha camaradería en los pasillos, la vibra es única (¡hasta hay quienes cantan corridos en las fiestas de facultad!)."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "UAM Iztapalapa",
+    "category": "universidad",
+    "city": "Ciudad de México",
+    "address": "Av. San Rafael Atlixco 186, Leyes de Reforma 1ra Secc, Iztapalapa, 09310",
+    "lat": 19.3516,
+    "lng": -99.062,
+    "phone": "55 5804 4700",
+    "website": "https://www.uam.mx",
+    "google_rating": "4.4",
+    "price_level": "",
+    "opening_hours": "Mon-Sun 00:00-23:59",
+    "tags": ["pública", "humanidades", "chill"],
+    "review_snippets": [
+      "Universidad Autónoma Metropolitana, unidad Iztapalapa; profesores muy preparados y enfoque humanístico.",
+      "Campus modesto pero con buen ambiente estudiantil, bastante tranquilo para enfocarte - aunque en sus festivales se arma el baile con algo de salsa y cumbia."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Tec de Monterrey (Campus CDMX)",
+    "category": "universidad",
+    "city": "Ciudad de México",
+    "address": "Calle del Puente 222, Tlalpan, 14380",
+    "lat": 19.3031,
+    "lng": -99.13205,
+    "phone": "55 5483 2000",
+    "website": "https://tec.mx",
+    "google_rating": "4.7",
+    "price_level": "$$",
+    "opening_hours": "Mon-Sun 07:00-22:00",
+    "tags": ["privada", "innovación", "productivo"],
+    "review_snippets": [
+      "Instalaciones de primer nivel, enfoque internacional; actividades extracurriculares y emprendimiento sobresalientes.",
+      "El campus siempre está impecable, te motivan a ser productivo; eso sí, también saben festejar en los viernes de Borrego donde suena desde pop hasta reggaetón."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Universidad Iberoamericana (UIA)",
+    "category": "universidad",
+    "city": "Ciudad de México",
+    "address": "Prolongación Paseo de la Reforma 880, Santa Fe, Álvaro Obregón, 01219",
+    "lat": 19.3683,
+    "lng": -99.26,
+    "phone": "55 5950 4000",
+    "website": "https://www.ibero.mx",
+    "google_rating": "4.6",
+    "price_level": "$$",
+    "opening_hours": "Mon-Fri 06:45-22:00; Sat 07:00-14:00",
+    "tags": ["privada", "humanista", "chill"],
+    "review_snippets": [
+      "Excelente universidad privada, ambiente plural y fuerte compromiso social; su campus en Santa Fe es moderno y completo.",
+      "Muy buen ambiente estudiantil, chill entre clases en sus áreas verdes; los alumnos organizan eventos culturales y hasta fiestas con DJ (llega a sonar mucho perreo en las kermeses)."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "ITAM (Instituto Tecnológico Autónomo)",
+    "category": "universidad",
+    "city": "Ciudad de México",
+    "address": "Río Hondo 1, Progreso Tizapán, Álvaro Obregón, 01080",
+    "lat": 19.3461,
+    "lng": -99.2016,
+    "phone": "55 5628 4000",
+    "website": "https://www.itam.mx",
+    "google_rating": "4.5",
+    "price_level": "$$",
+    "opening_hours": "Mon-Fri 07:00-22:00; Sat 08:00-14:00",
+    "tags": ["privada", "economía", "productivo"],
+    "review_snippets": [
+      "Formación académica rigurosa en economía, derecho, etc.; profesores de alto nivel, aunque la carga académica es pesada.",
+      "El ambiente es competitivo pero amistoso, todos estudiando duro en la biblioteca (súper productivo); después de exámenes se van de fiesta, liberando estrés a ritmo de salsa o electrónica."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Universidad La Salle (ULSA)",
+    "category": "universidad",
+    "city": "Ciudad de México",
+    "address": "Benjamín Franklin 45, Condesa, Cuauhtémoc, 06140",
+    "lat": 19.4063,
+    "lng": -99.1805,
+    "phone": "55 5278 9500",
+    "website": "https://www.lasalle.mx",
+    "google_rating": "4.7",
+    "price_level": "$$",
+    "opening_hours": "Mon-Fri 06:50-22:00; Sat 07:00-14:00",
+    "tags": ["privada", "católica", "chill"],
+    "review_snippets": [
+      "Campus acogedor en Condesa, trato cercano con los profesores; muy buena en negocios y humanidades.",
+      "El ambiente lasallista es muy familiar y tranquilo, los estudiantes hacen labor social y también organizan noches de talento donde hasta hay música K-pop a veces."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Universidad Panamericana (UP)",
+    "category": "universidad",
+    "city": "Ciudad de México",
+    "address": "Augusto Rodin 498, Insurgentes Mixcoac, Benito Juárez, 03920",
+    "lat": 19.3758,
+    "lng": -99.1839,
+    "phone": "55 5482 1600",
+    "website": "https://www.up.edu.mx",
+    "google_rating": "4.8",
+    "price_level": "$$",
+    "opening_hours": "Mon-Fri 07:00-22:00; Sat 08:00-14:00",
+    "tags": ["privada", "valores", "productivo"],
+    "review_snippets": [
+      "Formación integral con valores, especialmente destacada en negocios y derecho; campus Mixcoac bien equipado.",
+      "Ambiente formal pero cordial, se siente enfocado y productivo. Eso sí, las porras en eventos deportivos se ponen intensas, mucha unión y nada de sad, puro orgullo pantera."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Universidad del Valle de México (UVM)",
+    "category": "universidad",
+    "city": "Ciudad de México",
+    "address": "Av. Universidad 100, San Rafael, Cuauhtémoc, 06470",
+    "lat": 19.4444,
+    "lng": -99.1569,
+    "phone": "55 1165 1500",
+    "website": "https://uvm.mx",
+    "google_rating": "4.3",
+    "price_level": "$",
+    "opening_hours": "Mon-Sat 07:00-22:00",
+    "tags": ["privada", "diversa", "familiar"],
+    "review_snippets": [
+      "Universidad con múltiples campus, oferta amplia de carreras y convenios internacionales.",
+      "El campus que visito es cómodo y seguro, la atmósfera es relajada. Los estudiantes disfrutan entre clases jugando fútbol o escuchando corridos tumbados en sus bocinas - muy diversa la comunidad."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Universidad Autónoma de la Ciudad de México (UACM)",
+    "category": "universidad",
+    "city": "Ciudad de México",
+    "address": "Fray Servando Teresa de Mier 92, Centro, Cuauhtémoc, 06080",
+    "lat": 19.4209,
+    "lng": -99.1256,
+    "phone": "55 5335 6610",
+    "website": "https://www.uacm.edu.mx",
+    "google_rating": "4.4",
+    "price_level": "",
+    "opening_hours": "Mon-Fri 08:00-21:00",
+    "tags": ["pública", "alternativa", "chill"],
+    "review_snippets": [
+      "Universidad pública de la Ciudad con enfoque humanístico, inclusión y crítica social; profesores comprometidos.",
+      "El ambiente es alternativo y plural, muy chill. Hay asambleas estudiantiles, cineclub; aquí se siente la libertad de expresión - definitivamente nada aburrido ni triste estudiar aquí."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "El Colegio de México (Colmex)",
+    "category": "universidad",
+    "city": "Ciudad de México",
+    "address": "Camino al Ajusco 20, Pedregal de Santa Teresa, Tlalpan, 10740",
+    "lat": 19.3055,
+    "lng": -99.2106,
+    "phone": "55 5449 3000",
+    "website": "https://www.colmex.mx",
+    "google_rating": "4.8",
+    "price_level": "",
+    "opening_hours": "Mon-Fri 08:00-18:00",
+    "tags": ["posgrado", "investigación", "productivo"],
+    "review_snippets": [
+      "Centro de alto nivel en ciencias sociales y humanidades, programas de excelencia internacional; ambiente académico muy exigente.",
+      "Es un campus pequeño y serio, muy productivo para la investigación. Aquí no hay fiestas ruidosas, predomina el silencio y el estudio profundo, vibe intelectual 100%."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Universidad Pedagógica Nacional (UPN)",
+    "category": "universidad",
+    "city": "Ciudad de México",
+    "address": "Carretera Picacho-Ajusco 24, Héroes de Padierna, Tlalpan, 14200",
+    "lat": 19.2926,
+    "lng": -99.2289,
+    "phone": "55 5630 9700",
+    "website": "https://www.upn.mx",
+    "google_rating": "4.7",
+    "price_level": "",
+    "opening_hours": "Mon-Sat 08:00-20:00",
+    "tags": ["docentes", "social", "tranquilo"],
+    "review_snippets": [
+      "Formadora de docentes por excelencia, programas enfocados en pedagogía e innovación educativa; gran impacto social.",
+      "La comunidad es muy unida, organizan círculos de estudio al aire libre - ambiente tranquilo y enfocado en mejorar la educación del país, se siente una vibra inspiradora."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "ENAH (Escuela Nal. de Antropología e Historia)",
+    "category": "universidad",
+    "city": "Ciudad de México",
+    "address": "Periférico Sur 410, Col. Isidro Fabela, Tlalpan, 14030",
+    "lat": 19.3039,
+    "lng": -99.1895,
+    "phone": "55 5646 6800",
+    "website": "https://www.enah.edu.mx",
+    "google_rating": "4.7",
+    "price_level": "",
+    "opening_hours": "Mon-Fri 08:00-20:00; Sat 08:00-14:00",
+    "tags": ["antropología", "bohemio", "chill"],
+    "review_snippets": [
+      "La meca para antropólogos y arqueólogos, ambiente bohemio e interdisciplinario; maestros legendarios en sus campos.",
+      "El campus de ENAH es único, hay danzantes y muestras culturales seguido. Es súper chill estudiar bajo los árboles con jaranas sonando a lo lejos - aquí la tradición y la academia conviven."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Escuela Libre de Derecho",
+    "category": "universidad",
+    "city": "Ciudad de México",
+    "address": "Dr. Vertiz 12, Doctores, Cuauhtémoc, 06720",
+    "lat": 19.4257,
+    "lng": -99.146,
+    "phone": "55 5709 3615",
+    "website": "http://www.eld.edu.mx",
+    "google_rating": "4.8",
+    "price_level": "$",
+    "opening_hours": "Mon-Fri 08:00-21:00; Sat 08:00-14:00",
+    "tags": ["derecho", "tradicional", "productivo"],
+    "review_snippets": [
+      "Escuela de abogados con gran prestigio histórico, formación clásica en derecho; muy estricta pero de alto nivel.",
+      "Ambiente formal y serio, los alumnos visten traje a diario. Muy productivo pero también estresante antes de exámenes - luego se relajan con un café en el centro tras las evaluaciones."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "UNITEC Campus Marina",
+    "category": "universidad",
+    "city": "Ciudad de México",
+    "address": "Marina Nacional 162, Anáhuac, Miguel Hidalgo, 11320",
+    "lat": 19.4475,
+    "lng": -99.1776,
+    "phone": "55 5328 7900",
+    "website": "https://www.unitec.mx",
+    "google_rating": "4.3",
+    "price_level": "$",
+    "opening_hours": "Mon-Fri 07:00-22:00; Sat 07:00-14:00",
+    "tags": ["tecnológica", "práctica", "tranquilo"],
+    "review_snippets": [
+      "Universidad tecnológica con enfoque práctico, horarios flexibles; buena opción para compaginar estudio y trabajo.",
+      "El campus Marina es moderno, ambiente tranquilo y diverso (muchos trabajan y estudian). No hay tanta vida de campus pero el ambiente es amable - todos a lo suyo sin distracciones."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "CIDE (Centro de Investigación y Docencia Económicas)",
+    "category": "universidad",
+    "city": "Ciudad de México",
+    "address": "Carret. México-Toluca 3655, Lomas de Santa Fe, Cuajimalpa, 01210",
+    "lat": 19.3691,
+    "lng": -99.2596,
+    "phone": "55 5727 9800",
+    "website": "https://www.cide.edu",
+    "google_rating": "4.9",
+    "price_level": "",
+    "opening_hours": "Mon-Fri 07:00-20:00",
+    "tags": ["posgrado", "elite", "productivo"],
+    "review_snippets": [
+      "Centro de investigación en economía y ciencias sociales de élite, grupos pequeños y enfoque investigativo; excelencia académica.",
+      "El ambiente es muy académico y chill, todos discutiendo teoría política en la cafetería. No es fiestero, más bien súper productivo - perfecto si amas la investigación."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Universidad Intercontinental (UIC)",
+    "category": "universidad",
+    "city": "Ciudad de México",
+    "address": "Insurgentes Sur 4303, Sta. Úrsula Xitla, Tlalpan, 14020",
+    "lat": 19.2874,
+    "lng": -99.164,
+    "phone": "55 5487 1370",
+    "website": "https://www.uic.mx",
+    "google_rating": "4.6",
+    "price_level": "$$",
+    "opening_hours": "Mon-Fri 07:00-21:00; Sat 08:00-14:00",
+    "tags": ["privada", "verde", "eco"],
+    "review_snippets": [
+      "Universidad privada al sur con hermoso campus verde, fuerte en odontología y comunicación; ambiente amigable.",
+      "El campus parece un parque, súper eco con muchos árboles. Se respira tranquilidad mientras estudias, aunque también arman buenos eventos culturales - vibe equilibrado entre estudio y vida estudiantil."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Universidad Simón Bolívar",
+    "category": "universidad",
+    "city": "Ciudad de México",
+    "address": "Av. Pdte. Masaryk 154, Tizapán San Ángel, Álvaro Obregón, 01090",
+    "lat": 19.3475,
+    "lng": -99.201,
+    "phone": "55 5595 3744",
+    "website": "https://www.usb.edu.mx",
+    "google_rating": "4.3",
+    "price_level": "$",
+    "opening_hours": "Mon-Fri 07:00-21:00; Sat 08:00-13:00",
+    "tags": ["pequeña", "humanista", "chill"],
+    "review_snippets": [
+      "Universidad pequeña y humanista en Mixcoac, atención personalizada; carreras enfocadas en diseño, administración, etc.",
+      "Muy cálido el ambiente, todos se conocen. Es chill y relajado, con su cafecito en el patio central. Se siente como comunidad, cero anonimato."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Escuela Bancaria y Comercial (EBC)",
+    "category": "universidad",
+    "city": "Ciudad de México",
+    "address": "Calle Marsella 44, Juárez, Cuauhtémoc, 06600",
+    "lat": 19.424,
+    "lng": -99.1645,
+    "phone": "55 5224 5000",
+    "website": "https://www.ebc.mx",
+    "google_rating": "4.5",
+    "price_level": "$",
+    "opening_hours": "Mon-Fri 07:00-22:00; Sat 08:00-14:00",
+    "tags": ["negocios", "finanzas", "productivo"],
+    "review_snippets": [
+      "Institución especializada en negocios y finanzas, tradición centenaria en formación empresarial; muy bien conectada con el sector financiero.",
+      "La sede Reforma es muy moderna, los estudiantes van de traje. Ambiente productivo y enfocado, aquí se respira emprendimiento, aunque después de clases se van en bola a celebrar logros con buena vibra."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Universidad de la Comunicación",
+    "category": "universidad",
+    "city": "Ciudad de México",
+    "address": "Zacatecas 120, Roma Norte, Cuauhtémoc, 06700",
+    "lat": 19.4179,
+    "lng": -99.1562,
+    "phone": "55 5511 0410",
+    "website": "https://www.uc.edu.mx",
+    "google_rating": "4.4",
+    "price_level": "$",
+    "opening_hours": "Mon-Fri 07:00-21:00; Sat 09:00-14:00",
+    "tags": ["creativa", "publicidad", "k-cute"],
+    "review_snippets": [
+      "Universidad creativa en la Roma, especializada en publicidad, cine, comunicación; instalaciones funky y profesores activos en la industria.",
+      "El ambiente es súper creativo y k-cute a ratos - murales coloridos, estudiantes con estilos únicos. Se siente la energía artística, nada convencional, ¡aquí cada día es diferente!"
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Barbería Royal",
+    "category": "barbería",
+    "city": "Ciudad de México",
+    "address": "Andrés Bello 45, Polanco IV Secc, Miguel Hidalgo, 11560",
+    "lat": 19.432,
+    "lng": -99.1943,
+    "phone": "55 7095 4571",
+    "website": "http://barberiaroyal.com",
+    "google_rating": "4.6",
+    "price_level": "$$",
+    "opening_hours": "Mon-Sat 10:00-20:00; Sun 11:00-17:00",
+    "tags": ["clásica", "lujo", "chill"],
+    "review_snippets": [
+      "No es un spa ni un salón de belleza, sino una experiencia personal de barbería tradicional con toques de lujo.",
+      "Al llegar te reciben con un trago y jazz de fondo; el servicio es impecable y relajante, muy chill y sofisticado."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Breath Grooming Barbershop",
+    "category": "barbería",
+    "city": "Ciudad de México",
+    "address": "Calzada de Guadalupe 123, Gustavo A. Madero, 07050",
+    "lat": 19.479,
+    "lng": -99.12,
+    "phone": "55 5551 5151",
+    "website": "",
+    "google_rating": "4.5",
+    "price_level": "$",
+    "opening_hours": "Tue-Sun 11:00-20:00",
+    "tags": ["moderna", "relax", "chill"],
+    "review_snippets": [
+      "Barbería con concepto moderno en el norte de la ciudad, ofrecen faciales y masajes además de cortes.",
+      "Te ofrecen una bebida mientras esperas; ambiente tranquilo y amable, sales renovado y chill."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Gentlemen's Tonic",
+    "category": "barbería",
+    "city": "Ciudad de México",
+    "address": "Emilio Castelar 163, Polanco, Miguel Hidalgo, 11550",
+    "lat": 19.433,
+    "lng": -99.201,
+    "phone": "55 5280 0123",
+    "website": "",
+    "google_rating": "4.7",
+    "price_level": "$$",
+    "opening_hours": "Mon-Sat 10:00-20:00",
+    "tags": ["británica", "spa", "lujo"],
+    "review_snippets": [
+      "Barbería británica de lujo, productos importados y tratamientos estilo spa; una experiencia premium para caballeros.",
+      "El lugar es impecable y silencioso, te consienten con toallas calientes y masajes - sales renovado, nada como un buen grooming sin prisas."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "La Logia Barbería",
+    "category": "barbería",
+    "city": "Ciudad de México",
+    "address": "Av. Michoacán 50, Condesa, Cuauhtémoc, 06140",
+    "lat": 19.412,
+    "lng": -99.175,
+    "phone": "55 5264 1289",
+    "website": "",
+    "google_rating": "4.5",
+    "price_level": "$",
+    "opening_hours": "Mon-Sat 11:00-21:00; Sun 12:00-18:00",
+    "tags": ["hipster", "cerveza", "chill"],
+    "review_snippets": [
+      "Barbería con estética vintage en Condesa, ofrecen chela artesanal mientras esperas tu corte.",
+      "Los barberos son muy buenos y platicadores, la atmósfera es relajada (hasta suena rock clásico), super chill pasar el rato ahí."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
   }
 ]
