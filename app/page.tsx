@@ -6,6 +6,7 @@ import { motion } from "framer-motion"
 import CitySelect from "./components/CitySelect"
 import VibeInput from "./components/VibeInput"
 import { copy } from "./lib/i18n"
+import PersonalitySelector from "./components/PersonalitySelector"
 
 export default function Home() {
   const [selectedCity, setSelectedCity] = useState("Ciudad Victoria")
@@ -73,6 +74,8 @@ export default function Home() {
           transition={{ delay: 0.4, duration: 0.5 }}
           className="space-y-6 bg-white/10 backdrop-blur-lg rounded-3xl p-6 border border-white/20 shadow-lg"
         >
+          <PersonalitySelector city={selectedCity} />
+
           <CitySelect onCityChange={setSelectedCity} defaultCity="Ciudad Victoria" />
 
           <VibeInput onSearch={handleSearch} city={selectedCity} />
