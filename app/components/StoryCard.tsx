@@ -11,6 +11,7 @@ import type { Place } from "@/lib/types"
 import { copy } from "../lib/i18n"
 import { generateMapsUrl, generateInstagramDMUrl } from "../lib/utils"
 import { generatePlaceholderDataURL, getPlaceholderMessage } from "../lib/placeholders"
+import { createSimplePlaceholder } from "../lib/fallbackImage"
 
 interface StoryCardProps {
   place: Place
@@ -22,14 +23,18 @@ export default function StoryCard({ place, explanation, onSwipe }: StoryCardProp
   const [isFavorite, setIsFavorite] = useState(false)
   const [imageUrl, setImageUrl] = useState("")
   const router = useRouter()
+  const [imageError, setImageError] = useState(false)
 
   useEffect(() => {
-    // Check if place is in favorites
     const favorites = JSON.parse(localStorage.getItem("favoriteIds") || "[]")
     setIsFavorite(favorites.includes(place.name))
 
-    // Always use placeholder for MVP
-    setImageUrl(generatePlaceholderDataURL(place.name, place.category))
+    try {
+      setImageUrl(generatePlaceholderDataURL(place.name, place.category))
+    } catch (error) {
+      console.error("Error generating complex placeholder, using simple fallback:", error)
+      setImageUrl(createSimplePlaceholder(place.category))
+    }
   }, [place])
 
   const toggleFavorite = () => {
@@ -99,6 +104,11 @@ export default function StoryCard({ place, explanation, onSwipe }: StoryCardProp
           fill
           className="object-cover"
           crossOrigin="anonymous"
+          onError={() => {
+            console.error("Image failed to load:", imageUrl)
+            setImageUrl("/placeholder.svg")
+            setImageError(true)
+          }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
       </div>

@@ -31,7 +31,12 @@ export function levenshteinDistance(str1: string, str2: string): number {
 }
 
 export function getPlaceholderImage(placeName: string, category: string): string {
-  return generatePlaceholderDataURL(placeName, category)
+  try {
+    return generatePlaceholderDataURL(placeName, category)
+  } catch (error) {
+    console.error("Error generating placeholder image:", error)
+    return "/placeholder.svg"
+  }
 }
 
 export function formatPhoneForWhatsApp(phone: string): string {

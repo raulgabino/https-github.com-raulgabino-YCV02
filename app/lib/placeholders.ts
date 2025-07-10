@@ -1,3 +1,17 @@
+function safeBtoa(str: string): string {
+  try {
+    // Check if btoa is available (browser environment)
+    if (typeof btoa !== "undefined") {
+      return btoa(str)
+    }
+    // Fallback for server-side rendering
+    return Buffer.from(str).toString("base64")
+  } catch (error) {
+    console.error("Error encoding SVG:", error)
+    return ""
+  }
+}
+
 const CATEGORY_VISUALS = {
   restaurante: {
     emoji: "🍽️",
@@ -115,8 +129,19 @@ export function generatePlaceholderSVG(placeName: string, category: string, widt
   const visual = getCategoryVisual(category)
   const placeNameShort = placeName.length > 20 ? placeName.substring(0, 17) + "..." : placeName
 
-  return `data:image/svg+xml;base64,${btoa(`
-    <svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
+  // Escape special characters in place name
+  const safePlaceName = placeNameShort.replace(/[<>&"']/g, (char) => {
+    const entities: Record<string, string> = {
+      "<": "&lt;",
+      ">": "&gt;",
+      "&": "&amp;",
+      '"': "&quot;",
+      "'": "&#39;",
+    }
+    return entities[char] || char
+  })
+
+  const svgContent = `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" style="stop-color:${visual.bgColor};stop-opacity:0.8" />
@@ -127,35 +152,32 @@ export function generatePlaceholderSVG(placeName: string, category: string, widt
         </pattern>
       </defs>
       
-      <!-- Background -->
       <rect width="100%" height="100%" fill="url(#bg-gradient)"/>
       <rect width="100%" height="100%" fill="url(#dots)"/>
       
-      <!-- Emoji Icon -->
       <text x="50%" y="35%" text-anchor="middle" font-size="48" dominant-baseline="middle">
         ${visual.emoji}
       </text>
       
-      <!-- Place Name -->
       <text x="50%" y="55%" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" 
             font-size="18" font-weight="600" fill="white" dominant-baseline="middle">
-        ${placeNameShort}
+        ${safePlaceName}
       </text>
       
-      <!-- Category -->
       <text x="50%" y="70%" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" 
             font-size="14" fill="white" opacity="0.9" dominant-baseline="middle">
         ${visual.description}
       </text>
       
-      <!-- Coming Soon Badge -->
       <rect x="10" y="10" width="120" height="24" rx="12" fill="white" opacity="0.2"/>
       <text x="70" y="22" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" 
             font-size="11" font-weight="500" fill="white" dominant-baseline="middle">
         Fotos próximamente
       </text>
-    </svg>
-  `)}`
+    </svg>`
+
+  const encodedSvg = safeBtoa(svgContent)
+  return encodedSvg ? `data:image/svg+xml;base64,${encodedSvg}` : "/placeholder.svg"
 }
 
 export function generatePlaceholderDataURL(placeName: string, category: string): string {
@@ -170,8 +192,7 @@ export function getPlaceholderMessage(): string {
 export function generateSmallPlaceholderSVG(placeName: string, category: string): string {
   const visual = getCategoryVisual(category)
 
-  return `data:image/svg+xml;base64,${btoa(`
-    <svg width="96" height="96" xmlns="http://www.w3.org/2000/svg">
+  const svgContent = `<svg width="96" height="96" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <linearGradient id="small-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" style="stop-color:${visual.bgColor};stop-opacity:0.8" />
@@ -184,6 +205,8 @@ export function generateSmallPlaceholderSVG(placeName: string, category: string)
       <text x="50%" y="50%" text-anchor="middle" font-size="32" dominant-baseline="middle">
         ${visual.emoji}
       </text>
-    </svg>
-  `)}`
+    </svg>`
+
+  const encodedSvg = safeBtoa(svgContent)
+  return encodedSvg ? `data:image/svg+xml;base64,${encodedSvg}` : "/placeholder.svg"
 }
