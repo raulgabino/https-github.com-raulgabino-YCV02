@@ -9,7 +9,8 @@ import Image from "next/image"
 import { Heart, MapPin, MessageCircle, Menu, ExternalLink } from "lucide-react"
 import type { Place } from "@/lib/types"
 import { copy } from "../lib/i18n"
-import { getImageFallback, generateMapsUrl, generateInstagramDMUrl } from "../lib/utils"
+import { generateMapsUrl, generateInstagramDMUrl } from "../lib/utils"
+import { generatePlaceholderDataURL, getPlaceholderMessage } from "../lib/placeholders"
 
 interface StoryCardProps {
   place: Place
@@ -27,12 +28,8 @@ export default function StoryCard({ place, explanation, onSwipe }: StoryCardProp
     const favorites = JSON.parse(localStorage.getItem("favoriteIds") || "[]")
     setIsFavorite(favorites.includes(place.name))
 
-    // Set image URL
-    if (place.media && place.media.length > 0) {
-      setImageUrl(place.media[0])
-    } else {
-      setImageUrl(getImageFallback(place.city, place.tags[0] || "restaurant"))
-    }
+    // Always use placeholder for MVP
+    setImageUrl(generatePlaceholderDataURL(place.name, place.category))
   }, [place])
 
   const toggleFavorite = () => {
@@ -102,9 +99,6 @@ export default function StoryCard({ place, explanation, onSwipe }: StoryCardProp
           fill
           className="object-cover"
           crossOrigin="anonymous"
-          onError={() => {
-            setImageUrl(getImageFallback(place.city, place.tags[0] || "restaurant"))
-          }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
       </div>
@@ -115,7 +109,8 @@ export default function StoryCard({ place, explanation, onSwipe }: StoryCardProp
         <div className="space-y-4">
           <div>
             <h1 className="text-3xl font-bold mb-2">{place.name}</h1>
-            <p className="text-lg opacity-90 leading-relaxed">{explanation}</p>
+            <p className="text-lg opacity-90 leading-relaxed mb-2">{explanation}</p>
+            <p className="text-sm opacity-70 italic">{getPlaceholderMessage()}</p>
           </div>
 
           {/* Tags */}

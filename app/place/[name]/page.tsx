@@ -7,7 +7,8 @@ import Image from "next/image"
 import { ArrowLeft, MapPin, Phone, Clock, Star, Heart, ExternalLink, Share2 } from "lucide-react"
 import type { Place } from "../../lib/types"
 import placesData from "../../data/places.json"
-import { getImageFallback, generateMapsUrl, formatPhoneForWhatsApp } from "../../lib/utils"
+import { generateMapsUrl, formatPhoneForWhatsApp } from "../../lib/utils"
+import { generatePlaceholderDataURL, getPlaceholderMessage } from "../../lib/placeholders"
 
 interface PlaceDetailPageProps {
   params: { name: string }
@@ -30,12 +31,8 @@ export default function PlaceDetailPage({ params }: PlaceDetailPageProps) {
       const favorites = JSON.parse(localStorage.getItem("favoriteIds") || "[]")
       setIsFavorite(favorites.includes(foundPlace.name))
 
-      // Set image URL
-      if (foundPlace.media && foundPlace.media.length > 0) {
-        setImageUrl(foundPlace.media[0])
-      } else {
-        setImageUrl(getImageFallback(foundPlace.city, foundPlace.tags[0] || "restaurant"))
-      }
+      // Always use placeholder for MVP
+      setImageUrl(generatePlaceholderDataURL(foundPlace.name, foundPlace.category))
     }
   }, [params.name])
 
@@ -137,7 +134,7 @@ export default function PlaceDetailPage({ params }: PlaceDetailPageProps) {
         {/* Title and Rating */}
         <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.5 }}>
           <h1 className="text-3xl font-bold text-white mb-2">{place.name}</h1>
-          <div className="flex items-center gap-4 text-white/80">
+          <div className="flex items-center gap-4 text-white/80 mb-2">
             <div className="flex items-center gap-1">
               <Star size={16} className="text-yellow-400" />
               <span>{place.google_rating}</span>
@@ -145,6 +142,7 @@ export default function PlaceDetailPage({ params }: PlaceDetailPageProps) {
             <span>{place.price_level}</span>
             <span className="capitalize">{place.category}</span>
           </div>
+          <p className="text-sm text-white/60 italic">{getPlaceholderMessage()}</p>
         </motion.div>
 
         {/* Tags */}

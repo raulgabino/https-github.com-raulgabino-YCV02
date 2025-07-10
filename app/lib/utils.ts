@@ -1,5 +1,6 @@
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
+import { generatePlaceholderDataURL } from "./placeholders"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -29,8 +30,8 @@ export function levenshteinDistance(str1: string, str2: string): number {
   return matrix[str2.length][str1.length]
 }
 
-export function getImageFallback(city: string, firstTag: string): string {
-  return `https://source.unsplash.com/featured/?${encodeURIComponent(city)},${encodeURIComponent(firstTag)}`
+export function getPlaceholderImage(placeName: string, category: string): string {
+  return generatePlaceholderDataURL(placeName, category)
 }
 
 export function formatPhoneForWhatsApp(phone: string): string {

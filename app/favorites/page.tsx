@@ -6,7 +6,8 @@ import Image from "next/image"
 import { MapPin, Trash2 } from "lucide-react"
 import type { Place } from "../lib/types"
 import { copy } from "../lib/i18n"
-import { getImageFallback, generateMapsUrl } from "../lib/utils"
+import { generateMapsUrl } from "../lib/utils"
+import { generateSmallPlaceholderSVG } from "../lib/placeholders"
 
 export default function FavoritesPage() {
   const [favorites, setFavorites] = useState<Place[]>([])
@@ -82,10 +83,10 @@ export default function FavoritesPage() {
                 <div className="flex">
                   <div className="relative w-24 h-24 flex-shrink-0">
                     <Image
-                      src={place.media?.[0] || getImageFallback(place.city, place.tags[0] || "restaurant")}
+                      src={generateSmallPlaceholderSVG(place.name, place.category) || "/placeholder.svg"}
                       alt={place.name}
                       fill
-                      className="object-cover"
+                      className="object-cover rounded-lg"
                       crossOrigin="anonymous"
                     />
                   </div>
