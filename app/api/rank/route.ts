@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server"
-import { processVibeInput, calculateScore } from "../../lib/vibeProcessor"
+import { processVibeInput, calculateRelevanceScore } from "../../lib/vibeProcessor"
 import placesData from "../../data/places.json"
 
 export async function POST(request: NextRequest) {
@@ -14,8 +14,9 @@ export async function POST(request: NextRequest) {
     }
 
     // Procesar vibe input
-    const vibeTokens = processVibeInput(mood)
+    const { tokens: vibeTokens, moodGroup } = processVibeInput(mood)
     console.log("🎯 Processed vibe tokens:", vibeTokens)
+    console.log("🎭 Mood group:", moodGroup)
 
     // Filtrar por ciudad (más flexible)
     const cityPlaces = placesData.filter(
@@ -35,51 +36,61 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Calcular scores
+    // Calcular relevance scores
     const scoredPlaces = cityPlaces.map((place) => {
-      const score = calculateScore(place.tags, vibeTokens)
-      console.log(`📊 ${place.name}: score=${score}, tags=[${place.tags.join(", ")}]`)
+      const relevance = calculateRelevanceScore(place, vibeTokens, moodGroup)
+      console.log(`📊 ${place.name}: relevance=${relevance.toFixed(2)}, tags=[${place.tags.join(", ")}]`)
       return {
         ...place,
-        score,
+        relevance,
       }
     })
 
-    // Ordenar por score y tomar top 3
-    const topPlaces = scoredPlaces.sort((a, b) => b.score - a.score).slice(0, 3)
+    // Filtrar por relevancia mínima (umbral más bajo)
+    const relevantPlaces = scoredPlaces.filter((place) => place.relevance > 0.1)
+    console.log(`🎯 Found ${relevantPlaces.length} relevant places (relevance > 0.1)`)
 
-    console.log(
-      "🏆 Top places with scores:",
-      topPlaces.map((p) => ({ name: p.name, score: p.score })),
-    )
+    // Ordenar por relevancia
+    const sortedPlaces = relevantPlaces.sort((a, b) => b.relevance - a.relevance)
 
-    // FALLBACK: Si todos tienen score 0, retornar lugares populares (mejor rating)
-    if (topPlaces.every((p) => p.score === 0)) {
-      console.log("⚠️ All scores are 0, using fallback (best rated places)")
-      const fallbackPlaces = cityPlaces
+    let finalPlaces = sortedPlaces.slice(0, 3)
+
+    // FALLBACK MEJORADO: Garantizar siempre 3 resultados
+    if (finalPlaces.length < 3) {
+      console.log(`⚠️ Only ${finalPlaces.length} relevant places found, adding popular places`)
+
+      // Agregar lugares populares (mejor rating) que no estén ya incluidos
+      const usedNames = new Set(finalPlaces.map((p) => p.name))
+      const popularPlaces = cityPlaces
+        .filter((place) => !usedNames.has(place.name))
         .sort((a, b) => Number.parseFloat(b.google_rating) - Number.parseFloat(a.google_rating))
-        .slice(0, 3)
-        .map(({ score, ...place }) => place) // Remove score property
+        .slice(0, 3 - finalPlaces.length)
+        .map((place) => ({ ...place, relevance: 0.05 })) // Score mínimo para fallback
 
-      return NextResponse.json({
-        places: fallbackPlaces,
-        total: fallbackPlaces.length,
-        fallback: true,
-        message: `No exact matches found for "${mood}", showing popular places in ${city}`,
-      })
+      finalPlaces = [...finalPlaces, ...popularPlaces]
     }
 
-    // Remover score del response final
-    const finalPlaces = topPlaces.map(({ score, ...place }) => place)
+    console.log(
+      "🏆 Final 3 places:",
+      finalPlaces.map((p) => ({ name: p.name, relevance: p.relevance?.toFixed(2) || "N/A" })),
+    )
+
+    // Remover relevance del response final
+    const cleanPlaces = finalPlaces.map(({ relevance, ...place }) => place)
 
     return NextResponse.json({
-      places: finalPlaces,
-      total: finalPlaces.length,
+      places: cleanPlaces,
+      total: cleanPlaces.length,
       debug: {
         originalMood: mood,
         processedTokens: vibeTokens,
+        moodGroup,
         cityPlacesCount: cityPlaces.length,
-        topScores: topPlaces.map((p) => ({ name: p.name, score: p.score })),
+        relevantPlacesCount: relevantPlaces.length,
+        topScores: finalPlaces.map((p) => ({
+          name: p.name,
+          relevance: p.relevance?.toFixed(2) || "N/A",
+        })),
       },
     })
   } catch (error) {
