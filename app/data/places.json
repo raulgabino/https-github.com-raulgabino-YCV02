@@ -1,5 +1,1225 @@
 [
   {
+    "name": "La Taqueria",
+    "category": "restaurante",
+    "city": "San Francisco",
+    "address": "2889 Mission St, San Francisco, CA 94110",
+    "lat": 37.750866,
+    "lng": -122.418182,
+    "phone": "+1 415-285-7117",
+    "website": "http://lataqueriasf.net",
+    "google_rating": "4.6",
+    "price_level": "$",
+    "opening_hours": "Wed-Sat 11:00-20:45; Sun 11:00-19:45; Mon-Tue closed",
+    "tags": ["cash-only", "Mexican", "crowded", "fresh tortillas", "corridos"],
+    "review_snippets": [
+      "Famous for its no-frills simplicity and supremely fresh burritos.",
+      "Fun energy...a little mariachi band came in to play a few songs"
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Boulevard",
+    "category": "restaurante",
+    "city": "San Francisco",
+    "address": "1 Mission St, San Francisco, CA 94105",
+    "lat": 37.793313,
+    "lng": -122.392738,
+    "phone": "+1 415-543-6084",
+    "website": "http://www.boulevardrestaurant.com",
+    "google_rating": "4.7",
+    "price_level": "$$$",
+    "opening_hours": "Tue-Sat 17:00-21:30; Sun-Mon closed",
+    "tags": ["fine dining", "Bay Bridge view", "romantic", "valet parking", "formal"],
+    "review_snippets": [
+      "Transporting vibe—glamorous Belle Époque decor and lovely bay views.",
+      "Truly a special meal – excellent service and the food was sublime."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Zuni Café",
+    "category": "restaurante",
+    "city": "San Francisco",
+    "address": "1658 Market St, San Francisco, CA 94102",
+    "lat": 37.77359,
+    "lng": -122.421669,
+    "phone": "+1 415-552-2522",
+    "website": "http://www.zunicafe.com",
+    "google_rating": "4.6",
+    "price_level": "$$$",
+    "opening_hours": "Tue-Sat 17:00-21:30; Fri-Sun 11:00-15:00; Mon closed",
+    "tags": ["Californian", "oysters", "wood-fired oven", "chill vibe", "brunch"],
+    "review_snippets": [
+      "Locals and visitors love this SF institution's laid-back California vibe.",
+      "Still a vivacious place after decades…nothing feels tired about Zuni."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "House of Prime Rib",
+    "category": "restaurante",
+    "city": "San Francisco",
+    "address": "1906 Van Ness Ave, San Francisco, CA 94109",
+    "lat": 37.793148,
+    "lng": -122.422034,
+    "phone": "+1 415-885-4605",
+    "website": "http://houseofprimerib.net",
+    "google_rating": "4.7",
+    "price_level": "$$$",
+    "opening_hours": "Daily 17:00-22:00",
+    "tags": ["steakhouse", "old-school", "prime rib", "clubby", "family-friendly"],
+    "review_snippets": [
+      "Classic old-school ambiance, the prime rib simply melts in your mouth.",
+      "A San Francisco icon – carts of prime rib and impeccable service transport you to another era."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Swan Oyster Depot",
+    "category": "restaurante",
+    "city": "San Francisco",
+    "address": "1517 Polk St, San Francisco, CA 94109",
+    "lat": 37.790306,
+    "lng": -122.420673,
+    "phone": "+1 415-673-1101",
+    "website": "http://swanoysterdepot.us",
+    "google_rating": "4.6",
+    "price_level": "$$",
+    "opening_hours": "Mon-Sat 10:30-14:30; Sun closed",
+    "tags": ["seafood", "counter-service", "oysters", "historic", "no-reservations"],
+    "review_snippets": [
+      "Best fresh seafood in the city. Long lines but worth the wait!",
+      "Old-school counter with incredible oysters and crab – a true SF experience."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Foreign Cinema",
+    "category": "restaurante",
+    "city": "San Francisco",
+    "address": "2534 Mission St, San Francisco, CA 94110",
+    "lat": 37.756184,
+    "lng": -122.419392,
+    "phone": "+1 415-648-7600",
+    "website": "http://foreigncinema.com",
+    "google_rating": "4.5",
+    "price_level": "$$$",
+    "opening_hours": "Tue-Sun 17:30-22:00; Sat-Sun brunch 11:00-14:30; Mon closed",
+    "tags": ["outdoor movies", "Mediterranean", "brunch", "romantic", "trendy"],
+    "review_snippets": [
+      "Dining under the stars with a classic film playing – such a magical ambiance.",
+      "Food and film combine for a uniquely San Francisco night out."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Nopa",
+    "category": "restaurante",
+    "city": "San Francisco",
+    "address": "560 Divisadero St, San Francisco, CA 94117",
+    "lat": 37.774964,
+    "lng": -122.437315,
+    "phone": "+1 415-864-8643",
+    "website": "http://nopasf.com",
+    "google_rating": "4.6",
+    "price_level": "$$$",
+    "opening_hours": "Daily 17:00-23:00; Sat-Sun brunch 10:30-14:30",
+    "tags": ["New American", "farm-to-table", "cocktails", "lively", "late-night"],
+    "review_snippets": [
+      "Vibrant and consistently delicious – the pork chop and flatbread are musts.",
+      "Bustling atmosphere but warm service. Great for late-night dining."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Burma Superstar",
+    "category": "restaurante",
+    "city": "San Francisco",
+    "address": "309 Clement St, San Francisco, CA 94118",
+    "lat": 37.783527,
+    "lng": -122.461954,
+    "phone": "+1 415-387-2147",
+    "website": "http://www.burmasuperstar.com",
+    "google_rating": "4.5",
+    "price_level": "$$",
+    "opening_hours": "Daily 11:30-14:30, 17:00-21:30",
+    "tags": ["Burmese", "tea leaf salad", "spicy", "no-reservations", "casual"],
+    "review_snippets": [
+      "The tea leaf salad lives up to the hype – so many flavors and textures!",
+      "Often a wait, but the cozy vibe and incredible curries are worth it."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Liholiho Yacht Club",
+    "category": "restaurante",
+    "city": "San Francisco",
+    "address": "871 Sutter St, San Francisco, CA 94109",
+    "lat": 37.78872,
+    "lng": -122.415587,
+    "phone": "+1 415-440-5446",
+    "website": "http://liholihoyachtclub.com",
+    "google_rating": "4.7",
+    "price_level": "$$$",
+    "opening_hours": "Tue-Sat 17:00-22:00; Sun-Mon closed",
+    "tags": ["Fusion", "Hawaiian", "tapas-style", "hip decor", "craft cocktails"],
+    "review_snippets": [
+      "Inventive Hawaiian-Californian dishes – every plate was a flavor bomb.",
+      "Fun, energetic ambiance. Don't miss the tuna poke or beef tongue buns."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Sam Wo Restaurant",
+    "category": "restaurante",
+    "city": "San Francisco",
+    "address": "713 Clay St, San Francisco, CA 94108",
+    "lat": 37.79415,
+    "lng": -122.405401,
+    "phone": "+1 415-989-8898",
+    "website": "http://samwosf.com",
+    "google_rating": "4.1",
+    "price_level": "$",
+    "opening_hours": "Wed-Mon 10:00-15:00, 17:00-21:00; Tue closed",
+    "tags": ["Chinese", "noodles", "historic", "late-night", "cash-only"],
+    "review_snippets": [
+      "A Chinatown classic reborn – affordable noodles and BBQ pork rice rolls that hit the spot.",
+      "No-frills, shared tables, loud and lively – just like old times at Sam Wo."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "El Farolito",
+    "category": "restaurante",
+    "city": "San Francisco",
+    "address": "2779 Mission St, San Francisco, CA 94110",
+    "lat": 37.752751,
+    "lng": -122.418465,
+    "phone": "+1 415-824-7877",
+    "website": "N/A",
+    "google_rating": "4.6",
+    "price_level": "$",
+    "opening_hours": "Daily 10:00-02:45",
+    "tags": ["taqueria", "late-night", "burritos", "hole-in-the-wall", "corridos"],
+    "review_snippets": [
+      "Massive burritos that cure all hunger, especially after midnight – truly the best in the Mission.",
+      "Always a line out the door. The al pastor and green salsa are legendary."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Delfina",
+    "category": "restaurante",
+    "city": "San Francisco",
+    "address": "3621 18th St, San Francisco, CA 94110",
+    "lat": 37.761421,
+    "lng": -122.424103,
+    "phone": "+1 415-552-4055",
+    "website": "http://delfinasf.com",
+    "google_rating": "4.5",
+    "price_level": "$$$",
+    "opening_hours": "Daily 17:00-22:00",
+    "tags": ["Italian", "farm-to-table", "neighborhood favorite", "pasta", "cozy"],
+    "review_snippets": [
+      "Rustic Italian done to perfection – the spaghetti and meatballs are simple and amazing.",
+      "Consistently warm service. Feels like a true neighborhood trattoria."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Tony's Pizza Napoletana",
+    "category": "restaurante",
+    "city": "San Francisco",
+    "address": "1570 Stockton St, San Francisco, CA 94133",
+    "lat": 37.800372,
+    "lng": -122.409879,
+    "phone": "+1 415-835-9888",
+    "website": "http://tonyspizzanapoletana.com",
+    "google_rating": "4.6",
+    "price_level": "$$",
+    "opening_hours": "Wed-Sun 12:00-22:00; Mon-Tue closed",
+    "tags": ["pizzeria", "wood-fired", "world-champion pizza", "no-reservations", "beer & wine"],
+    "review_snippets": [
+      "Award-winning pies – the Margherita is often sold out by evening, it's that good.",
+      "Expect a wait, but the crust and fresh toppings are worth it. True pizza heaven."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Cha Cha Cha",
+    "category": "restaurante",
+    "city": "San Francisco",
+    "address": "1801 Haight St, San Francisco, CA 94117",
+    "lat": 37.76983,
+    "lng": -122.451716,
+    "phone": "+1 415-386-7670",
+    "website": "N/A",
+    "google_rating": "4.5",
+    "price_level": "$$",
+    "opening_hours": "Daily 12:00-23:00",
+    "tags": ["tapas", "Cuban", "sangria", "loud music", "perrea"],
+    "review_snippets": [
+      "Lively and chaotic in the best way – sangria and spicy plantains with salsa music blasting.",
+      "Fun spot for groups. Bacon-wrapped dates and paella are crowd favorites in a festive ambiance."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Gary Danko",
+    "category": "restaurante",
+    "city": "San Francisco",
+    "address": "800 N Point St, San Francisco, CA 94109",
+    "lat": 37.805973,
+    "lng": -122.420105,
+    "phone": "+1 415-749-2060",
+    "website": "http://garydanko.com",
+    "google_rating": "4.8",
+    "price_level": "$$$",
+    "opening_hours": "Daily 17:30-22:00",
+    "tags": ["Michelin-starred", "prix fixe", "formal", "extensive wine list", "romantic"],
+    "review_snippets": [
+      "Simply exquisite from start to finish – a true fine dining experience with impeccable service.",
+      "Every course is a work of art. Ideal for anniversaries or any special occasion."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Yank Sing",
+    "category": "restaurante",
+    "city": "San Francisco",
+    "address": "101 Spear St, San Francisco, CA 94105",
+    "lat": 37.792208,
+    "lng": -122.393492,
+    "phone": "+1 415-781-1111",
+    "website": "http://yanksing.com",
+    "google_rating": "4.4",
+    "price_level": "$$",
+    "opening_hours": "Daily 10:00-15:00",
+    "tags": ["dim sum", "cart service", "Chinese", "family-friendly", "bustling"],
+    "review_snippets": [
+      "High-end dim sum with fantastic variety – the soup dumplings are a must!",
+      "Can be crowded at brunch, but carts arrive swiftly. A bit pricey for dim sum but top quality."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Original Joe's",
+    "category": "restaurante",
+    "city": "San Francisco",
+    "address": "601 Union St, San Francisco, CA 94133",
+    "lat": 37.800865,
+    "lng": -122.409854,
+    "phone": "+1 415-775-4877",
+    "website": "http://originaljoessf.com",
+    "google_rating": "4.5",
+    "price_level": "$$",
+    "opening_hours": "Tue-Sun 11:00-22:00; Mon closed",
+    "tags": ["Italian American", "old-school", "comfort food", "North Beach", "celebrity photos"],
+    "review_snippets": [
+      "Stepping into Original Joe's is like stepping back in time – red vinyl booths and hearty portions.",
+      "The chicken parm and Joe's special (spinach & beef scramble) are staples. Classic SF dining."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Greens Restaurant",
+    "category": "restaurante",
+    "city": "San Francisco",
+    "address": "2 Marina Blvd, San Francisco, CA 94123",
+    "lat": 37.806906,
+    "lng": -122.432335,
+    "phone": "+1 415-771-6222",
+    "website": "http://greensrestaurant.com",
+    "google_rating": "4.4",
+    "price_level": "$$$",
+    "opening_hours": "Wed-Sun 17:00-21:00; Sat-Sun brunch 11:00-14:30; Mon-Tue closed",
+    "tags": ["vegetarian", "farm-to-table", "waterfront", "eco", "artsy"],
+    "review_snippets": [
+      "Gorgeous Golden Gate views and inventive vegetarian cuisine – even carnivores are impressed.",
+      "A tranquil, almost spiritual dining experience. The grilled mushroom polenta is divine."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Gracias Madre",
+    "category": "restaurante",
+    "city": "San Francisco",
+    "address": "2211 Mission St, San Francisco, CA 94110",
+    "lat": 37.759224,
+    "lng": -122.414784,
+    "phone": "+1 415-683-1346",
+    "website": "http://graciasmadre.co",
+    "google_rating": "4.3",
+    "price_level": "$$",
+    "opening_hours": "Daily 11:00-21:00",
+    "tags": ["vegan", "Mexican", "organic", "eco-friendly", "outdoor patio"],
+    "review_snippets": [
+      "Beautiful plant-based Mexican dishes – you won't even miss the meat. The coconut ceviche is a standout.",
+      "Trendy yet welcoming vibe. Sustainable ethos shines through in every bite and detail."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Suppenküche",
+    "category": "restaurante",
+    "city": "San Francisco",
+    "address": "525 Laguna St, San Francisco, CA 94102",
+    "lat": 37.776073,
+    "lng": -122.426904,
+    "phone": "+1 415-252-9289",
+    "website": "http://suppenkuche.com",
+    "google_rating": "4.6",
+    "price_level": "$$",
+    "opening_hours": "Tue-Sun 17:00-22:00; Sat-Sun brunch 10:00-14:30; Mon closed",
+    "tags": ["German", "beer hall", "communal tables", "authentic", "chill"],
+    "review_snippets": [
+      "Lively Bavarian atmosphere – from the boot beer glasses to the hearty schnitzel, everything is fun.",
+      "Sit at communal tables, make new friends, and enjoy authentic German comfort food in Hayes Valley."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Sightglass Coffee",
+    "category": "cafetería",
+    "city": "San Francisco",
+    "address": "270 7th St, San Francisco, CA 94103",
+    "lat": 37.776974,
+    "lng": -122.408529,
+    "phone": "+1 415-861-1313",
+    "website": "http://sightglasscoffee.com",
+    "google_rating": "4.0",
+    "price_level": "$$",
+    "opening_hours": "Mon-Fri 06:30-17:00; Sat-Sun 07:00-17:00",
+    "tags": ["artisan coffee", "roastery", "loft space", "productivo", "hipster"],
+    "review_snippets": [
+      "Great coffee and incredible service served with a smile! Perfect place to sit and relax.",
+      "Two-story industrial-chic space with the roaster right in the middle – coffee geek heaven."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Blue Bottle Coffee",
+    "category": "cafetería",
+    "city": "San Francisco",
+    "address": "315 Linden St, San Francisco, CA 94102",
+    "lat": 37.776449,
+    "lng": -122.423113,
+    "phone": "+1 510-653-3394",
+    "website": "http://bluebottlecoffee.com",
+    "google_rating": "4.5",
+    "price_level": "$$",
+    "opening_hours": "Daily 08:00-17:00",
+    "tags": ["third-wave coffee", "minimalist", "single origin", "eco", "to-go only"],
+    "review_snippets": [
+      "Tucked away in a Hayes Valley alley – the original Blue Bottle cafe. The New Orleans iced coffee is a must.",
+      "Tiny spot with a cult following. Be prepared to queue for your pour-over, which is made to perfection."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Ritual Coffee Roasters",
+    "category": "cafetería",
+    "city": "San Francisco",
+    "address": "1026 Valencia St, San Francisco, CA 94110",
+    "lat": 37.758698,
+    "lng": -122.421183,
+    "phone": "+1 415-641-1011",
+    "website": "http://ritualroasters.com",
+    "google_rating": "4.4",
+    "price_level": "$$",
+    "opening_hours": "Daily 07:00-18:00",
+    "tags": ["hipster", "espresso bar", "patio", "latte art", "trendy"],
+    "review_snippets": [
+      "Bright and bustling Mission coffee spot – great espresso and people-watching on the parklet.",
+      "Ritual taught me what good coffee is. I love the vibe here, though it can get packed with laptops."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Four Barrel Coffee",
+    "category": "cafetería",
+    "city": "San Francisco",
+    "address": "375 Valencia St, San Francisco, CA 94103",
+    "lat": 37.767123,
+    "lng": -122.421293,
+    "phone": "+1 415-896-4289",
+    "website": "http://fourbarrelcoffee.com",
+    "google_rating": "4.5",
+    "price_level": "$$",
+    "opening_hours": "Daily 07:00-18:00",
+    "tags": ["roaster", "outdoor seating", "no wifi", "pour-over", "chill"],
+    "review_snippets": [
+      "No Wi-Fi, just coffee – Four Barrel's policy forces you to savor the moment (and the excellent coffee).",
+      "Hip yet unpretentious. The aroma of freshly roasted beans hits you as soon as you walk in."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Philz Coffee (24th St)",
+    "category": "cafetería",
+    "city": "San Francisco",
+    "address": "3101 24th St, San Francisco, CA 94110",
+    "lat": 37.752374,
+    "lng": -122.414491,
+    "phone": "+1 415-875-9370",
+    "website": "http://philzcoffee.com",
+    "google_rating": "4.6",
+    "price_level": "$$",
+    "opening_hours": "Daily 06:00-19:00",
+    "tags": ["custom blends", "mojito mint coffee", "neighborhood hub", "productivo", "friendly"],
+    "review_snippets": [
+      "One cup at a time – Philz baristas craft your coffee to your taste. The Mint Mojito iced coffee is legendary.",
+      "Super friendly vibe. You'll often find a line out the door, but they chat with you about your day while making your drink."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "The Mill",
+    "category": "cafetería",
+    "city": "San Francisco",
+    "address": "736 Divisadero St, San Francisco, CA 94117",
+    "lat": 37.77634,
+    "lng": -122.43767,
+    "phone": "+1 415-345-1953",
+    "website": "http://themillsf.com",
+    "google_rating": "4.4",
+    "price_level": "$$",
+    "opening_hours": "Daily 07:00-19:00",
+    "tags": ["bakery", "Josey Baker bread", "toast", "sunny interior", "hipster"],
+    "review_snippets": [
+      "$7 toast and worth every penny – the thick, freshly baked bread with house-made spreads is divine.",
+      "Bright, airy space with communal tables. Great spot for a morning coffee and pastry while sunlight pours in."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Caffe Trieste",
+    "category": "cafetería",
+    "city": "San Francisco",
+    "address": "601 Vallejo St, San Francisco, CA 94133",
+    "lat": 37.799203,
+    "lng": -122.408841,
+    "phone": "+1 415-392-6739",
+    "website": "http://caffetrieste.com",
+    "google_rating": "4.6",
+    "price_level": "$",
+    "opening_hours": "Daily 06:30-22:00",
+    "tags": ["Beatnik history", "live music", "espresso", "bohemian", "classic"],
+    "review_snippets": [
+      "Historic North Beach cafe where the Beats sipped espresso – the walls practically speak poetry.",
+      "Step back in time – strong coffee, opera on the speakers, and a mix of locals and tourists soaking up the old-school vibe."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Cafe de la Presse",
+    "category": "cafetería",
+    "city": "San Francisco",
+    "address": "352 Grant Ave, San Francisco, CA 94108",
+    "lat": 37.7897,
+    "lng": -122.40696,
+    "phone": "+1 415-398-2680",
+    "website": "http://cafedelapresse.com",
+    "google_rating": "4.3",
+    "price_level": "$$",
+    "opening_hours": "Daily 08:00-21:00",
+    "tags": ["French bistro", "newspapers", "croissants", "european vibe", "tourist-friendly"],
+    "review_snippets": [
+      "Feels like a Parisian cafe – from the croque madame to the selection of international newspapers.",
+      "Prime location by Chinatown gate. Great croissants in the morning and steak frites for lunch; a bit pricey but delightful ambiance."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Café Réveille",
+    "category": "cafetería",
+    "city": "San Francisco",
+    "address": "610 Long Bridge St, San Francisco, CA 94158",
+    "lat": 37.77316,
+    "lng": -122.39456,
+    "phone": "+1 415-789-6258",
+    "website": "http://cafereveille.com",
+    "google_rating": "4.4",
+    "price_level": "$$",
+    "opening_hours": "Daily 07:00-16:00",
+    "tags": ["brunch", "Millennial pink decor", "outdoor seating", "healthy", "laptop-friendly"],
+    "review_snippets": [
+      "Chic and calming – pastel decor and lattes with adorable art. Avocado toast game is strong here.",
+      "Great brunch spot in Mission Bay. Bowls, salads, good coffee – a favorite for weekend mornings."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Coffee Bar (Mission)",
+    "category": "cafetería",
+    "city": "San Francisco",
+    "address": "1890 Bryant St, San Francisco, CA 94110",
+    "lat": 37.76296,
+    "lng": -122.41172,
+    "phone": "+1 415-551-8100",
+    "website": "http://coffeebarsf.com",
+    "google_rating": "4.3",
+    "price_level": "$$",
+    "opening_hours": "Mon-Fri 07:00-17:00; Sat-Sun 08:00-17:00",
+    "tags": ["work-friendly", "spacious", "patio", "lunch bites", "productivo"],
+    "review_snippets": [
+      "Lots of seating and outlets – a go-to spot to crank out work with a latte and sandwich.",
+      "Hidden courtyard out back is a nice surprise. Coffee is good, not amazing, but the overall space makes up for it."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Wrecking Ball Coffee Roasters",
+    "category": "cafetería",
+    "city": "San Francisco",
+    "address": "2271 Union St, San Francisco, CA 94123",
+    "lat": 37.797714,
+    "lng": -122.435,
+    "phone": "+1 415-638-9220",
+    "website": "http://wreckingballcoffee.com",
+    "google_rating": "4.5",
+    "price_level": "$$",
+    "opening_hours": "Daily 08:00-16:00",
+    "tags": ["Instagrammable", "pineapple wallpaper", "specialty coffee", "kawaii", "tiny"],
+    "review_snippets": [
+      "Cutest little coffee shop with delicious pour-overs. The decor (pineapple wallpaper!) is on point for an Instagram snap.",
+      "Limited seating, but the quality of the coffee is excellent. The baristas clearly know their craft."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "KitTea Cat Cafe",
+    "category": "cafetería",
+    "city": "San Francisco",
+    "address": "1266 Valencia St, San Francisco, CA 94110",
+    "lat": 37.752258,
+    "lng": -122.42004,
+    "phone": "+1 415-658-7888",
+    "website": "http://kitteasf.com",
+    "google_rating": "4.4",
+    "price_level": "$$",
+    "opening_hours": "Wed-Mon 11:00-19:00; Tue closed",
+    "tags": ["cat cafe", "adoptable cats", "tea", "kawaii", "relaxing"],
+    "review_snippets": [
+      "Enjoy a matcha latte surrounded by cats – truly therapeutic! The kitties are well cared for and the staff is super friendly.",
+      "Clean and calming environment. You need a reservation for cat time, but it's a delightful experience for animal lovers."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Crown & Crumpet Tea Salon",
+    "category": "cafetería",
+    "city": "San Francisco",
+    "address": "1746 Post St, San Francisco, CA 94115",
+    "lat": 37.785776,
+    "lng": -122.430307,
+    "phone": "+1 415-771-4252",
+    "website": "http://crownandcrumpet.com",
+    "google_rating": "4.6",
+    "price_level": "$$",
+    "opening_hours": "Wed-Sun 11:00-17:00; Mon-Tue closed",
+    "tags": ["afternoon tea", "Victorian decor", "kawaii", "dress-up", "chill"],
+    "review_snippets": [
+      "Adorable and elegant – feels like having tea in a fairy tale cottage. The scones and clotted cream are to die for.",
+      "Perfect for a girls' day out or mother-daughter tea. Lovely selection of teas and the decor is delightfully over-the-top pink and floral."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Java Beach Cafe",
+    "category": "cafetería",
+    "city": "San Francisco",
+    "address": "1396 La Playa St, San Francisco, CA 94122",
+    "lat": 37.760656,
+    "lng": -122.508303,
+    "phone": "+1 415-665-5282",
+    "website": "http://javabeachcafe.com",
+    "google_rating": "4.5",
+    "price_level": "$",
+    "opening_hours": "Daily 07:00-19:00",
+    "tags": ["beachside", "surfer vibe", "sandwiches", "live music", "chill"],
+    "review_snippets": [
+      "Nothing better than grabbing a coffee after a Ocean Beach stroll – this place nails the beach town vibe.",
+      "Casual and friendly. Often live music on weekends. Great breakfast burritos and an easygoing atmosphere steps from the sand."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Trouble Coffee",
+    "category": "cafetería",
+    "city": "San Francisco",
+    "address": "4033 Judah St, San Francisco, CA 94122",
+    "lat": 37.76032,
+    "lng": -122.504742,
+    "phone": "+1 415-682-4732",
+    "website": "N/A",
+    "google_rating": "4.4",
+    "price_level": "$",
+    "opening_hours": "Daily 08:00-17:00",
+    "tags": ["toast", "$4 toast origin", "tiny", "locals only", "quirky"],
+    "review_snippets": [
+      "Home of the $4 toast phenomenon. Cinnamon toast and coconut are the go-tos. Small space but iconic in its own right.",
+      "Very punk-rock attitude (in a good way). Don't expect frills – it's coffee, toast, and coconuts, done simply and well."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Arlequin Cafe",
+    "category": "cafetería",
+    "city": "San Francisco",
+    "address": "384 Hayes St, San Francisco, CA 94102",
+    "lat": 37.776054,
+    "lng": -122.423649,
+    "phone": "+1 415-626-1211",
+    "website": "http://arlequincafe.com",
+    "google_rating": "4.3",
+    "price_level": "$$",
+    "opening_hours": "Mon-Fri 08:00-20:00; Sat-Sun 10:00-20:00",
+    "tags": ["wine bar", "back patio", "salads", "cozy", "productivo"],
+    "review_snippets": [
+      "Attached to a wine shop, this cafe offers great coffee by day and a lovely wine selection by evening. Hidden back patio is a gem.",
+      "A Hayes Valley staple. Perfect for a light lunch and some laptop work in the afternoon, then a glass of rosé after."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Samovar Tea Lounge (Castro)",
+    "category": "cafetería",
+    "city": "San Francisco",
+    "address": "498 Sanchez St, San Francisco, CA 94114",
+    "lat": 37.762616,
+    "lng": -122.430741,
+    "phone": "+1 415-553-6887",
+    "website": "http://samovartea.com",
+    "google_rating": "4.2",
+    "price_level": "$$",
+    "opening_hours": "Daily 09:00-19:00",
+    "tags": ["tea house", "zen", "healthful food", "productivo", "relaxing"],
+    "review_snippets": [
+      "An oasis of calm. Huge tea selection and nourishing bowls. Perfect for unwinding or a quiet chat.",
+      "Peaceful atmosphere away from the hustle. The chai here is incredible and the tranquility is real – you may linger longer than planned."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Andytown Coffee Roasters",
+    "category": "cafetería",
+    "city": "San Francisco",
+    "address": "3655 Lawton St, San Francisco, CA 94122",
+    "lat": 37.757297,
+    "lng": -122.50423,
+    "phone": "+1 415-933-6971",
+    "website": "http://andytownsf.com",
+    "google_rating": "4.7",
+    "price_level": "$$",
+    "opening_hours": "Daily 08:00-16:00",
+    "tags": ["Outer Sunset", "Snowy Plover drink", "community", "kid-friendly", "eco"],
+    "review_snippets": [
+      "Try the Snowy Plover (espresso + sparkling water + whipped cream) – it's unique and refreshing!",
+      "Friendly neighborhood spot just a few blocks from the beach. Dogs and kids welcome; you'll see surfers grabbing a cup, too."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Mazarine Coffee",
+    "category": "cafetería",
+    "city": "San Francisco",
+    "address": "720 Market St, San Francisco, CA 94102",
+    "lat": 37.78744,
+    "lng": -122.403715,
+    "phone": "+1 415-872-9363",
+    "website": "http://mazarinecoffee.com",
+    "google_rating": "4.5",
+    "price_level": "$$",
+    "opening_hours": "Mon-Fri 07:00-17:00; Sat-Sun 08:00-17:00",
+    "tags": ["Financial District", "avocado toast", "art gallery vibe", "single-origin", "productivo"],
+    "review_snippets": [
+      "Excellent coffee in the heart of downtown. Their avocado toast has rightfully won awards – beautiful and delicious.",
+      "Trendy and polished interior. Great for a quick meeting or grabbing a quality cup before work."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Flywheel Coffee Roasters",
+    "category": "cafetería",
+    "city": "San Francisco",
+    "address": "672 Stanyan St, San Francisco, CA 94117",
+    "lat": 37.770736,
+    "lng": -122.45203,
+    "phone": "+1 415-682-4023",
+    "website": "http://flywheelcoffee.com",
+    "google_rating": "4.6",
+    "price_level": "$$",
+    "opening_hours": "Daily 07:00-18:00",
+    "tags": ["across from Golden Gate Park", "bicycle theme", "roaster", "study-friendly", "chill"],
+    "review_snippets": [
+      "Cozy spot by the park with great roasts. Love the bicycle decor touches and plenty of outlets for working.",
+      "Grab a coffee and head to the park, or sit inside and enjoy the rotating pour-over options. Staff are super knowledgeable."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "The Hibernia",
+    "category": "salón",
+    "city": "San Francisco",
+    "address": "1 Jones St, San Francisco, CA 94102",
+    "lat": 37.78225,
+    "lng": -122.410965,
+    "phone": "+1 415-575-4444",
+    "website": "http://thehiberniasf.com",
+    "google_rating": "4.7",
+    "price_level": "$$$$",
+    "opening_hours": "By appointment/event",
+    "tags": ["historic bank", "grand ballroom", "weddings", "luxury", "Beaux-Arts"],
+    "review_snippets": [
+      "Stunning interior – marble columns, ornate ceiling. Feels like stepping into the Gilded Age for an evening.",
+      "Popular for upscale weddings and galas. Impeccably restored; guests are always wowed by the setting."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "The Olympic Club",
+    "category": "salón",
+    "city": "San Francisco",
+    "address": "524 Post St, San Francisco, CA 94102",
+    "lat": 37.788488,
+    "lng": -122.410714,
+    "phone": "+1 415-345-5100",
+    "website": "http://olyclub.com",
+    "google_rating": "4.8",
+    "price_level": "$$$$",
+    "opening_hours": "By membership/event",
+    "tags": ["private club", "ballroom", "classic", "marble", "elite"],
+    "review_snippets": [
+      "Elegant, old-world ambiance. The ballroom is pristine, with rich wood paneling and crystal chandeliers.",
+      "As a private club, events here feel exclusive. Service and attention to detail are top-notch."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "City View at Metreon",
+    "category": "salón",
+    "city": "San Francisco",
+    "address": "135 4th St, San Francisco, CA 94103",
+    "lat": 37.784189,
+    "lng": -122.402899,
+    "phone": "+1 415-369-6003",
+    "website": "http://cityviewmetreon.com",
+    "google_rating": "4.4",
+    "price_level": "$$$",
+    "opening_hours": "By event booking",
+    "tags": ["rooftop venue", "skyline view", "modern", "versatile", "corporate"],
+    "review_snippets": [
+      "Spacious and modern with panoramic views of downtown – an incredible party venue on a clear night.",
+      "Great blank-canvas space for large events, with an outdoor terrace overlooking Yerba Buena gardens and the city skyline."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Ferry Building Events",
+    "category": "salón",
+    "city": "San Francisco",
+    "address": "1 Ferry Building, San Francisco, CA 94111",
+    "lat": 37.79549,
+    "lng": -122.393122,
+    "phone": "+1 415-983-8030",
+    "website": "http://ferrybuildingmarketplace.com",
+    "google_rating": "4.7",
+    "price_level": "$$$",
+    "opening_hours": "Market hours or by event",
+    "tags": ["waterfront", "iconic clocktower", "farm-to-table catering", "farmers market", "historic"],
+    "review_snippets": [
+      "Unbeatable Bay views and that iconic clock tower backdrop. Events here have a distinctly San Francisco flavor (often literally, with farmers market catering).",
+      "Magical at night with the Bay Bridge lights. The indoor marketplace can transform into a grand hall for parties."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Bimbo's 365 Club",
+    "category": "salón",
+    "city": "San Francisco",
+    "address": "1025 Columbus Ave, San Francisco, CA 94133",
+    "lat": 37.802818,
+    "lng": -122.414093,
+    "phone": "+1 415-474-0365",
+    "website": "http://bimbos365club.com",
+    "google_rating": "4.6",
+    "price_level": "$$$",
+    "opening_hours": "By event",
+    "tags": ["vintage nightclub", "1940s style", "live music", "cabaret", "speakeasy vibes"],
+    "review_snippets": [
+      "Walking into Bimbo's is like stepping back into a glamorous 1930s nightclub – red velvet, tucked-away booths, and a shimmering stage.",
+      "A favorite for concerts and private parties. The retro atmosphere adds drama to any event."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "The Lodge (Regency Center)",
+    "category": "salón",
+    "city": "San Francisco",
+    "address": "1290 Sutter St, San Francisco, CA 94109",
+    "lat": 37.787712,
+    "lng": -122.420485,
+    "phone": "+1 415-673-5716",
+    "website": "http://regencycenter.com",
+    "google_rating": "4.4",
+    "price_level": "$$$",
+    "opening_hours": "By event",
+    "tags": ["Regency ballroom", "rustic lodge decor", "vaulted ceiling", "versatile", "corporate"],
+    "review_snippets": [
+      "High ceilings with exposed beams and a vintage bar give this space a unique lodge-meets-ballroom feel.",
+      "We hosted a formal dinner here – the acoustics and lighting were excellent, and the staff worked wonders with the decor."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Verdi Club",
+    "category": "salón",
+    "city": "San Francisco",
+    "address": "2424 Mariposa St, San Francisco, CA 94110",
+    "lat": 37.762961,
+    "lng": -122.409065,
+    "phone": "+1 415-861-9199",
+    "website": "http://verdiclub.net",
+    "google_rating": "4.6",
+    "price_level": "$$",
+    "opening_hours": "By event (swing dance nights Wed)",
+    "tags": ["Art Deco", "swing dancing", "vintage club", "affordable", "Mission district"],
+    "review_snippets": [
+      "A hidden gem from the 1930s. The Art Deco bar and checkered dance floor are straight out of a classic film.",
+      "Regular swing dance nights bring the place to life. Also a popular affordable rental for weddings with a retro twist."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "The City Club of San Francisco",
+    "category": "salón",
+    "city": "San Francisco",
+    "address": "155 Sansome St, San Francisco, CA 94104",
+    "lat": 37.791391,
+    "lng": -122.401001,
+    "phone": "+1 415-362-2480",
+    "website": "http://cityclubsf.com",
+    "google_rating": "4.7",
+    "price_level": "$$$",
+    "opening_hours": "By membership/event",
+    "tags": ["Art Deco", "diego rivera mural", "financial district", "elegant", "private"],
+    "review_snippets": [
+      "Stunning Diego Rivera fresco in the lobby – guests are in awe as soon as they enter.",
+      "Classic Art Deco interiors, very elegant for corporate galas or weddings. Service is five-star all the way."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "California Academy of Sciences (Special Events)",
+    "category": "salón",
+    "city": "San Francisco",
+    "address": "55 Music Concourse Dr, San Francisco, CA 94118",
+    "lat": 37.769865,
+    "lng": -122.466091,
+    "phone": "+1 415-379-8000",
+    "website": "http://calacademy.org",
+    "google_rating": "4.8",
+    "price_level": "$$$$",
+    "opening_hours": "Museum hours or event booking",
+    "tags": ["museum venue", "aquarium cocktail hour", "planetarium", "eco", "unique"],
+    "review_snippets": [
+      "Where else can you dine under a whale skeleton or dance next to an aquarium? Events here are unforgettable.",
+      "Our gala had penguins waddling by during cocktails. Truly a one-of-a-kind SF venue blending science and celebration."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "The Regency Ballroom",
+    "category": "salón",
+    "city": "San Francisco",
+    "address": "1300 Van Ness Ave, San Francisco, CA 94109",
+    "lat": 37.783232,
+    "lng": -122.421871,
+    "phone": "+1 415-673-5716",
+    "website": "http://regencyballroom.com",
+    "google_rating": "4.5",
+    "price_level": "$$$",
+    "opening_hours": "By event",
+    "tags": ["concert hall", "balcony", "ornate", "versatile", "live music"],
+    "review_snippets": [
+      "Beautiful old ballroom with a wraparound balcony – feels intimate yet grand for shows or parties.",
+      "Great acoustics for concerts. For private events, the stage and lighting options are a huge plus."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "San Francisco Italian Athletic Club",
+    "category": "salón",
+    "city": "San Francisco",
+    "address": "1630 Stockton St, San Francisco, CA 94133",
+    "lat": 37.800933,
+    "lng": -122.409573,
+    "phone": "+1 415-781-0165",
+    "website": "http://sfiac.org",
+    "google_rating": "4.6",
+    "price_level": "$$",
+    "opening_hours": "By membership/event",
+    "tags": ["North Beach", "club hall", "cultural", "affordable", "family events"],
+    "review_snippets": [
+      "A North Beach institution. The banquet hall upstairs is unpretentious and perfect for community events or big family parties.",
+      "Old-school charm – the walls are filled with historical photos. Feels like celebrating with the entire Italian American community of SF."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Fort Mason Center (Gallery 308)",
+    "category": "salón",
+    "city": "San Francisco",
+    "address": "2 Marina Blvd, San Francisco, CA 94123",
+    "lat": 37.806164,
+    "lng": -122.43164,
+    "phone": "+1 415-345-7500",
+    "website": "http://fortmason.org",
+    "google_rating": "4.7",
+    "price_level": "$$",
+    "opening_hours": "By event",
+    "tags": ["pier venue", "industrial chic", "bay views", "arts center", "versatile"],
+    "review_snippets": [
+      "Light and airy event space on a pier – windows on three sides with Golden Gate views. Great blank slate for creatives.",
+      "Our art auction gala here was phenomenal. Guests loved stepping out for bay breezes and the sunset over the bridge."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "SF Design Center Galleria",
+    "category": "salón",
+    "city": "San Francisco",
+    "address": "101 Henry Adams St, San Francisco, CA 94103",
+    "lat": 37.768116,
+    "lng": -122.402987,
+    "phone": "+1 415-490-5800",
+    "website": "http://sfdesigncenter.com",
+    "google_rating": "4.2",
+    "price_level": "$$$",
+    "opening_hours": "By event",
+    "tags": ["showroom venue", "atrium", "modern elegance", "SoMa", "large capacity"],
+    "review_snippets": [
+      "Grand atrium with skylight – dramatic and modern. Perfect for large receptions or trade shows with an upscale twist.",
+      "Very flexible layout across multiple levels. Elevators and balconies allow for creative event design, and the staff is experienced with big productions."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Social Hall SF",
+    "category": "salón",
+    "city": "San Francisco",
+    "address": "1270 Sutter St, San Francisco, CA 94109",
+    "lat": 37.787325,
+    "lng": -122.422701,
+    "phone": "+1 415-447-4189",
+    "website": "http://socialhallsf.com",
+    "google_rating": "3.2",
+    "price_level": "$$$",
+    "opening_hours": "By event",
+    "tags": ["basement venue", "Regency Center", "concerts", "speakeasy vibe", "versatile"],
+    "review_snippets": [
+      "Located below the Regency Ballroom – a bit more raw/industrial but with good sound and lighting options. Great for mid-sized concerts or parties.",
+      "Not as fancy as upstairs, but our company party turned out great here. We decorated to give it a speakeasy feel and it worked perfectly."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "San Francisco City Hall",
+    "category": "salón",
+    "city": "San Francisco",
+    "address": "1 Dr Carlton B Goodlett Pl, San Francisco, CA 94102",
+    "lat": 37.779258,
+    "lng": -122.419264,
+    "phone": "+1 415-554-6079",
+    "website": "http://sfgov.org/cityhall",
+    "google_rating": "4.5",
+    "price_level": "$$$",
+    "opening_hours": "Public hours or by event permit",
+    "tags": ["Beaux-Arts", "rotunda", "marble staircase", "weddings", "civic"],
+    "review_snippets": [
+      "A breathtaking venue – saying 'I do' under the grand rotunda and on that famous marble staircase was like a fairy tale.",
+      "Truly iconic. The architecture provides all the decor you need. Events here feel momentous, whether a gala or a ceremony."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "The University Club of San Francisco",
+    "category": "salón",
+    "city": "San Francisco",
+    "address": "800 Powell St, San Francisco, CA 94108",
+    "lat": 37.792649,
+    "lng": -122.409821,
+    "phone": "+1 415-781-0900",
+    "website": "http://univclub.com",
+    "google_rating": "4.4",
+    "price_level": "$$$",
+    "opening_hours": "By membership/event",
+    "tags": ["Nob Hill", "private club", "rooftop deck", "traditional", "views"],
+    "review_snippets": [
+      "Old-world charm atop Nob Hill. Dark wood interiors, a library lounge – feels like a step back in time (in a good way).",
+      "Our reception had the bonus of a panoramic view from the top-floor deck. The sunset over the bay was an incredible backdrop."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Conservatory of Flowers (Special Events)",
+    "category": "salón",
+    "city": "San Francisco",
+    "address": "100 John F Kennedy Dr, San Francisco, CA 94118",
+    "lat": 37.772568,
+    "lng": -122.460144,
+    "phone": "+1 415-831-2090",
+    "website": "http://conservatoryofflowers.org",
+    "google_rating": "4.7",
+    "price_level": "$$$",
+    "opening_hours": "Museum hours or by event",
+    "tags": ["Victorian greenhouse", "Golden Gate Park", "botanical", "unique", "eco"],
+    "review_snippets": [
+      "A whimsical venue – glass walls and ceilings with tropical plants all around. At night, lit up, it's pure magic.",
+      "We hosted a cocktail party amid the orchids and ferns. Guests could wander the exhibits – it was an enchanting, one-of-a-kind evening."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Legion of Honor (Special Events)",
+    "category": "salón",
+    "city": "San Francisco",
+    "address": "100 34th Ave, San Francisco, CA 94121",
+    "lat": 37.784892,
+    "lng": -122.50095,
+    "phone": "+1 415-750-3600",
+    "website": "http://legionofhonor.famsf.org",
+    "google_rating": "4.7",
+    "price_level": "$$$",
+    "opening_hours": "Museum hours or by event",
+    "tags": ["neoclassical museum", "Lincoln Park", "art exhibits", "elegant", "historic"],
+    "review_snippets": [
+      "Unparalleled elegance – the colonnade and Rodin's Thinker set a sophisticated tone for our gala.",
+      "Guests loved having the galleries open during cocktail hour. The European art and architecture made it feel like a night at Versailles in SF."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Palace Hotel (Garden Court)",
+    "category": "salón",
+    "city": "San Francisco",
+    "address": "2 New Montgomery St, San Francisco, CA 94105",
+    "lat": 37.788096,
+    "lng": -122.401348,
+    "phone": "+1 415-512-1111",
+    "website": "http://marriott.com/palacehotel",
+    "google_rating": "4.3",
+    "price_level": "$$$$",
+    "opening_hours": "By reservation/event",
+    "tags": ["historic hotel", "glass dome", "formal", "luxury", "Downtown"],
+    "review_snippets": [
+      "The Garden Court is jaw-dropping with its gold chandeliers and stained-glass dome – a truly grand setting for a banquet.",
+      "Service is five-star. Our charity gala felt like a royal ball; the Palace staff made planning effortless and executed flawlessly."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Fairmont San Francisco (Venues)",
+    "category": "salón",
+    "city": "San Francisco",
+    "address": "950 Mason St, San Francisco, CA 94108",
+    "lat": 37.79248,
+    "lng": -122.41022,
+    "phone": "+1 415-772-5000",
+    "website": "http://fairmont.com/san-francisco",
+    "google_rating": "4.3",
+    "price_level": "$$$",
+    "opening_hours": "Hotel (event by booking)",
+    "tags": ["Nob Hill", "ballroom", "rooftop garden", "famous", "luxury"],
+    "review_snippets": [
+      "Classic grandeur – the Fairmont's ballroom and rooftop garden are legendary. You feel the history in every detail (hello, UN Charter signing!).",
+      "Impeccable hospitality. Our conference ran smoothly and attendees were wowed by the elegance and views from atop Nob Hill."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
+    "name": "Palace of Fine Arts",
+    "category": "salón",
+    "city": "San Francisco",
+    "address": "3601 Lyon St, San Francisco, CA 94123",
+    "lat": 37.802977,
+    "lng": -122.44835,
+    "phone": "+1 415-563-6504",
+    "website": "http://palaceoffinearts.com",
+    "google_rating": "4.7",
+    "price_level": "$$$",
+    "opening_hours": "By event permit",
+    "tags": ["iconic", "classical architecture", "lake view", "large-scale", "film location"],
+    "review_snippets": [
+      "Most breathtaking backdrop in the city. Our company's gala dinner under the rotunda felt truly epic – like a scene from a movie.",
+      "Logistics can be complex (outdoor venue), but the payoff is huge. Guests still talk about our event here years later."
+    ],
+    "last_checked": "2025-07-10",
+    "media": []
+  },
+  {
     "name": "Allium",
     "category": "restaurante",
     "city": "Guadalajara",
