@@ -25,7 +25,6 @@ export const copy = {
     Monterrey: "Monterrey",
     Guadalajara: "Guadalajara",
     CDMX: "CDMX",
-    "San Francisco": "San Francisco",
   },
   navigation: {
     home: "Inicio",
@@ -39,7 +38,6 @@ export const getTopTokensByCity = (city: string): string[] => {
     Monterrey: ["bellakeo", "elegante", "chill", "productivo", "familiar"],
     Guadalajara: ["tradicional", "mariachi", "familiar", "chill", "cultura"],
     CDMX: ["hipster", "arte", "cultura", "bellakeo", "gourmet"],
-    "San Francisco": ["tech", "hipster", "chill", "productivo", "gourmet"],
   }
 
   return cityTokens[city] || ["chill", "cozy", "familiar", "tradicional", "productivo"]
