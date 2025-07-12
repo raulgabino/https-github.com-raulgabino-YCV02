@@ -50,18 +50,18 @@ export default function VibeInput({ onSearch, city }: VibeInputProps) {
           onChange={(e) => setMood(e.target.value)}
           onKeyPress={handleKeyPress}
           placeholder={copy.landing.placeholder}
-          className="w-full px-4 py-4 rounded-2xl bg-white/10 backdrop-blur-lg border border-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-fuchsia-400/60 focus:border-transparent text-lg"
+          className="w-full px-4 py-4 rounded-2xl bg-gray-700/50 backdrop-blur-lg border border-spotify-green/30 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-spotify-green focus:border-transparent text-lg"
         />
       </div>
 
       <div className="space-y-2">
-        <p className="text-sm text-white/70">{copy.landing.suggestedChips}</p>
+        <p className="text-sm text-gray-400">{copy.landing.suggestedChips}</p>
         <div className="flex flex-wrap gap-2">
           {suggestedChips.map((chip) => (
             <button
               key={chip}
               onClick={() => handleChipClick(chip)}
-              className="px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-lg border border-fuchsia-400/40 text-white/90 text-sm hover:bg-white/20 transition-all duration-200"
+              className="px-3 py-1.5 rounded-full bg-gray-700/50 backdrop-blur-lg border border-spotify-green/40 text-gray-300 text-sm hover:bg-spotify-green/20 hover:text-spotify-green transition-all duration-200"
             >
               {chip}
             </button>
@@ -72,7 +72,7 @@ export default function VibeInput({ onSearch, city }: VibeInputProps) {
       <button
         onClick={handleSearch}
         disabled={!mood.trim()}
-        className="w-full py-4 rounded-2xl bg-white/20 backdrop-blur-lg border border-fuchsia-400/60 text-white font-medium text-lg hover:bg-white/30 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full py-4 rounded-2xl bg-spotify-green hover:bg-spotify-green-dark text-black font-bold text-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-600"
       >
         {copy.landing.searchButton}
       </button>

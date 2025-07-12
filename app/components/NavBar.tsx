@@ -9,12 +9,14 @@ export default function NavBar() {
   const pathname = usePathname()
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white/10 backdrop-blur-lg border-t border-white/20">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-gray-800/80 backdrop-blur-lg border-t border-spotify-green/20">
       <div className="flex items-center justify-around py-3">
         <Link
           href="/"
           className={`flex flex-col items-center gap-1 px-4 py-2 rounded-xl transition-all duration-200 ${
-            pathname === "/" ? "bg-white/20 text-white" : "text-white/70 hover:text-white hover:bg-white/10"
+            pathname === "/"
+              ? "bg-spotify-green/20 text-spotify-green"
+              : "text-gray-400 hover:text-spotify-green hover:bg-spotify-green/10"
           }`}
         >
           <Home size={20} />
@@ -24,7 +26,9 @@ export default function NavBar() {
         <Link
           href="/favorites"
           className={`flex flex-col items-center gap-1 px-4 py-2 rounded-xl transition-all duration-200 ${
-            pathname === "/favorites" ? "bg-white/20 text-white" : "text-white/70 hover:text-white hover:bg-white/10"
+            pathname === "/favorites"
+              ? "bg-spotify-green/20 text-spotify-green"
+              : "text-gray-400 hover:text-spotify-green hover:bg-spotify-green/10"
           }`}
         >
           <Heart size={20} />

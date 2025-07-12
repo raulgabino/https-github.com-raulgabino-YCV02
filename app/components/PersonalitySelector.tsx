@@ -24,11 +24,11 @@ export default function PersonalitySelector({ city }: PersonalitySelectorProps) 
       className="mb-8"
     >
       <div className="flex items-center gap-2 mb-4">
-        <Sparkles size={24} className="text-fuchsia-400" />
+        <Sparkles size={24} className="text-spotify-green" />
         <h2 className="text-xl font-bold text-white">¿Dónde irían las estrellas?</h2>
       </div>
 
-      <p className="text-white/70 mb-6 text-sm">
+      <p className="text-gray-400 mb-6 text-sm">
         Descubre artículos únicos sobre los lugares que visitarían tus artistas favoritos en {city}
       </p>
 
@@ -40,7 +40,7 @@ export default function PersonalitySelector({ city }: PersonalitySelectorProps) 
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.1 * index, duration: 0.5 }}
             onClick={() => handlePersonalityClick(personality.slug)}
-            className="group p-6 bg-white/10 backdrop-blur-lg rounded-2xl border border-white/20 hover:bg-white/20 transition-all duration-300 text-left"
+            className="group p-6 bg-gray-700/30 backdrop-blur-lg rounded-2xl border border-spotify-green/20 hover:bg-gray-700/50 hover:border-spotify-green/40 transition-all duration-300 text-left"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
@@ -50,13 +50,13 @@ export default function PersonalitySelector({ city }: PersonalitySelectorProps) 
               </div>
               <div>
                 <div className="font-bold text-white text-lg">{personality.name}</div>
-                <div className="text-white/70 text-sm">{personality.category}</div>
+                <div className="text-gray-400 text-sm">{personality.category}</div>
               </div>
             </div>
 
-            <div className="text-white/60 text-sm mb-3">Artículo personalizado • 3-5 min lectura</div>
+            <div className="text-gray-500 text-sm mb-3">Artículo personalizado • 3-5 min lectura</div>
 
-            <div className="flex items-center gap-2 text-fuchsia-300 text-sm font-medium">
+            <div className="flex items-center gap-2 text-spotify-green text-sm font-medium">
               <Sparkles size={14} />
               <span>Leer artículo</span>
             </div>
@@ -68,13 +68,13 @@ export default function PersonalitySelector({ city }: PersonalitySelectorProps) 
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.8, duration: 0.5 }}
-        className="mt-6 p-4 bg-white/5 backdrop-blur-lg rounded-xl border border-white/10"
+        className="mt-6 p-4 bg-gray-800/20 backdrop-blur-lg rounded-xl border border-spotify-green/10"
       >
         <div className="flex items-center gap-2 mb-2">
-          <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-          <span className="text-white/80 text-sm font-medium">Contenido Editorial</span>
+          <div className="w-2 h-2 bg-spotify-green rounded-full animate-pulse" />
+          <span className="text-gray-300 text-sm font-medium">Contenido Editorial</span>
         </div>
-        <p className="text-white/60 text-xs">
+        <p className="text-gray-500 text-xs">
           Artículos únicos basados en el estilo y preferencias conocidas de cada artista.
         </p>
       </motion.div>

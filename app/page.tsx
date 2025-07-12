@@ -61,7 +61,7 @@ export default function Home() {
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.3, duration: 0.5 }}
-            className="text-lg text-white/80"
+            className="text-lg text-gray-400"
           >
             {copy.landing.subtitle}
           </motion.p>
@@ -72,7 +72,7 @@ export default function Home() {
           initial={{ y: 30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.4, duration: 0.5 }}
-          className="space-y-6 bg-white/10 backdrop-blur-lg rounded-3xl p-6 border border-white/20 shadow-lg"
+          className="space-y-6 bg-gray-800/30 backdrop-blur-lg rounded-3xl p-6 border border-spotify-green/20 shadow-lg"
         >
           <PersonalitySelector city={selectedCity} />
 
@@ -88,7 +88,7 @@ export default function Home() {
           transition={{ delay: 0.6, duration: 0.5 }}
           className="text-center"
         >
-          <p className="text-white/60 text-sm">Versión 2025-07-10 • MVP</p>
+          <p className="text-gray-500 text-sm">Versión 2025-07-10 • MVP</p>
         </motion.div>
       </motion.div>
     </main>

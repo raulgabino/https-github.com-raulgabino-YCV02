@@ -63,42 +63,43 @@
     overflow-x: hidden;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     min-height: 100vh;
+    background: linear-gradient(135deg, #191414 0%, #121212 50%, #0d1117 100%);
   }
 }
 
-/* Glass morphism utilities */
+/* Glass morphism utilities - Spotify style */
 .glass {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(40, 40, 40, 0.3);
   backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(29, 185, 84, 0.2);
   border-radius: 1rem;
 }
 
 .glass-card {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(40, 40, 40, 0.3);
   backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(29, 185, 84, 0.2);
   border-radius: 1.5rem;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
-/* Custom scrollbar */
+/* Custom scrollbar - Spotify style */
 ::-webkit-scrollbar {
   width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(40, 40, 40, 0.3);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(29, 185, 84, 0.6);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(29, 185, 84, 0.8);
 }
 
 /* Smooth transitions */
@@ -113,7 +114,7 @@
   }
 
   .hover\:bg-white\/30:hover {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(40, 40, 40, 0.4);
   }
 }
 

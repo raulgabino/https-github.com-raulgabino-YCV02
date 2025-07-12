@@ -61,12 +61,25 @@ const config: Config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        teal: {
-          500: "#14b8a6",
+        // Spotify-inspired colors
+        spotify: {
+          green: "#1DB954",
+          "green-dark": "#1ed760",
+          "green-light": "#1fdf64",
+          black: "#191414",
+          "dark-gray": "#121212",
+          "medium-gray": "#282828",
+          "light-gray": "#B3B3B3",
+          "text-gray": "#A7A7A7",
         },
-        fuchsia: {
-          400: "#e879f9",
-          600: "#c026d3",
+        gray: {
+          900: "#121212",
+          800: "#191414",
+          700: "#282828",
+          600: "#404040",
+          500: "#535353",
+          400: "#B3B3B3",
+          300: "#A7A7A7",
         },
       },
       borderRadius: {

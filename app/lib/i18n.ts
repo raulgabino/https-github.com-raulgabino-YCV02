@@ -20,25 +20,28 @@ export const copy = {
     empty: "No tienes favoritos aún",
     emptySubtitle: "Explora lugares y guarda los que más te gusten",
   },
-  cities: {
-    "Ciudad Victoria": "Ciudad Victoria",
-    Monterrey: "Monterrey",
-    Guadalajara: "Guadalajara",
-    CDMX: "CDMX",
-  },
   navigation: {
     home: "Inicio",
     favorites: "Favoritos",
   },
 }
 
-export const getTopTokensByCity = (city: string): string[] => {
+export const cities = {
+  "Ciudad Victoria": "Ciudad Victoria",
+  Monterrey: "Monterrey",
+  Guadalajara: "Guadalajara",
+  CDMX: "Ciudad de México",
+  "San Francisco": "San Francisco",
+}
+
+export function getTopTokensByCity(city: string): string[] {
   const cityTokens: Record<string, string[]> = {
-    "Ciudad Victoria": ["chill", "familiar", "tradicional", "cozy", "productivo"],
-    Monterrey: ["bellakeo", "elegante", "chill", "productivo", "familiar"],
-    Guadalajara: ["tradicional", "mariachi", "familiar", "chill", "cultura"],
-    CDMX: ["hipster", "arte", "cultura", "bellakeo", "gourmet"],
+    "Ciudad Victoria": ["tranquilo", "familiar", "tradicional", "chill", "aire libre"],
+    Monterrey: ["industrial", "moderno", "cabrito", "familiar", "tradicional"],
+    Guadalajara: ["mariachi", "tradicional", "tequila", "cultura", "fiesta"],
+    "Ciudad de México": ["cosmopolita", "arte", "cultura", "diverso", "urbano"],
+    "San Francisco": ["tech", "hipster", "chill", "productivo", "gourmet"],
   }
 
-  return cityTokens[city] || ["chill", "cozy", "familiar", "tradicional", "productivo"]
+  return cityTokens[city] || ["chill", "moderno", "familiar"]
 }
