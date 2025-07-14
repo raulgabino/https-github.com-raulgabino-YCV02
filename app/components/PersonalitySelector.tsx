@@ -4,6 +4,7 @@ import { motion } from "framer-motion"
 import { useRouter } from "next/navigation"
 import { Sparkles } from "lucide-react"
 import { FEATURED_PERSONALITIES } from "../lib/personalityProfiles"
+import { useCallback } from "react"
 
 interface PersonalitySelectorProps {
   city?: string
@@ -18,16 +19,19 @@ export default function PersonalitySelector({
 }: PersonalitySelectorProps) {
   const router = useRouter()
 
-  const handlePersonalityClick = (slug: string) => {
-    if (onPersonalityChange) {
-      // For the main page - just set the personality
-      const personality = FEATURED_PERSONALITIES.find((p) => p.slug === slug)
-      onPersonalityChange(personality)
-    } else {
-      // For navigation to personality articles
-      router.push(`/personalidades/${slug}/${encodeURIComponent(city)}`)
-    }
-  }
+  const handlePersonalityClick = useCallback(
+    (slug: string) => {
+      if (onPersonalityChange) {
+        // For the main page - just set the personality
+        const personality = FEATURED_PERSONALITIES.find((p) => p.slug === slug)
+        onPersonalityChange(personality)
+      } else {
+        // For navigation to personality articles
+        router.push(`/personalidades/${slug}/${encodeURIComponent(city)}`)
+      }
+    },
+    [onPersonalityChange, router, city],
+  )
 
   return (
     <motion.section

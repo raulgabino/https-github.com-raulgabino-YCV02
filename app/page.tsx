@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useCallback } from "react"
 import { Sparkles, MapPin, Heart } from "lucide-react"
 import CitySelect from "./components/CitySelect"
 import VibeInput from "./components/VibeInput"
@@ -77,13 +77,19 @@ export default function Home() {
     }
   }
 
-  const handleCityChange = (city: string) => {
+  // Memoize the city change handler to prevent re-renders
+  const handleCityChange = useCallback((city: string) => {
     setSelectedCity(city)
     setPlaces([])
     setExplanation("")
     setError("")
     setCurrentVibe("")
-  }
+  }, [])
+
+  // Memoize the personality change handler
+  const handlePersonalityChange = useCallback((personality: PersonalityProfile | null) => {
+    setSelectedPersonality(personality)
+  }, [])
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-spotify-black via-gray-900 to-spotify-green">
@@ -120,7 +126,7 @@ export default function Home() {
               </div>
               <PersonalitySelector
                 city={selectedCity}
-                onPersonalityChange={setSelectedPersonality}
+                onPersonalityChange={handlePersonalityChange}
                 selectedPersonality={selectedPersonality}
               />
             </div>

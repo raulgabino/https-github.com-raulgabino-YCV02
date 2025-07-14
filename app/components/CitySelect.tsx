@@ -1,6 +1,8 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import type React from "react"
+
+import { useState, useEffect, useCallback } from "react"
 import { copy, cities } from "../lib/i18n"
 
 interface CitySelectProps {
@@ -10,19 +12,38 @@ interface CitySelectProps {
 
 export default function CitySelect({ onCityChange, defaultCity = "Ciudad Victoria" }: CitySelectProps) {
   const [selectedCity, setSelectedCity] = useState(defaultCity)
+  const [isInitialized, setIsInitialized] = useState(false)
 
+  // Memoize the city change handler to prevent unnecessary re-renders
+  const handleCityChange = useCallback(
+    (city: string) => {
+      setSelectedCity(city)
+      if (typeof localStorage !== "undefined") {
+        localStorage.setItem("city", city)
+      }
+      onCityChange(city)
+    },
+    [onCityChange],
+  )
+
+  // Only run once on mount to load saved city
   useEffect(() => {
-    const savedCity = localStorage.getItem("city")
-    if (savedCity && Object.keys(cities).includes(savedCity)) {
-      setSelectedCity(savedCity)
-      onCityChange(savedCity)
+    if (typeof localStorage !== "undefined" && !isInitialized) {
+      const savedCity = localStorage.getItem("city")
+      if (savedCity && Object.keys(cities).includes(savedCity)) {
+        setSelectedCity(savedCity)
+        onCityChange(savedCity)
+      } else {
+        // If no saved city, use default and notify parent
+        onCityChange(defaultCity)
+      }
+      setIsInitialized(true)
     }
-  }, [onCityChange])
+  }, []) // Empty dependency array - only run once
 
-  const handleCityChange = (city: string) => {
-    setSelectedCity(city)
-    localStorage.setItem("city", city)
-    onCityChange(city)
+  // Handle select change
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    handleCityChange(e.target.value)
   }
 
   return (
@@ -30,7 +51,7 @@ export default function CitySelect({ onCityChange, defaultCity = "Ciudad Victori
       <label className="block text-sm font-medium text-gray-400 mb-2">{copy.landing.cityLabel}</label>
       <select
         value={selectedCity}
-        onChange={(e) => handleCityChange(e.target.value)}
+        onChange={handleSelectChange}
         className="w-full px-4 py-3 rounded-2xl bg-gray-700/50 backdrop-blur-lg border border-spotify-green/30 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-spotify-green focus:border-transparent"
       >
         {Object.entries(cities).map(([key, value]) => (
