@@ -108,6 +108,60 @@ export function processVibeInput(input: string): { tokens: string[]; moodGroup: 
   return { tokens: uniqueTokens, moodGroup }
 }
 
+// New processVibe function for the API
+export function processVibe(input: string): {
+  primaryVibe: string
+  keywords: string[]
+  sentiment: string
+} {
+  const lowerInput = input.toLowerCase().trim()
+
+  // Extract primary vibe
+  let primaryVibe = "general"
+  const vibeKeywords: string[] = []
+
+  // Check for specific vibes
+  const vibeMap: Record<string, string[]> = {
+    chill: ["chill", "relajado", "tranquilo", "cozy", "café"],
+    romantic: ["romántico", "pareja", "cena", "íntimo", "especial"],
+    party: ["fiesta", "antro", "baile", "reggaeton", "bellakeo"],
+    productive: ["productivo", "trabajo", "estudio", "wifi", "focus"],
+    cultural: ["cultura", "arte", "museo", "teatro", "historia"],
+    food: ["comida", "restaurante", "gourmet", "sabor", "hambre"],
+    outdoor: ["aire libre", "parque", "ejercicio", "naturaleza"],
+    nightlife: ["noche", "bar", "cóctel", "nocturno"],
+  }
+
+  for (const [vibe, keywords] of Object.entries(vibeMap)) {
+    if (keywords.some((keyword) => lowerInput.includes(keyword))) {
+      primaryVibe = vibe
+      vibeKeywords.push(...keywords.filter((k) => lowerInput.includes(k)))
+      break
+    }
+  }
+
+  // Extract additional keywords from input
+  const words = lowerInput.split(/\s+/).filter((word) => word.length > 2)
+  vibeKeywords.push(...words)
+
+  // Determine sentiment
+  let sentiment = "neutral"
+  const positiveWords = ["amazing", "great", "awesome", "perfect", "love", "best", "incredible"]
+  const negativeWords = ["bad", "terrible", "awful", "hate", "worst", "horrible"]
+
+  if (positiveWords.some((word) => lowerInput.includes(word))) {
+    sentiment = "positive"
+  } else if (negativeWords.some((word) => lowerInput.includes(word))) {
+    sentiment = "negative"
+  }
+
+  return {
+    primaryVibe,
+    keywords: [...new Set(vibeKeywords)],
+    sentiment,
+  }
+}
+
 export function calculateRelevanceScore(place: any, vibeTokens: string[], moodGroup: string | null): number {
   let score = 0
 

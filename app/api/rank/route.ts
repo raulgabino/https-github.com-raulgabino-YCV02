@@ -1,134 +1,103 @@
 import { type NextRequest, NextResponse } from "next/server"
-import { processVibeInput, calculateRelevanceScore } from "../../lib/vibeProcessor"
-import placesData from "../../data/places.json"
-import { validateVibeCategory, getVibeFromTokens, getAvailableVibes } from "../../lib/categoryValidator"
+import { getPlaces } from "@/app/lib/placesService"
+import { processVibe } from "@/app/lib/vibeProcessor"
+import { validateCategory } from "@/app/lib/categoryValidator"
 
 export async function POST(request: NextRequest) {
   try {
-    const { mood, city } = await request.json()
+    const { vibe, city, personality } = await request.json()
 
-    console.log("🚀 API /rank called with:", { mood, city })
-
-    if (!mood || !city) {
-      console.log("❌ Missing mood or city")
-      return NextResponse.json({ error: "Mood and city are required" }, { status: 400 })
+    if (!vibe || !city) {
+      return NextResponse.json({ error: "Vibe and city are required" }, { status: 400 })
     }
 
-    // Procesar vibe input
-    const { tokens: vibeTokens, moodGroup } = processVibeInput(mood)
-    console.log("🎯 Processed vibe tokens:", vibeTokens)
-    console.log("🎭 Mood group:", moodGroup)
+    console.log("🎯 Ranking request:", { vibe, city })
 
-    // VALIDACIÓN CATEGÓRICA ESTRICTA
-    const primaryVibe = getVibeFromTokens(vibeTokens)
-    console.log("🔍 Primary vibe detected:", primaryVibe)
+    // Process the vibe to extract keywords and sentiment
+    const processedVibe = processVibe(vibe)
 
-    // Filtrar por ciudad (más flexible)
-    const cityPlaces = placesData.filter(
-      (place) =>
-        place.city.toLowerCase().includes(city.toLowerCase()) || city.toLowerCase().includes(place.city.toLowerCase()),
-    )
-    console.log(`🏙️ Found ${cityPlaces.length} places in ${city}`)
+    // Get places from Foursquare API
+    const allPlaces = await getPlaces(city, processedVibe.primaryVibe)
 
-    if (cityPlaces.length === 0) {
-      console.log("❌ No places found for city:", city)
-      return NextResponse.json(
-        {
-          error: "No places found for this city",
-          availableCities: [...new Set(placesData.map((p) => p.city))],
-        },
-        { status: 404 },
-      )
-    }
-
-    // FILTRAR por validación categórica PRIMERO
-    const categoryValidPlaces = cityPlaces.filter((place) => {
-      const isValid = validateVibeCategory(primaryVibe, place)
-      console.log(`${place.name} (${place.category}): ${isValid ? "✅ Valid" : "❌ Invalid"} for ${primaryVibe}`)
-      return isValid
-    })
-
-    console.log(`🎯 Places after category validation: ${categoryValidPlaces.length}`)
-
-    if (categoryValidPlaces.length === 0) {
-      console.log("❌ No category-valid places found, returning empty")
+    if (allPlaces.length === 0) {
       return NextResponse.json({
         places: [],
-        message: `No hay lugares de ${primaryVibe} disponibles en ${city}. Intenta con otra ciudad o cambia tu vibe.`,
-        suggestion: `Vibes disponibles: ${getAvailableVibes().join(", ")}`,
-        fallback: true,
-        debug: {
-          originalMood: mood,
-          detectedVibe: primaryVibe,
-          cityPlacesCount: cityPlaces.length,
-          categoryValidCount: categoryValidPlaces.length,
-        },
+        explanation: `No places found in ${city}. Try a different city or check your internet connection.`,
+        vibe_analysis: processedVibe,
       })
     }
 
-    // Calcular relevance scores SOLO en lugares válidos
-    const scoredPlaces = categoryValidPlaces.map((place) => {
-      const relevance = calculateRelevanceScore(place, vibeTokens, moodGroup)
-      console.log(`📊 ${place.name}: relevance=${relevance.toFixed(2)}, tags=[${place.tags.join(", ")}]`)
-      return {
-        ...place,
-        relevance,
-      }
+    console.log(`🏙️ Found ${allPlaces.length} places in ${city}`)
+
+    // Filter places based on vibe keywords and validate categories
+    const relevantPlaces = allPlaces.filter((place) => {
+      const isValidCategory = validateCategory(place.category, processedVibe.keywords)
+      const hasRelevantTags = place.tags.some((tag) =>
+        processedVibe.keywords.some(
+          (keyword) =>
+            tag.toLowerCase().includes(keyword.toLowerCase()) || keyword.toLowerCase().includes(tag.toLowerCase()),
+        ),
+      )
+
+      return isValidCategory || hasRelevantTags
     })
 
-    // SUBIR umbral mínimo para mayor calidad
-    const relevantPlaces = scoredPlaces.filter((place) => place.relevance >= 1.5)
-    console.log(`🎯 Found ${relevantPlaces.length} relevant places (relevance >= 1.5)`)
+    // If no relevant places found, use all places but with lower confidence
+    const placesToRank = relevantPlaces.length > 0 ? relevantPlaces : allPlaces.slice(0, 20)
 
-    // Ordenar por relevancia
-    const sortedPlaces = relevantPlaces.sort((a, b) => b.relevance - a.relevance)
+    console.log(`🎯 Using ${placesToRank.length} places for ranking`)
 
-    let finalPlaces = sortedPlaces.slice(0, 3)
+    // Simple scoring algorithm
+    const scoredPlaces = placesToRank.map((place) => {
+      let score = 0
 
-    // FALLBACK MEJORADO: Solo si no hay suficientes con alta relevancia
-    if (finalPlaces.length < 3) {
-      console.log(`⚠️ Only ${finalPlaces.length} high-relevance places found, adding popular places`)
+      // Score based on keyword matches in tags
+      processedVibe.keywords.forEach((keyword) => {
+        place.tags.forEach((tag) => {
+          if (tag.toLowerCase().includes(keyword.toLowerCase())) {
+            score += 2
+          }
+        })
 
-      // Agregar lugares populares (mejor rating) que no estén ya incluidos
-      const usedNames = new Set(finalPlaces.map((p) => p.name))
-      const popularPlaces = categoryValidPlaces
-        .filter((place) => !usedNames.has(place.name))
-        .sort((a, b) => Number.parseFloat(b.google_rating) - Number.parseFloat(a.google_rating))
-        .slice(0, 3 - finalPlaces.length)
-        .map((place) => ({ ...place, relevance: 1.0 })) // Score mínimo para fallback
+        // Score based on category match
+        if (place.category.toLowerCase().includes(keyword.toLowerCase())) {
+          score += 1
+        }
 
-      finalPlaces = [...finalPlaces, ...popularPlaces]
-    }
+        // Score based on name match
+        if (place.name.toLowerCase().includes(keyword.toLowerCase())) {
+          score += 0.5
+        }
+      })
 
-    console.log(
-      "🏆 Final 3 places:",
-      finalPlaces.map((p) => ({ name: p.name, relevance: p.relevance?.toFixed(2) || "N/A" })),
-    )
+      // Bonus for high rating
+      const rating = Number.parseFloat(place.google_rating)
+      if (rating >= 4.5) score += 1
+      else if (rating >= 4.0) score += 0.5
 
-    // Remover relevance del response final
-    const cleanPlaces = finalPlaces.map(({ relevance, ...place }) => place)
+      return { place, score }
+    })
+
+    // Sort by score and take top 10
+    const topPlaces = scoredPlaces
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 10)
+      .map((item) => item.place)
+
+    const explanation = `Found ${topPlaces.length} great matches for "${vibe}" in ${city}! These places align well with your vibe based on their categories, tags, and ratings.`
 
     return NextResponse.json({
-      places: cleanPlaces,
-      total: cleanPlaces.length,
-      debug: {
-        originalMood: mood,
-        processedTokens: vibeTokens,
-        moodGroup,
-        cityPlacesCount: cityPlaces.length,
-        relevantPlacesCount: relevantPlaces.length,
-        topScores: finalPlaces.map((p) => ({
-          name: p.name,
-          relevance: p.relevance?.toFixed(2) || "N/A",
-        })),
-      },
+      places: topPlaces,
+      explanation,
+      vibe_analysis: processedVibe,
     })
   } catch (error) {
-    console.error("❌ Error in rank API:", error)
+    console.error("Error in rank API:", error)
     return NextResponse.json(
       {
+        places: [],
+        explanation: "Sorry, there was an error processing your request. Please try again.",
         error: "Internal server error",
-        details: error instanceof Error ? error.message : "Unknown error",
       },
       { status: 500 },
     )

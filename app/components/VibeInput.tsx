@@ -2,80 +2,92 @@
 
 import type React from "react"
 
-import { useState, useEffect } from "react"
-import { copy, getTopTokensByCity } from "../lib/i18n"
+import { useState } from "react"
+import { Send, Sparkles } from "lucide-react"
 
 interface VibeInputProps {
-  onSearch: (mood: string) => void
-  city: string
+  onVibeSubmit: (vibe: string) => void
+  loading?: boolean
+  disabled?: boolean
 }
 
-export default function VibeInput({ onSearch, city }: VibeInputProps) {
-  const [mood, setMood] = useState("")
-  const [suggestedChips, setSuggestedChips] = useState<string[]>([])
+export default function VibeInput({ onVibeSubmit, loading = false, disabled = false }: VibeInputProps) {
+  const [vibe, setVibe] = useState("")
 
-  useEffect(() => {
-    const lastMood = localStorage.getItem("lastMood")
-    if (lastMood) {
-      setMood(lastMood)
-    }
-    setSuggestedChips(getTopTokensByCity(city))
-  }, [city])
-
-  const handleSearch = () => {
-    if (mood.trim()) {
-      localStorage.setItem("lastMood", mood)
-      onSearch(mood)
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (vibe.trim() && !loading && !disabled) {
+      onVibeSubmit(vibe.trim())
     }
   }
 
-  const handleChipClick = (chip: string) => {
-    setMood(chip)
-    localStorage.setItem("lastMood", chip)
-    onSearch(chip)
-  }
+  const vibeExamples = [
+    "Cozy coffee shop to work from",
+    "Romantic dinner spot",
+    "Fun place to party with friends",
+    "Quiet place to read and relax",
+    "Trendy brunch spot",
+    "Local authentic food experience",
+    "Outdoor space to exercise",
+    "Cultural experience",
+    "Late night hangout",
+    "Family-friendly restaurant",
+  ]
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      handleSearch()
+  const handleExampleClick = (example: string) => {
+    if (!loading && !disabled) {
+      setVibe(example)
+      onVibeSubmit(example)
     }
   }
 
   return (
-    <div className="space-y-4">
-      <div className="relative">
-        <input
-          type="text"
-          value={mood}
-          onChange={(e) => setMood(e.target.value)}
-          onKeyPress={handleKeyPress}
-          placeholder={copy.landing.placeholder}
-          className="w-full px-4 py-4 rounded-2xl bg-gray-700/50 backdrop-blur-lg border border-spotify-green/30 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-spotify-green focus:border-transparent text-lg"
-        />
+    <div className="w-full">
+      <div className="flex items-center gap-2 mb-3">
+        <Sparkles className="w-5 h-5 text-spotify-green" />
+        <label className="text-white font-semibold">What's your vibe?</label>
       </div>
 
-      <div className="space-y-2">
-        <p className="text-sm text-gray-400">{copy.landing.suggestedChips}</p>
+      <form onSubmit={handleSubmit} className="mb-6">
+        <div className="relative">
+          <textarea
+            value={vibe}
+            onChange={(e) => setVibe(e.target.value)}
+            placeholder="Describe what you're looking for... (e.g., 'cozy coffee shop to work from' or 'romantic dinner spot')"
+            className="w-full p-4 pr-12 bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-xl text-white placeholder-gray-400 resize-none focus:outline-none focus:ring-2 focus:ring-spotify-green focus:border-transparent transition-all"
+            rows={3}
+            disabled={loading || disabled}
+          />
+          <button
+            type="submit"
+            disabled={!vibe.trim() || loading || disabled}
+            className="absolute bottom-3 right-3 p-2 bg-spotify-green text-black rounded-lg hover:bg-green-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {loading ? (
+              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-black"></div>
+            ) : (
+              <Send className="w-5 h-5" />
+            )}
+          </button>
+        </div>
+      </form>
+
+      {/* Quick Examples */}
+      <div className="space-y-3">
+        <p className="text-gray-400 text-sm">Or try one of these:</p>
         <div className="flex flex-wrap gap-2">
-          {suggestedChips.map((chip) => (
+          {vibeExamples.map((example, index) => (
             <button
-              key={chip}
-              onClick={() => handleChipClick(chip)}
-              className="px-3 py-1.5 rounded-full bg-gray-700/50 backdrop-blur-lg border border-spotify-green/40 text-gray-300 text-sm hover:bg-spotify-green/20 hover:text-spotify-green transition-all duration-200"
+              key={index}
+              onClick={() => handleExampleClick(example)}
+              disabled={loading || disabled}
+              className="px-3 py-2 bg-gray-800/30 hover:bg-gray-700/50 border border-gray-700/50 rounded-full text-sm text-gray-300 hover:text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {chip}
+              {example}
             </button>
           ))}
         </div>
       </div>
-
-      <button
-        onClick={handleSearch}
-        disabled={!mood.trim()}
-        className="w-full py-4 rounded-2xl bg-spotify-green hover:bg-spotify-green-dark text-black font-bold text-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-600"
-      >
-        {copy.landing.searchButton}
-      </button>
     </div>
   )
 }

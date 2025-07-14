@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { getPersonalityProfile } from "../../lib/personalityProfiles"
-import placesData from "../../data/places.json"
+import { getPlaces } from "../../lib/placesService"
 
 export async function POST(request: NextRequest) {
   try {
@@ -17,8 +17,11 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Personality not found" }, { status: 404 })
     }
 
-    // Filtrar lugares compatibles con personalidad
-    const places = getCompatiblePlaces(city, profile)
+    // Get places from Foursquare API instead of static JSON
+    const allPlaces = await getPlaces(city)
+
+    // Filter places compatible with personality
+    const places = getCompatiblePlaces(allPlaces, profile)
 
     if (places.length < 2) {
       return NextResponse.json(
@@ -32,7 +35,7 @@ export async function POST(request: NextRequest) {
 
     console.log(`🏙️ Found ${places.length} compatible places for ${profile.name} in ${city}`)
 
-    // Generar artículo con OpenAI
+    // Generate article with OpenAI
     const article = await generatePersonalityArticle(profile, city, places)
 
     const wordCount = article.split(" ").length
@@ -62,17 +65,10 @@ export async function POST(request: NextRequest) {
   }
 }
 
-function getCompatiblePlaces(city: string, profile: any) {
-  console.log(`🔍 Filtering places for ${profile.name} in ${city}`)
+function getCompatiblePlaces(places: any[], profile: any) {
+  console.log(`🔍 Filtering places for ${profile.name}`)
 
-  const cityPlaces = placesData.filter(
-    (place) =>
-      place.city.toLowerCase().includes(city.toLowerCase()) || city.toLowerCase().includes(place.city.toLowerCase()),
-  )
-
-  console.log(`🏙️ Found ${cityPlaces.length} places in ${city}`)
-
-  const compatiblePlaces = cityPlaces
+  const compatiblePlaces = places
     .filter((place) => {
       // Must be in preferred categories
       const isPreferred = profile.venue_preferences.includes(place.category)
@@ -83,8 +79,8 @@ function getCompatiblePlaces(city: string, profile: any) {
     })
     .filter((place) => {
       // Additional filtering by tags and lifestyle compatibility
-      const placeTags = place.tags.map((tag) => tag.toLowerCase())
-      const lifestyleMatch = profile.lifestyle.some((lifestyle) =>
+      const placeTags = place.tags.map((tag: string) => tag.toLowerCase())
+      const lifestyleMatch = profile.lifestyle.some((lifestyle: string) =>
         placeTags.some((tag) => tag.includes(lifestyle.toLowerCase())),
       )
 
@@ -94,7 +90,7 @@ function getCompatiblePlaces(city: string, profile: any) {
       return lifestyleMatch || hasGoodRating
     })
     .sort((a, b) => Number.parseFloat(b.google_rating) - Number.parseFloat(a.google_rating))
-    .slice(0, 4) // Máximo 4 lugares por artículo
+    .slice(0, 4) // Maximum 4 places per article
 
   console.log(
     `✅ Found ${compatiblePlaces.length} compatible places:`,

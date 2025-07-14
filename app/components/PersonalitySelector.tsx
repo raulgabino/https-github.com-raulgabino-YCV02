@@ -6,14 +6,27 @@ import { Sparkles } from "lucide-react"
 import { FEATURED_PERSONALITIES } from "../lib/personalityProfiles"
 
 interface PersonalitySelectorProps {
-  city: string
+  city?: string
+  onPersonalityChange?: (personality: any) => void
+  selectedPersonality?: any
 }
 
-export default function PersonalitySelector({ city }: PersonalitySelectorProps) {
+export default function PersonalitySelector({
+  city = "Ciudad Victoria",
+  onPersonalityChange,
+  selectedPersonality,
+}: PersonalitySelectorProps) {
   const router = useRouter()
 
   const handlePersonalityClick = (slug: string) => {
-    router.push(`/personalidades/${slug}/${encodeURIComponent(city)}`)
+    if (onPersonalityChange) {
+      // For the main page - just set the personality
+      const personality = FEATURED_PERSONALITIES.find((p) => p.slug === slug)
+      onPersonalityChange(personality)
+    } else {
+      // For navigation to personality articles
+      router.push(`/personalidades/${slug}/${encodeURIComponent(city)}`)
+    }
   }
 
   return (
@@ -40,7 +53,11 @@ export default function PersonalitySelector({ city }: PersonalitySelectorProps) 
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.1 * index, duration: 0.5 }}
             onClick={() => handlePersonalityClick(personality.slug)}
-            className="group p-6 bg-gray-700/30 backdrop-blur-lg rounded-2xl border border-spotify-green/20 hover:bg-gray-700/50 hover:border-spotify-green/40 transition-all duration-300 text-left"
+            className={`group p-6 backdrop-blur-lg rounded-2xl border transition-all duration-300 text-left ${
+              selectedPersonality?.slug === personality.slug
+                ? "bg-spotify-green/20 border-spotify-green/60"
+                : "bg-gray-700/30 border-spotify-green/20 hover:bg-gray-700/50 hover:border-spotify-green/40"
+            }`}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >

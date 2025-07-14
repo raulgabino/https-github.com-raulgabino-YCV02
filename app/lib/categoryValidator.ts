@@ -64,6 +64,22 @@ export function validateVibeCategory(vibe: string, place: any): boolean {
   return true
 }
 
+export function validateCategory(category: string, keywords: string[]): boolean {
+  // Simple validation - check if category matches any keywords
+  const categoryLower = category.toLowerCase()
+
+  // Always allow these general categories
+  const alwaysValid = ["restaurant", "cafe", "bar", "park", "museum", "theater"]
+  if (alwaysValid.some((valid) => categoryLower.includes(valid))) {
+    return true
+  }
+
+  // Check if any keyword matches the category
+  return keywords.some(
+    (keyword) => categoryLower.includes(keyword.toLowerCase()) || keyword.toLowerCase().includes(categoryLower),
+  )
+}
+
 export function getVibeFromTokens(tokens: string[]): string {
   const vibeMap = {
     bellakeo: ["bellakeo", "reggaeton", "perrea", "antro", "fiesta", "dembow", "urbano"],

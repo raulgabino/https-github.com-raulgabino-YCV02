@@ -19,20 +19,22 @@ export function trackSwipeAction(action: SwipeAction) {
     const telemetryData: TelemetryData = {
       timestamp: new Date().toISOString(),
       sessionId: getSessionId(),
-      userAgent: navigator.userAgent,
+      userAgent: typeof navigator !== "undefined" ? navigator.userAgent : "Unknown",
       action,
     }
 
     // Store locally for now (in production, send to analytics service)
-    const existingData = JSON.parse(localStorage.getItem("telemetry") || "[]")
-    existingData.push(telemetryData)
+    if (typeof localStorage !== "undefined") {
+      const existingData = JSON.parse(localStorage.getItem("telemetry") || "[]")
+      existingData.push(telemetryData)
 
-    // Keep only last 100 entries
-    if (existingData.length > 100) {
-      existingData.splice(0, existingData.length - 100)
+      // Keep only last 100 entries
+      if (existingData.length > 100) {
+        existingData.splice(0, existingData.length - 100)
+      }
+
+      localStorage.setItem("telemetry", JSON.stringify(existingData))
     }
-
-    localStorage.setItem("telemetry", JSON.stringify(existingData))
 
     // Log for development
     console.log("📊 Telemetry:", {
@@ -51,6 +53,8 @@ export function trackSwipeAction(action: SwipeAction) {
 }
 
 function getSessionId(): string {
+  if (typeof sessionStorage === "undefined") return "server-session"
+
   let sessionId = sessionStorage.getItem("sessionId")
   if (!sessionId) {
     sessionId = `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
@@ -61,6 +65,7 @@ function getSessionId(): string {
 
 export function getTelemetryData(): TelemetryData[] {
   try {
+    if (typeof localStorage === "undefined") return []
     return JSON.parse(localStorage.getItem("telemetry") || "[]")
   } catch (error) {
     console.error("Error getting telemetry data:", error)
@@ -69,8 +74,10 @@ export function getTelemetryData(): TelemetryData[] {
 }
 
 export function clearTelemetryData() {
-  localStorage.removeItem("telemetry")
-  console.log("🗑️ Telemetry data cleared")
+  if (typeof localStorage !== "undefined") {
+    localStorage.removeItem("telemetry")
+    console.log("🗑️ Telemetry data cleared")
+  }
 }
 
 // Analytics functions for production
@@ -94,7 +101,7 @@ export function getSwipeStats() {
     likes: data.filter((d) => d.action.action === "like").length,
     skips: data.filter((d) => d.action.action === "skip").length,
     saves: data.filter((d) => d.action.action === "save").length,
-    avgTimeSpent: data.reduce((acc, d) => acc + d.action.timeSpent, 0) / data.length / 1000,
+    avgTimeSpent: data.length > 0 ? data.reduce((acc, d) => acc + d.action.timeSpent, 0) / data.length / 1000 : 0,
     topMoods: getTopMoods(data),
     topCities: getTopCities(data),
   }
