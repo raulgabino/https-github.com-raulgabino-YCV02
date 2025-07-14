@@ -1,65 +1,89 @@
 import { type NextRequest, NextResponse } from "next/server"
+import type { Place } from "../../lib/types"
 
-interface FoursquarePlace {
-  fsq_id: string
-  name: string
-  categories: Array<{
-    id: number
-    name: string
-    short_name: string
-    plural_name: string
-  }>
-  location: {
-    formatted_address: string
-    locality: string
-    region: string
-    country: string
-  }
-  geocodes: {
-    main: {
-      latitude: number
-      longitude: number
-    }
-  }
-  contact?: {
-    tel?: string
-    website?: string
-  }
-  rating?: number
-  price?: number
-  hours?: {
-    display?: string
-  }
-  features?: Record<string, any>
-  photos?: Array<{
-    prefix: string
-    suffix: string
-  }>
-}
-
-interface Place {
-  name: string
-  category: string
-  city: string
-  address: string
-  lat: number
-  lng: number
-  phone: string
-  website: string
-  google_rating: string
-  price_level: string
-  opening_hours: string
-  tags: string[]
-  review_snippets: string[]
-  last_checked: string
-  media: string[]
-}
-
-// Cache for API responses (1 hour)
+// Cache simple en memoria para reducir llamadas API
 const cache = new Map<string, { data: Place[]; timestamp: number }>()
-const CACHE_DURATION = 60 * 60 * 1000 // 1 hour in milliseconds
+const CACHE_DURATION = 5 * 60 * 1000 // 5 minutos
 
+export async function GET(request: NextRequest) {
+  try {
+    const { searchParams } = new URL(request.url)
+    const city = searchParams.get("city")
+    const query = searchParams.get("query")
+
+    if (!city) {
+      return NextResponse.json({ error: "City parameter is required" }, { status: 400 })
+    }
+
+    // Verificar cache
+    const cacheKey = `${city}-${query || "default"}`
+    const cached = cache.get(cacheKey)
+    if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
+      console.log(`🚀 Cache hit for: ${cacheKey}`)
+      return NextResponse.json(cached.data)
+    }
+
+    // Construir URL de Foursquare
+    const foursquareUrl = new URL("https://api.foursquare.com/v3/places/search")
+    foursquareUrl.searchParams.append("near", city)
+    if (query) {
+      foursquareUrl.searchParams.append("query", query)
+    }
+    foursquareUrl.searchParams.append("limit", "50")
+    foursquareUrl.searchParams.append("fields", "name,categories,location,geocodes,rating,price,hours,website,tel")
+
+    console.log(`🔍 Foursquare API call: ${foursquareUrl.toString()}`)
+
+    // Llamada a Foursquare API
+    const response = await fetch(foursquareUrl.toString(), {
+      headers: {
+        Authorization: `${process.env.FOURSQUARE_API_KEY}`,
+        Accept: "application/json",
+      },
+    })
+
+    if (!response.ok) {
+      console.error(`❌ Foursquare API error: ${response.status}`)
+      return NextResponse.json([])
+    }
+
+    const foursquareData = await response.json()
+    const places = foursquareData.results || []
+
+    // Mapear datos de Foursquare a nuestro tipo Place
+    const mappedPlaces: Place[] = places.map((place: any) => ({
+      name: place.name || "Unknown",
+      category: place.categories?.[0]?.name || "general",
+      city: place.location?.locality || city,
+      address: place.location?.formatted_address || place.location?.address || "",
+      lat: place.geocodes?.main?.latitude || 0,
+      lng: place.geocodes?.main?.longitude || 0,
+      phone: place.tel || "",
+      website: place.website || "",
+      google_rating: place.rating ? place.rating.toString() : "0",
+      price_level: mapPriceLevel(place.price),
+      opening_hours: place.hours?.display || "",
+      tags: generateTags(place),
+      review_snippets: [],
+      last_checked: new Date().toISOString().split("T")[0],
+      media: [],
+    }))
+
+    // Guardar en cache
+    cache.set(cacheKey, { data: mappedPlaces, timestamp: Date.now() })
+
+    console.log(`✅ Found ${mappedPlaces.length} places for ${city}${query ? ` with query "${query}"` : ""}`)
+
+    return NextResponse.json(mappedPlaces)
+  } catch (error) {
+    console.error("❌ Error in places API:", error)
+    return NextResponse.json([])
+  }
+}
+
+// Mapear precio de Foursquare (1-4) a nuestro formato
 function mapPriceLevel(price?: number): string {
+  if (!price) return "$"
   switch (price) {
     case 1:
       return "$"
@@ -74,94 +98,31 @@ function mapPriceLevel(price?: number): string {
   }
 }
 
-function mapFoursquareToPlace(fsPlace: FoursquarePlace): Place {
-  const category = fsPlace.categories[0]?.name || "General"
-  const tags = [...fsPlace.categories.map((cat) => cat.name.toLowerCase()), ...Object.keys(fsPlace.features || {})]
+// Generar tags basados en la categoría y otros datos
+function generateTags(place: any): string[] {
+  const tags: string[] = []
 
-  return {
-    name: fsPlace.name,
-    category: category.toLowerCase(),
-    city: fsPlace.location.locality || "",
-    address: fsPlace.location.formatted_address || "",
-    lat: fsPlace.geocodes.main.latitude,
-    lng: fsPlace.geocodes.main.longitude,
-    phone: fsPlace.contact?.tel || "",
-    website: fsPlace.contact?.website || "",
-    google_rating: fsPlace.rating?.toString() || "0",
-    price_level: mapPriceLevel(fsPlace.price),
-    opening_hours: fsPlace.hours?.display || "Hours not available",
-    tags,
-    review_snippets: [],
-    last_checked: new Date().toISOString().split("T")[0],
-    media: fsPlace.photos?.map((photo) => `${photo.prefix}300x300${photo.suffix}`) || [],
+  // Tags de categoría
+  if (place.categories?.[0]?.name) {
+    const category = place.categories[0].name.toLowerCase()
+    tags.push(category)
+
+    // Tags contextúales por categoría
+    if (category.includes("restaurant")) tags.push("comida", "cena")
+    if (category.includes("bar")) tags.push("bebidas", "noche")
+    if (category.includes("coffee")) tags.push("café", "tranquilo", "productivo")
+    if (category.includes("club")) tags.push("fiesta", "baile", "noche")
+    if (category.includes("park")) tags.push("aire libre", "relajado")
   }
-}
 
-export async function GET(request: NextRequest) {
-  try {
-    const { searchParams } = new URL(request.url)
-    const city = searchParams.get("city")
-    const query = searchParams.get("vibe") // Renamed from vibe to query for clarity
-    const limit = Number.parseInt(searchParams.get("limit") || "50")
-
-    if (!city) {
-      return NextResponse.json({ error: "City parameter is required" }, { status: 400 })
-    }
-
-    // Check cache first
-    const cacheKey = `${city}-${query || "all"}-${limit}`
-    const cached = cache.get(cacheKey)
-    if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
-      return NextResponse.json(cached.data)
-    }
-
-    const apiKey = process.env.FOURSQUARE_API_KEY
-    if (!apiKey) {
-      console.error("FOURSQUARE_API_KEY not found")
-      return NextResponse.json([], { status: 200 })
-    }
-
-    // Build Foursquare search URL
-    const searchUrl = new URL("https://api.foursquare.com/v3/places/search")
-    searchUrl.searchParams.append("near", city)
-    searchUrl.searchParams.append("limit", limit.toString())
-
-    // Add query directly if it exists
-    if (query) {
-      searchUrl.searchParams.append("query", query)
-      console.log("🔍 Foursquare search query:", query)
-    }
-
-    searchUrl.searchParams.append(
-      "fields",
-      "fsq_id,name,categories,location,geocodes,contact,rating,price,hours,features,photos",
-    )
-
-    console.log("🌐 Foursquare API URL:", searchUrl.toString())
-
-    const response = await fetch(searchUrl.toString(), {
-      headers: {
-        Authorization: apiKey,
-        Accept: "application/json",
-      },
-    })
-
-    if (!response.ok) {
-      console.error("Foursquare API error:", response.status, response.statusText)
-      return NextResponse.json([], { status: 200 })
-    }
-
-    const data = await response.json()
-    const places: Place[] = data.results?.map(mapFoursquareToPlace) || []
-
-    console.log(`✅ Found ${places.length} places for query: "${query || "general"}" in ${city}`)
-
-    // Cache the results
-    cache.set(cacheKey, { data: places, timestamp: Date.now() })
-
-    return NextResponse.json(places)
-  } catch (error) {
-    console.error("Error fetching places:", error)
-    return NextResponse.json([], { status: 200 })
+  // Tags de precio
+  if (place.price) {
+    if (place.price <= 2) tags.push("económico")
+    if (place.price >= 3) tags.push("elegante")
   }
+
+  // Tags de rating
+  if (place.rating >= 4.5) tags.push("popular", "recomendado")
+
+  return tags
 }

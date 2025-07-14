@@ -1,48 +1,74 @@
 import type { Place } from "./types"
 
-// Client-side cache
-const clientCache = new Map<string, { data: Place[]; timestamp: number }>()
-const CACHE_DURATION = 60 * 60 * 1000 // 1 hour
-
-export async function getPlaces(city: string, query?: string, limit = 50): Promise<Place[]> {
+export async function getPlaces(city: string, query?: string): Promise<Place[]> {
   try {
-    // Check client-side cache first
-    const cacheKey = `${city}-${query || "all"}-${limit}`
-    const cached = clientCache.get(cacheKey)
-    if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
-      console.log("📦 Using cached places for:", cacheKey)
-      return cached.data
+    // Construir URL para nuestro endpoint
+    const url = new URL("/api/places", typeof window !== "undefined" ? window.location.origin : "http://localhost:3000")
+    url.searchParams.append("city", city)
+    if (query) {
+      url.searchParams.append("query", query)
     }
 
-    const params = new URLSearchParams({
-      city,
-      limit: limit.toString(),
+    console.log(`🔍 Fetching places: ${url.toString()}`)
+
+    const response = await fetch(url.toString(), {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
     })
 
-    if (query) {
-      params.append("vibe", query) // Still using 'vibe' parameter name for API consistency
-      console.log("🔍 Fetching places with query:", query)
-    }
-
-    const response = await fetch(`/api/places?${params.toString()}`)
-
     if (!response.ok) {
-      console.error("Failed to fetch places:", response.status)
+      console.error(`❌ Places service error: ${response.status}`)
       return []
     }
 
     const places: Place[] = await response.json()
-
-    // Cache the results
-    clientCache.set(cacheKey, { data: places, timestamp: Date.now() })
-
-    console.log(`✅ Fetched ${places.length} places for "${query || "general"}" in ${city}`)
+    console.log(`✅ Places service returned ${places.length} places`)
 
     return places
   } catch (error) {
-    console.error("Error fetching places:", error)
+    console.error("❌ Error in places service:", error)
     return []
   }
+}
+
+// Función helper para construir query inteligente a partir de tokens
+export function buildFoursquareQuery(vibeTokens: string[], moodGroup: string | null): string {
+  const queryParts: string[] = []
+
+  // Categorías principales que Foursquare entiende bien
+  const categoryKeywords = ["restaurant", "bar", "café", "club", "park", "museum", "hotel"]
+  const moodKeywords = ["romantic", "casual", "elegant", "cozy", "trendy", "quiet"]
+  const activityKeywords = ["dinner", "lunch", "drinks", "coffee", "dancing", "shopping"]
+
+  // Priorizar categorías
+  const foundCategories = vibeTokens.filter((token) =>
+    categoryKeywords.some((cat) => token.toLowerCase().includes(cat)),
+  )
+
+  // Priorizar actividades
+  const foundActivities = vibeTokens.filter((token) =>
+    activityKeywords.some((act) => token.toLowerCase().includes(act)),
+  )
+
+  // Priorizar moods
+  const foundMoods = vibeTokens.filter((token) => moodKeywords.some((mood) => token.toLowerCase().includes(mood)))
+
+  // Construir query en orden de importancia
+  if (foundActivities.length > 0) queryParts.push(foundActivities[0])
+  if (foundMoods.length > 0) queryParts.push(foundMoods[0])
+  if (foundCategories.length > 0) queryParts.push(foundCategories[0])
+
+  // Fallback: usar primeros 2-3 tokens más relevantes
+  if (queryParts.length === 0) {
+    queryParts.push(...vibeTokens.slice(0, 2))
+  }
+
+  const query = queryParts.join(" ")
+  console.log(`🎯 Built Foursquare query: "${query}" from tokens:`, vibeTokens)
+
+  return query
 }
 
 export async function getPlacesByCity(city: string): Promise<Place[]> {
