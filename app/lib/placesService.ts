@@ -2,16 +2,21 @@ import type { Place } from "./types"
 
 export async function getPlaces(city: string, query?: string): Promise<Place[]> {
   try {
-    // Construir URL para nuestro endpoint
-    const url = new URL("/api/places", typeof window !== "undefined" ? window.location.origin : "http://localhost:3000")
-    url.searchParams.append("city", city)
-    if (query) {
-      url.searchParams.append("query", query)
-    }
+    // Construir URL robusta (funciona en browser, v0.dev, localhost)
+    const searchParams = new URLSearchParams({ city })
+    if (query) searchParams.append("query", query)
 
-    console.log(`🔍 Fetching places: ${url.toString()}`)
+    const baseUrl =
+      typeof window !== "undefined"
+        ? "" // path relativo en navegador
+        : process.env.VERCEL_URL
+          ? `https://${process.env.VERCEL_URL}`
+          : "http://localhost:3000"
 
-    const response = await fetch(url.toString(), {
+    const requestUrl = `${baseUrl}/api/places?${searchParams.toString()}`
+    console.log(`🔍 Fetching places: ${requestUrl}`)
+
+    const response = await fetch(requestUrl, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
