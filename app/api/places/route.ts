@@ -101,7 +101,7 @@ export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
     const city = searchParams.get("city")
-    const vibe = searchParams.get("vibe")
+    const query = searchParams.get("vibe") // Renamed from vibe to query for clarity
     const limit = Number.parseInt(searchParams.get("limit") || "50")
 
     if (!city) {
@@ -109,7 +109,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Check cache first
-    const cacheKey = `${city}-${vibe}-${limit}`
+    const cacheKey = `${city}-${query || "all"}-${limit}`
     const cached = cache.get(cacheKey)
     if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
       return NextResponse.json(cached.data)
@@ -121,35 +121,23 @@ export async function GET(request: NextRequest) {
       return NextResponse.json([], { status: 200 })
     }
 
-    // Build search query based on vibe
-    let query = ""
-    if (vibe) {
-      // Map vibe to search terms
-      const vibeMap: Record<string, string> = {
-        chill: "cafe coffee lounge",
-        productivo: "cafe coworking library",
-        romántico: "restaurant fine dining",
-        fiesta: "bar nightclub music",
-        familiar: "restaurant family park",
-        eco: "park garden organic",
-        cultural: "museum gallery theater",
-        trendy: "restaurant bar modern",
-        tradicional: "restaurant traditional local",
-        nocturno: "bar club nightlife",
-      }
-      query = vibeMap[vibe] || vibe
-    }
-
+    // Build Foursquare search URL
     const searchUrl = new URL("https://api.foursquare.com/v3/places/search")
     searchUrl.searchParams.append("near", city)
     searchUrl.searchParams.append("limit", limit.toString())
+
+    // Add query directly if it exists
     if (query) {
       searchUrl.searchParams.append("query", query)
+      console.log("🔍 Foursquare search query:", query)
     }
+
     searchUrl.searchParams.append(
       "fields",
       "fsq_id,name,categories,location,geocodes,contact,rating,price,hours,features,photos",
     )
+
+    console.log("🌐 Foursquare API URL:", searchUrl.toString())
 
     const response = await fetch(searchUrl.toString(), {
       headers: {
@@ -165,6 +153,8 @@ export async function GET(request: NextRequest) {
 
     const data = await response.json()
     const places: Place[] = data.results?.map(mapFoursquareToPlace) || []
+
+    console.log(`✅ Found ${places.length} places for query: "${query || "general"}" in ${city}`)
 
     // Cache the results
     cache.set(cacheKey, { data: places, timestamp: Date.now() })

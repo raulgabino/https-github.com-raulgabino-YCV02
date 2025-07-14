@@ -4,12 +4,13 @@ import type { Place } from "./types"
 const clientCache = new Map<string, { data: Place[]; timestamp: number }>()
 const CACHE_DURATION = 60 * 60 * 1000 // 1 hour
 
-export async function getPlaces(city: string, vibe?: string, limit = 50): Promise<Place[]> {
+export async function getPlaces(city: string, query?: string, limit = 50): Promise<Place[]> {
   try {
     // Check client-side cache first
-    const cacheKey = `${city}-${vibe || "all"}-${limit}`
+    const cacheKey = `${city}-${query || "all"}-${limit}`
     const cached = clientCache.get(cacheKey)
     if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
+      console.log("📦 Using cached places for:", cacheKey)
       return cached.data
     }
 
@@ -18,8 +19,9 @@ export async function getPlaces(city: string, vibe?: string, limit = 50): Promis
       limit: limit.toString(),
     })
 
-    if (vibe) {
-      params.append("vibe", vibe)
+    if (query) {
+      params.append("vibe", query) // Still using 'vibe' parameter name for API consistency
+      console.log("🔍 Fetching places with query:", query)
     }
 
     const response = await fetch(`/api/places?${params.toString()}`)
@@ -33,6 +35,8 @@ export async function getPlaces(city: string, vibe?: string, limit = 50): Promis
 
     // Cache the results
     clientCache.set(cacheKey, { data: places, timestamp: Date.now() })
+
+    console.log(`✅ Fetched ${places.length} places for "${query || "general"}" in ${city}`)
 
     return places
   } catch (error) {

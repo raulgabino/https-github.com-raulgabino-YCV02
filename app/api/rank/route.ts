@@ -16,8 +16,12 @@ export async function POST(request: NextRequest) {
     // Process the vibe to extract keywords and sentiment
     const processedVibe = processVibe(vibe)
 
-    // Get places from Foursquare API
-    const allPlaces = await getPlaces(city, processedVibe.primaryVibe)
+    // Create a more descriptive query for Foursquare by joining keywords
+    const foursquareQuery = processedVibe.keywords.join(" ")
+    console.log("🔍 Foursquare query:", foursquareQuery)
+
+    // Get places from Foursquare API using the descriptive query
+    const allPlaces = await getPlaces(city, foursquareQuery)
 
     if (allPlaces.length === 0) {
       return NextResponse.json({
