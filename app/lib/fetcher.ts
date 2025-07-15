@@ -1,4 +1,4 @@
-// Foursquare v3 API Fetcher
+// Foursquare v3 API Fetcher with build-time safety
 const FSQ_BASE_URL = "https://api.foursquare.com/v3"
 
 // Foursquare Place type based on v3 API response
@@ -59,12 +59,12 @@ export interface FsqPlace {
   distance?: number
 }
 
-// Foursquare v3 API fetcher
+// Foursquare v3 API fetcher with runtime API key check
 export async function fsqFetch(path: string, params: Record<string, string | number> = {}): Promise<any> {
-  // Check for API key
+  // Check for API key at runtime, not build time
   const apiKey = process.env.FOURSQUARE_API_KEY
   if (!apiKey) {
-    throw new Error("FSQ_API_KEY environment variable is required")
+    throw new Error("FOURSQUARE_API_KEY environment variable is required")
   }
 
   // Build URL with parameters

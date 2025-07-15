@@ -76,6 +76,12 @@ export async function getPlaces(city: string, query?: string): Promise<Place[]> 
   try {
     console.log(`🔍 Getting places for city: ${city}, query: ${query}`)
 
+    // Check if Foursquare service is available
+    if (!foursquareService.isAvailable()) {
+      console.warn("⚠️ Foursquare service not available - returning empty results")
+      return []
+    }
+
     // Search places using Foursquare service
     const fsqPlaces = await foursquareService.searchPlaces({
       near: city,

@@ -55,7 +55,7 @@ interface FoursquarePlace {
   verified?: boolean
   closed_bucket?: string
   distance?: number
-  photos?: any // Assuming photos can be of any type for now
+  photos?: any
 }
 
 interface SearchParams {
@@ -68,25 +68,52 @@ interface SearchParams {
 }
 
 export class FoursquareService {
-  private apiKey: string
+  private apiKey: string | null = null
+  private initialized = false
   private baseUrl = "https://api.foursquare.com/v3"
 
   constructor() {
-    // Verify API key exists on initialization
-    if (!process.env.FOURSQUARE_API_KEY) {
-      console.error("❌ FOURSQUARE_API_KEY missing!")
-      throw new Error("FSQ_API_KEY environment variable is required")
+    // Don't initialize during build time - defer until first use
+    if (typeof window === "undefined" && !process.env.NODE_ENV) {
+      console.log("🔧 FoursquareService: Deferring initialization until runtime")
+      return
     }
 
-    this.apiKey = process.env.FOURSQUARE_API_KEY
+    this.initialize()
+  }
+
+  private initialize() {
+    if (this.initialized) return
+
+    this.apiKey = process.env.FOURSQUARE_API_KEY || null
+
+    if (!this.apiKey) {
+      console.warn("⚠️ FOURSQUARE_API_KEY not found - service will be limited")
+      this.initialized = true
+      return
+    }
+
     console.log("🔧 FoursquareService initialized:")
     console.log(`   API Key format: ${this.apiKey.substring(0, 8)}...${this.apiKey.slice(-4)}`)
     console.log(`   Is v3 format: ${this.apiKey.startsWith("fsq3")}`)
+
+    this.initialized = true
+  }
+
+  private ensureInitialized() {
+    if (!this.initialized) {
+      this.initialize()
+    }
+
+    if (!this.apiKey) {
+      throw new Error("FOURSQUARE_API_KEY environment variable is required")
+    }
   }
 
   private getHeaders() {
+    this.ensureInitialized()
     return {
-      Authorization: this.apiKey,
+      Authorization: this.apiKey!,
       Accept: "application/json",
       "User-Agent": "YourCityVibes/1.0",
     }
@@ -96,6 +123,8 @@ export class FoursquareService {
     const requestId = Math.random().toString(36).substr(2, 9)
 
     try {
+      this.ensureInitialized()
+
       console.log(`🔍 [${requestId}] Foursquare search:`, {
         near: params.near,
         query: params.query,
@@ -167,6 +196,7 @@ export class FoursquareService {
 
   async getPlaceDetails(fsqId: string): Promise<FsqPlace | null> {
     try {
+      this.ensureInitialized()
       console.log("🔍 Getting place details for:", fsqId)
 
       const fields = [
@@ -201,6 +231,7 @@ export class FoursquareService {
     const testId = Math.random().toString(36).substr(2, 9)
 
     try {
+      this.ensureInitialized()
       console.log(`🧪 [${testId}] Testing Foursquare API connection...`)
 
       const response = await fsqFetch("/places/search", {
@@ -236,6 +267,14 @@ export class FoursquareService {
         },
       }
     }
+  }
+
+  // Check if service is available (has API key)
+  isAvailable(): boolean {
+    if (!this.initialized) {
+      this.initialize()
+    }
+    return !!this.apiKey
   }
 
   // Helper method to get category mappings
@@ -342,5 +381,16 @@ export class FoursquareService {
   }
 }
 
-export const foursquareService = new FoursquareService()
+// Create singleton instance with lazy initialization
+let foursquareServiceInstance: FoursquareService | null = null
+
+export const foursquareService = new Proxy({} as FoursquareService, {
+  get(target, prop) {
+    if (!foursquareServiceInstance) {
+      foursquareServiceInstance = new FoursquareService()
+    }
+    return foursquareServiceInstance[prop as keyof FoursquareService]
+  },
+})
+
 export type { FsqPlace }

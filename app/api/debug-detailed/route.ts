@@ -1,5 +1,4 @@
 import { type NextRequest, NextResponse } from "next/server"
-import { foursquareService } from "../../lib/foursquareService"
 import { processVibeInput } from "../../lib/vibeProcessor"
 import { buildFoursquareQuery } from "../../lib/placesService"
 import { semanticTranslator } from "../../lib/semanticTranslator"
@@ -10,31 +9,30 @@ export async function POST(request: NextRequest) {
   try {
     const { vibe, city } = await request.json()
 
-    // 1. Test RAW Foursquare (sin procesamiento)
-    diagnostics.push({ step: "🔍 1. RAW Foursquare Test", status: "testing..." })
-
-    const rawPlaces = await foursquareService.searchPlaces({
-      near: city,
-      query: "restaurant", // Query simple y directo
-      limit: 5,
+    // 1. Check API Key availability (without throwing)
+    const apiKey = process.env.FOURSQUARE_API_KEY
+    diagnostics.push({
+      step: "🔍 1. API Key Check",
+      status: apiKey ? "✅" : "❌",
+      data: {
+        hasKey: !!apiKey,
+        keyFormat: apiKey ? `${apiKey.substring(0, 8)}...${apiKey.slice(-4)}` : "MISSING",
+        keyLength: apiKey?.length || 0,
+        isV3Format: apiKey?.startsWith("fsq3") || false,
+      },
     })
 
-    diagnostics[0] = {
-      step: "🔍 1. RAW Foursquare Test",
-      status: rawPlaces.length > 0 ? "✅" : "❌",
-      data: {
-        placesFound: rawPlaces.length,
-        samplePlaces: rawPlaces.slice(0, 2).map((p) => ({
-          name: p.name,
-          category: p.categories?.[0]?.name,
-          address: p.location?.formatted_address,
-        })),
-        rawResponse: rawPlaces.length > 0 ? "SUCCESS" : "NO_RESULTS",
-      },
+    if (!apiKey) {
+      return NextResponse.json({
+        success: false,
+        error: "FOURSQUARE_API_KEY not found",
+        diagnostics,
+        recommendation: "Add FOURSQUARE_API_KEY to environment variables",
+      })
     }
 
     // 2. Test Vibe Processing
-    const { tokens, moodGroup } = processVibeInput(vibe)
+    const { tokens, moodGroup } = await processVibeInput(vibe)
     const foursquareQuery = buildFoursquareQuery(tokens, moodGroup)
 
     diagnostics.push({
@@ -76,128 +74,90 @@ export async function POST(request: NextRequest) {
       })
     }
 
-    // 4. Test Processed Query
-    const processedPlaces = await foursquareService.searchPlaces({
-      near: city,
-      query: foursquareQuery || translatedQuery,
-      limit: 5,
-    })
-
-    diagnostics.push({
-      step: "🎯 4. Processed Query Test",
-      status: processedPlaces.length > 0 ? "✅" : "❌",
-      data: {
-        queryUsed: foursquareQuery || translatedQuery,
-        placesFound: processedPlaces.length,
-        samplePlaces: processedPlaces.slice(0, 2).map((p) => ({
-          name: p.name,
-          category: p.categories?.[0]?.name,
-        })),
-      },
-    })
-
-    // 5. Test Different Queries
-    const testQueries = ["restaurant", "romantic restaurant", "dinner", "fine dining", translatedQuery]
-
-    const queryResults = []
-    for (const testQuery of testQueries) {
-      const testPlaces = await foursquareService.searchPlaces({
-        near: city,
-        query: testQuery,
-        limit: 3,
-      })
-
-      queryResults.push({
-        query: testQuery,
-        results: testPlaces.length,
-        sample: testPlaces[0]?.name || "None",
-      })
-    }
-
-    diagnostics.push({
-      step: "🧪 5. Query Variations Test",
-      status: queryResults.some((r) => r.results > 0) ? "✅" : "❌",
-      data: { queryResults },
-    })
-
-    // 6. Test Places API Route (internal)
-    diagnostics.push({
-      step: "🔗 6. Places API Route",
-      status: "testing...",
-      data: {},
-    })
-
-    // Simular llamada interna a /api/places
+    // 4. Test Foursquare Service (with error handling)
     try {
-      // En lugar de fetch, llamar directamente al servicio
-      const { getPlaces } = await import("../../lib/placesService")
-      const apiPlaces = await getPlaces(city, foursquareQuery)
+      // Dynamically import to avoid build-time initialization
+      const { foursquareService } = await import("../../lib/foursquareService")
 
-      diagnostics[diagnostics.length - 1] = {
-        step: "🔗 6. Places API Route",
-        status: apiPlaces.length > 0 ? "✅" : "❌",
-        data: {
-          placesFromAPI: apiPlaces.length,
-          samplePlaces: apiPlaces.slice(0, 2).map((p) => ({
-            name: p.name,
-            category: p.category,
-            tags: p.tags,
-          })),
-        },
+      if (!foursquareService.isAvailable()) {
+        diagnostics.push({
+          step: "🌐 4. Foursquare Service",
+          status: "❌",
+          data: { error: "Service not available - API key missing" },
+        })
+      } else {
+        const connectionTest = await foursquareService.testConnection()
+        diagnostics.push({
+          step: "🌐 4. Foursquare Service",
+          status: connectionTest.success ? "✅" : "❌",
+          data: connectionTest,
+        })
+
+        // 5. Test actual search if connection works
+        if (connectionTest.success) {
+          const searchResults = await foursquareService.searchPlaces({
+            near: city,
+            query: foursquareQuery || translatedQuery,
+            limit: 5,
+          })
+
+          diagnostics.push({
+            step: "🎯 5. Search Test",
+            status: searchResults.length > 0 ? "✅" : "⚠️",
+            data: {
+              queryUsed: foursquareQuery || translatedQuery,
+              placesFound: searchResults.length,
+              samplePlaces: searchResults.slice(0, 2).map((p) => ({
+                name: p.name,
+                category: p.categories?.[0]?.name,
+              })),
+            },
+          })
+        }
       }
-    } catch (error) {
-      diagnostics[diagnostics.length - 1] = {
-        step: "🔗 6. Places API Route",
+    } catch (serviceError) {
+      diagnostics.push({
+        step: "🌐 4. Foursquare Service",
         status: "❌",
         data: {
-          error: error instanceof Error ? error.message : "Unknown error",
+          error: serviceError instanceof Error ? serviceError.message : "Service initialization failed",
         },
-      }
+      })
     }
 
-    // 7. Check for GPT Calls
-    diagnostics.push({
-      step: "🤖 7. GPT Calls Check",
-      status: "ℹ️",
-      data: {
-        openaiKeyExists: !!process.env.OPENAI_API_KEY,
-        gptUsedInFlow: "Only in /api/explain and /api/generate-article",
-        mainSearchUsesGPT: false,
-        note: "GPT is NOT used in main search flow",
-      },
-    })
+    // 6. Final Analysis
+    const hasApiKey = !!apiKey
+    const vibeProcessingWorks = tokens.length > 0
+    const translationWorks = needsTranslation ? translatedQuery !== vibe : true
 
-    // 8. Final Analysis
-    const analysis = {
-      rawFoursquareWorks: rawPlaces.length > 0,
-      processedQueryWorks: processedPlaces.length > 0,
-      semanticTranslationNeeded: needsTranslation,
-      bestWorkingQuery: queryResults.find((r) => r.results > 0)?.query || "None",
-      recommendation: "",
-    }
-
-    if (rawPlaces.length > 0 && processedPlaces.length === 0) {
-      analysis.recommendation = "🎯 PROBLEM: Vibe processing is creating queries that don't work. Use simpler queries."
-    } else if (rawPlaces.length === 0) {
-      analysis.recommendation = "🌍 PROBLEM: Foursquare has no data for this city. Try different city."
+    let recommendation = ""
+    if (!hasApiKey) {
+      recommendation = "🔑 Add FOURSQUARE_API_KEY environment variable"
+    } else if (!vibeProcessingWorks) {
+      recommendation = "🎭 Check vibe processing logic"
     } else {
-      analysis.recommendation = "✅ Everything looks good. Check cache or mapping issues."
+      recommendation = "✅ System appears to be working correctly"
     }
 
     diagnostics.push({
-      step: "📊 8. Final Analysis",
+      step: "📊 6. Final Analysis",
       status: "📋",
-      data: analysis,
+      data: {
+        hasApiKey,
+        vibeProcessingWorks,
+        translationWorks,
+        recommendation,
+      },
     })
 
     return NextResponse.json({
-      success: true,
+      success: hasApiKey && vibeProcessingWorks,
       diagnostics,
       summary: {
         totalSteps: diagnostics.length,
-        rawFoursquareWorks: rawPlaces.length > 0,
-        processedQueryWorks: processedPlaces.length > 0,
-        recommendation: analysis.recommendation,
+        hasApiKey,
+        vibeProcessingWorks,
+        recommendation,
       },
     })
   } catch (error) {
