@@ -1,5 +1,9 @@
 import { type NextRequest, NextResponse } from "next/server"
+import { foursquareService, type FoursquarePlace } from "../../lib/foursquareService"
 import type { Place } from "../../lib/types"
+
+// Importar el traductor semántico al inicio del archivo
+import { semanticTranslator } from "../../lib/semanticTranslator"
 
 // Cache simple en memoria para reducir llamadas API
 const cache = new Map<string, { data: Place[]; timestamp: number }>()
@@ -10,48 +14,46 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url)
     const city = searchParams.get("city")
     const query = searchParams.get("query")
+    const categories = searchParams.get("categories")
 
     if (!city) {
       return NextResponse.json({ error: "City parameter is required" }, { status: 400 })
     }
 
     // Verificar cache
-    const cacheKey = `${city}-${query || "default"}`
+    const cacheKey = `${city}-${query || "default"}-${categories || ""}`
     const cached = cache.get(cacheKey)
     if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
       console.log(`🚀 Cache hit for: ${cacheKey}`)
       return NextResponse.json(cached.data)
     }
 
-    // Construir URL de Foursquare
-    const foursquareUrl = new URL("https://api.foursquare.com/v3/places/search")
-    foursquareUrl.searchParams.append("near", city)
-    if (query) {
-      foursquareUrl.searchParams.append("query", query)
+    console.log(`🔍 Searching places in ${city} with query: "${query || "none"}"`)
+
+    // Después de obtener los parámetros, antes de la llamada a Foursquare:
+    let enhancedQuery = query
+    let translationUsed = false
+
+    if (query && semanticTranslator.needsTranslation(query)) {
+      const translation = semanticTranslator.translateQuery(query)
+      enhancedQuery = translation.translatedQuery
+      translationUsed = true
+
+      console.log(`🔄 Semantic translation: "${query}" → "${enhancedQuery}"`)
+      console.log(`📊 Translation confidence: ${(translation.confidence * 100).toFixed(1)}%`)
     }
-    foursquareUrl.searchParams.append("limit", "50")
-    foursquareUrl.searchParams.append("fields", "name,categories,location,geocodes,rating,price,hours,website,tel")
 
-    console.log(`🔍 Foursquare API call: ${foursquareUrl.toString()}`)
-
-    // Llamada a Foursquare API
-    const response = await fetch(foursquareUrl.toString(), {
-      headers: {
-        Authorization: `${process.env.FOURSQUARE_API_KEY}`,
-        Accept: "application/json",
-      },
+    // Usar enhancedQuery en lugar de query para la búsqueda de Foursquare:
+    const foursquarePlaces = await foursquareService.searchPlaces({
+      near: city,
+      query: enhancedQuery || undefined,
+      categories: categories || undefined,
+      limit: 50,
+      sort: "POPULARITY",
     })
 
-    if (!response.ok) {
-      console.error(`❌ Foursquare API error: ${response.status}`)
-      return NextResponse.json([])
-    }
-
-    const foursquareData = await response.json()
-    const places = foursquareData.results || []
-
     // Mapear datos de Foursquare a nuestro tipo Place
-    const mappedPlaces: Place[] = places.map((place: any) => ({
+    const mappedPlaces: Place[] = foursquarePlaces.map((place: FoursquarePlace) => ({
       name: place.name || "Unknown",
       category: place.categories?.[0]?.name || "general",
       city: place.location?.locality || city,
@@ -62,7 +64,7 @@ export async function GET(request: NextRequest) {
       website: place.website || "",
       google_rating: place.rating ? place.rating.toString() : "0",
       price_level: mapPriceLevel(place.price),
-      opening_hours: place.hours?.display || "",
+      opening_hours: place.hours?.display || "Horarios no disponibles",
       tags: generateTags(place),
       review_snippets: [],
       last_checked: new Date().toISOString().split("T")[0],
@@ -72,12 +74,21 @@ export async function GET(request: NextRequest) {
     // Guardar en cache
     cache.set(cacheKey, { data: mappedPlaces, timestamp: Date.now() })
 
-    console.log(`✅ Found ${mappedPlaces.length} places for ${city}${query ? ` with query "${query}"` : ""}`)
+    // Al final, antes del return, agregar información de debug:
+    console.log(
+      `✅ Found ${mappedPlaces.length} places for ${city}${translationUsed ? " (with semantic translation)" : ""}`,
+    )
 
     return NextResponse.json(mappedPlaces)
   } catch (error) {
     console.error("❌ Error in places API:", error)
-    return NextResponse.json([])
+    return NextResponse.json(
+      {
+        error: "Failed to fetch places",
+        details: error instanceof Error ? error.message : "Unknown error",
+      },
+      { status: 500 },
+    )
   }
 }
 
@@ -99,7 +110,7 @@ function mapPriceLevel(price?: number): string {
 }
 
 // Generar tags basados en la categoría y otros datos
-function generateTags(place: any): string[] {
+function generateTags(place: FoursquarePlace): string[] {
   const tags: string[] = []
 
   // Tags de categoría
@@ -110,9 +121,11 @@ function generateTags(place: any): string[] {
     // Tags contextúales por categoría
     if (category.includes("restaurant")) tags.push("comida", "cena")
     if (category.includes("bar")) tags.push("bebidas", "noche")
-    if (category.includes("coffee")) tags.push("café", "tranquilo", "productivo")
-    if (category.includes("club")) tags.push("fiesta", "baile", "noche")
+    if (category.includes("coffee") || category.includes("café")) tags.push("café", "tranquilo", "productivo")
+    if (category.includes("club") || category.includes("nightlife")) tags.push("fiesta", "baile", "noche")
     if (category.includes("park")) tags.push("aire libre", "relajado")
+    if (category.includes("museum")) tags.push("cultura", "arte")
+    if (category.includes("theater")) tags.push("cultura", "entretenimiento")
   }
 
   // Tags de precio
@@ -122,7 +135,13 @@ function generateTags(place: any): string[] {
   }
 
   // Tags de rating
-  if (place.rating >= 4.5) tags.push("popular", "recomendado")
+  if (place.rating && place.rating >= 4.5) tags.push("popular", "recomendado")
 
-  return tags
+  // Tags de verificación
+  if (place.verified) tags.push("verificado")
+
+  // Tags de horario
+  if (place.hours?.open_now) tags.push("abierto")
+
+  return [...new Set(tags)] // Remover duplicados
 }

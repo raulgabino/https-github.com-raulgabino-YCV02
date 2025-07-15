@@ -5,10 +5,12 @@
   "scripts": {
     "build": "next build",
     "dev": "next dev",
+    "diagnose": "tsx scripts/semantic-diagnosis.ts",
     "lint": "next lint",
     "semantic-diagnosis": "tsx scripts/semantic-diagnosis.ts",
     "semantic-test": "tsx scripts/semantic-test.ts",
-    "start": "next start"
+    "start": "next start",
+    "test-semantic": "tsx scripts/test-semantic-translator.ts"
   },
   "dependencies": {
     "@emotion/is-prop-valid": "latest",

@@ -1,4 +1,5 @@
 import type { Place } from "./types"
+import { FoursquareService } from "./foursquareService"
 
 export async function getPlaces(city: string, query?: string): Promise<Place[]> {
   try {
@@ -38,42 +39,19 @@ export async function getPlaces(city: string, query?: string): Promise<Place[]> 
   }
 }
 
-// Función helper para construir query inteligente a partir de tokens
+// Función helper mejorada para construir query inteligente
 export function buildFoursquareQuery(vibeTokens: string[], moodGroup: string | null): string {
-  const queryParts: string[] = []
+  const { query, categories } = FoursquareService.buildSearchQuery(vibeTokens, moodGroup)
 
-  // Categorías principales que Foursquare entiende bien
-  const categoryKeywords = ["restaurant", "bar", "café", "club", "park", "museum", "hotel"]
-  const moodKeywords = ["romantic", "casual", "elegant", "cozy", "trendy", "quiet"]
-  const activityKeywords = ["dinner", "lunch", "drinks", "coffee", "dancing", "shopping"]
+  // Combinar query y categorías en un string para la URL
+  const parts: string[] = []
+  if (query) parts.push(query)
+  if (categories) parts.push(`categories:${categories}`)
 
-  // Priorizar categorías
-  const foundCategories = vibeTokens.filter((token) =>
-    categoryKeywords.some((cat) => token.toLowerCase().includes(cat)),
-  )
+  const finalQuery = parts.join(" ")
+  console.log(`🎯 Built Foursquare query: "${finalQuery}" from tokens:`, vibeTokens)
 
-  // Priorizar actividades
-  const foundActivities = vibeTokens.filter((token) =>
-    activityKeywords.some((act) => token.toLowerCase().includes(act)),
-  )
-
-  // Priorizar moods
-  const foundMoods = vibeTokens.filter((token) => moodKeywords.some((mood) => token.toLowerCase().includes(mood)))
-
-  // Construir query en orden de importancia
-  if (foundActivities.length > 0) queryParts.push(foundActivities[0])
-  if (foundMoods.length > 0) queryParts.push(foundMoods[0])
-  if (foundCategories.length > 0) queryParts.push(foundCategories[0])
-
-  // Fallback: usar primeros 2-3 tokens más relevantes
-  if (queryParts.length === 0) {
-    queryParts.push(...vibeTokens.slice(0, 2))
-  }
-
-  const query = queryParts.join(" ")
-  console.log(`🎯 Built Foursquare query: "${query}" from tokens:`, vibeTokens)
-
-  return query
+  return finalQuery
 }
 
 export async function getPlacesByCity(city: string): Promise<Place[]> {
