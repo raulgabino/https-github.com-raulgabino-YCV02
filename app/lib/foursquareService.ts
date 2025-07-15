@@ -77,25 +77,20 @@ export class FoursquareService {
   constructor() {
     this.apiKey = process.env.FOURSQUARE_API_KEY || ""
 
-    if (!this.apiKey) {
-      console.error("❌ FOURSQUARE_API_KEY not found in environment variables")
-      console.error(
-        "📋 Available env vars:",
+    // Enhanced logging for debugging
+    console.log("🔧 FoursquareService initialization:")
+    console.log(`   API Key exists: ${!!this.apiKey}`)
+
+    if (this.apiKey) {
+      console.log(`   API Key format: ${this.apiKey.substring(0, 8)}...${this.apiKey.slice(-4)}`)
+      console.log(`   API Key length: ${this.apiKey.length}`)
+      console.log(`   Is v3 format: ${this.apiKey.startsWith("fsq3")}`)
+    } else {
+      console.error("❌ FOURSQUARE_API_KEY missing!")
+      console.log(
+        "   Available env vars:",
         Object.keys(process.env).filter((key) => key.includes("FOURSQUARE")),
       )
-    } else {
-      console.log("✅ Foursquare API Key loaded:", `${this.apiKey.substring(0, 8)}...${this.apiKey.slice(-4)}`)
-      console.log("🔑 API Key length:", this.apiKey.length)
-
-      // ACTUALIZADO: Verificar formato de API key
-      if (this.apiKey.startsWith("fsq3")) {
-        console.log("✅ API Key format: Valid v3 format")
-      } else if (this.apiKey.length === 48) {
-        console.warn("⚠️ API Key appears to be v2 format - this might not work with v3 endpoints")
-        console.warn("🔄 Consider upgrading to v3 API key from developer.foursquare.com")
-      } else {
-        console.warn("⚠️ API Key format unknown - length:", this.apiKey.length)
-      }
     }
   }
 
@@ -103,6 +98,7 @@ export class FoursquareService {
     return {
       Authorization: this.apiKey,
       Accept: "application/json",
+      "User-Agent": "YourCityVibes/1.0",
     }
   }
 
@@ -114,14 +110,22 @@ export class FoursquareService {
     radius?: number
     sort?: "DISTANCE" | "POPULARITY" | "RATING"
   }): Promise<FoursquarePlace[]> {
+    const requestId = Math.random().toString(36).substr(2, 9)
+
     try {
+      console.log(`🔍 [${requestId}] Foursquare search starting:`, {
+        near: params.near,
+        query: params.query,
+        categories: params.categories,
+        limit: params.limit,
+      })
+
       const url = new URL(`${this.baseUrl}/places/search`)
 
-      // Parámetros básicos
+      // Build parameters
       url.searchParams.append("near", params.near)
       url.searchParams.append("limit", (params.limit || 50).toString())
 
-      // Parámetros opcionales
       if (params.query) {
         url.searchParams.append("query", params.query)
       }
@@ -138,7 +142,7 @@ export class FoursquareService {
         url.searchParams.append("sort", params.sort)
       }
 
-      // Campos que queremos obtener
+      // Fields we want
       const fields = [
         "fsq_id",
         "name",
@@ -159,70 +163,71 @@ export class FoursquareService {
 
       url.searchParams.append("fields", fields)
 
-      console.log("🔍 Foursquare API Request:", {
-        url: url.toString(),
-        method: "GET",
-        headers: {
-          ...this.getHeaders(),
-          Authorization: `${this.apiKey.substring(0, 8)}...${this.apiKey.slice(-4)}`,
-        },
+      console.log(`🌐 [${requestId}] Request URL:`, url.toString())
+      console.log(`🔑 [${requestId}] Headers:`, {
+        ...this.getHeaders(),
+        Authorization: `${this.apiKey.substring(0, 8)}...${this.apiKey.slice(-4)}`,
       })
 
+      const startTime = Date.now()
       const response = await fetch(url.toString(), {
         method: "GET",
         headers: this.getHeaders(),
       })
 
-      console.log("📡 Foursquare API Response Status:", response.status, response.statusText)
+      const responseTime = Date.now() - startTime
+      console.log(`⏱️ [${requestId}] Response time: ${responseTime}ms`)
+      console.log(`📡 [${requestId}] Response status: ${response.status} ${response.statusText}`)
+
+      // Log response headers for debugging
+      console.log(`📋 [${requestId}] Response headers:`, Object.fromEntries(response.headers.entries()))
 
       if (!response.ok) {
         const errorText = await response.text()
-        console.error("❌ Foursquare API Error Details:", {
+        console.error(`❌ [${requestId}] Foursquare API Error:`, {
           status: response.status,
           statusText: response.statusText,
-          headers: Object.fromEntries(response.headers.entries()),
           body: errorText,
           url: url.toString(),
         })
 
-        // Diagnóstico específico por código de error
+        // Specific error diagnostics
         if (response.status === 401) {
-          console.error("🔐 401 Unauthorized - Posibles causas:")
-          console.error("   • API Key inválida o expirada")
-          console.error("   • API Key v2 usada en endpoint v3")
-          console.error("   • Formato de header Authorization incorrecto")
-          console.error("   • API Key no tiene permisos para Places API")
+          console.error(`🔐 [${requestId}] 401 Unauthorized - Possible causes:`)
+          console.error("   • Invalid or expired API key")
+          console.error("   • Wrong API version (v2 key on v3 endpoint)")
+          console.error("   • Incorrect Authorization header format")
         } else if (response.status === 403) {
-          console.error("🚫 403 Forbidden - Posibles causas:")
-          console.error("   • API Key sin permisos para este endpoint")
-          console.error("   • Restricciones de dominio o IP")
-          console.error("   • Plan de API insuficiente")
+          console.error(`🚫 [${requestId}] 403 Forbidden - Possible causes:`)
+          console.error("   • API key lacks permissions for this endpoint")
+          console.error("   • Rate limits exceeded")
+          console.error("   • Domain/IP restrictions")
         } else if (response.status === 429) {
-          console.error("⏰ 429 Rate Limited - Posibles causas:")
-          console.error("   • Demasiadas requests por minuto/hora")
-          console.error("   • Límites del plan de API alcanzados")
+          console.error(`⏰ [${requestId}] 429 Rate Limited`)
         }
 
         throw new Error(`Foursquare API error: ${response.status} ${response.statusText} - ${errorText}`)
       }
 
       const data: FoursquareResponse = await response.json()
-      console.log("✅ Foursquare API Success:", {
-        resultsCount: data.results?.length || 0,
+      const resultsCount = data.results?.length || 0
+
+      console.log(`✅ [${requestId}] Success:`, {
+        resultsCount,
         firstResult: data.results?.[0]?.name || "None",
         sampleCategories: data.results?.slice(0, 3).map((r) => r.categories?.[0]?.name) || [],
       })
 
       return data.results || []
     } catch (error) {
-      console.error("❌ Error in Foursquare search:", error)
+      console.error(`❌ [${requestId}] Search error:`, error)
 
-      // Diagnóstico adicional para errores de red
+      // Network error diagnostics
       if (error instanceof TypeError && error.message.includes("fetch")) {
-        console.error("🌐 Network Error - Posibles causas:")
-        console.error("   • Problemas de conectividad")
-        console.error("   • CORS issues en v0.dev")
-        console.error("   • URL base incorrecta")
+        console.error(`🌐 [${requestId}] Network Error - Possible causes:`)
+        console.error("   • Connectivity issues")
+        console.error("   • CORS problems")
+        console.error("   • Invalid base URL")
       }
 
       return []
@@ -278,8 +283,10 @@ export class FoursquareService {
 
   // Test de conectividad básica
   async testConnection(): Promise<{ success: boolean; error?: string; details?: any }> {
+    const testId = Math.random().toString(36).substr(2, 9)
+
     try {
-      console.log("🧪 Testing Foursquare API connection...")
+      console.log(`🧪 [${testId}] Testing Foursquare API connection...`)
 
       const testUrl = `${this.baseUrl}/places/search?near=New York&limit=1`
       const response = await fetch(testUrl, {
@@ -289,6 +296,12 @@ export class FoursquareService {
 
       const responseText = await response.text()
 
+      console.log(`🧪 [${testId}] Connection test result:`, {
+        status: response.status,
+        statusText: response.statusText,
+        bodyLength: responseText.length,
+      })
+
       return {
         success: response.ok,
         error: response.ok ? undefined : `${response.status} ${response.statusText}`,
@@ -296,15 +309,21 @@ export class FoursquareService {
           status: response.status,
           statusText: response.statusText,
           headers: Object.fromEntries(response.headers.entries()),
-          body: responseText.substring(0, 500), // Primeros 500 caracteres
+          body: responseText.substring(0, 500),
           apiKeyFormat: this.apiKey.startsWith("fsq3") ? "v3" : "v2 or unknown",
+          timestamp: new Date().toISOString(),
         },
       }
     } catch (error) {
+      console.error(`❌ [${testId}] Connection test failed:`, error)
+
       return {
         success: false,
         error: error instanceof Error ? error.message : "Unknown error",
-        details: { error },
+        details: {
+          error: error instanceof Error ? error.stack : error,
+          timestamp: new Date().toISOString(),
+        },
       }
     }
   }
@@ -312,16 +331,16 @@ export class FoursquareService {
   // Categorías populares de Foursquare
   static getPopularCategories() {
     return {
-      restaurants: "13065", // Restaurant
-      bars: "13003", // Bar
-      cafes: "13032", // Café
-      nightlife: "13002", // Nightlife Spot
-      shopping: "17000", // Retail
-      arts: "10000", // Arts & Entertainment
-      outdoors: "16000", // Outdoors & Recreation
-      hotels: "19014", // Hotel
-      services: "18000", // Professional & Other Places
-      food: "13000", // Food
+      restaurants: "13065",
+      bars: "13003",
+      cafes: "13032",
+      nightlife: "13002",
+      shopping: "17000",
+      arts: "10000",
+      outdoors: "16000",
+      hotels: "19014",
+      services: "18000",
+      food: "13000",
     }
   }
 
@@ -335,7 +354,6 @@ export class FoursquareService {
   } {
     const categories = FoursquareService.getPopularCategories()
 
-    // Mapeo de vibes a categorías de Foursquare
     const vibeToCategory: Record<string, string> = {
       bellakeo: categories.nightlife,
       perrea: categories.nightlife,
@@ -355,7 +373,6 @@ export class FoursquareService {
     const selectedCategories: string[] = []
     const queryTerms: string[] = []
 
-    // Buscar categorías específicas
     vibeTokens.forEach((token) => {
       const category = vibeToCategory[token.toLowerCase()]
       if (category && !selectedCategories.includes(category)) {
@@ -365,7 +382,6 @@ export class FoursquareService {
       }
     })
 
-    // Si no hay categorías específicas, usar términos de búsqueda
     const result: { query?: string; categories?: string } = {}
 
     if (selectedCategories.length > 0) {
