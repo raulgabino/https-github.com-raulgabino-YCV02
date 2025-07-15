@@ -64,8 +64,23 @@ export async function fsqFetch(path: string, params: Record<string, string | num
   // Check for API key at runtime, not build time
   const apiKey = process.env.FSQ_API_KEY
   if (!apiKey) {
-    throw new Error("FSQ_API_KEY environment variable is required")
+    throw new Error("❌ FSQ_API_KEY environment variable is required")
   }
+
+  // Strict validation of API key format
+  if (!apiKey.startsWith("fsq3")) {
+    throw new Error(`❌ Invalid FSQ_API_KEY format. Expected fsq3..., got: ${apiKey.substring(0, 8)}...`)
+  }
+
+  if (apiKey.length < 32) {
+    throw new Error(`❌ FSQ_API_KEY too short. Expected ≥32 chars, got: ${apiKey.length}`)
+  }
+
+  // Debug: Log the authorization format being used
+  console.log("🔍 API Key validation passed:")
+  console.log(`   Length: ${apiKey.length} chars`)
+  console.log(`   Format: ${apiKey.substring(0, 8)}...${apiKey.slice(-4)}`)
+  console.log(`   Is v3: ${apiKey.startsWith("fsq3")}`)
 
   // Build URL with parameters
   const url = new URL(`${FSQ_BASE_URL}${path}`)

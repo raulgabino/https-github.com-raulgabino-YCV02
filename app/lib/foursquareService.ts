@@ -88,12 +88,20 @@ export class FoursquareService {
     this.apiKey = process.env.FSQ_API_KEY || null
 
     if (!this.apiKey) {
-      console.warn("⚠️ FSQ_API_KEY not found - service will be limited")
-      this.initialized = true
-      return
+      throw new Error("❌ FSQ_API_KEY environment variable is required")
     }
 
+    if (!this.apiKey.startsWith("fsq3")) {
+      throw new Error(`❌ Invalid API key format. Expected fsq3..., got: ${this.apiKey.substring(0, 8)}...`)
+    }
+
+    if (this.apiKey.length < 32) {
+      throw new Error(`❌ API key too short. Expected ≥32 chars, got: ${this.apiKey.length}`)
+    }
+
+    // Debug detallado
     console.log("🔧 FoursquareService initialized:")
+    console.log(`   API Key length: ${this.apiKey.length}`)
     console.log(`   API Key format: ${this.apiKey.substring(0, 8)}...${this.apiKey.slice(-4)}`)
     console.log(`   Is v3 format: ${this.apiKey.startsWith("fsq3")}`)
 
@@ -106,7 +114,11 @@ export class FoursquareService {
     }
 
     if (!this.apiKey) {
-      throw new Error("FSQ_API_KEY environment variable is required")
+      throw new Error("❌ FSQ_API_KEY environment variable is required after initialization")
+    }
+
+    if (!this.apiKey.startsWith("fsq3")) {
+      throw new Error(`❌ Invalid API key format after initialization: ${this.apiKey.substring(0, 8)}...`)
     }
   }
 
