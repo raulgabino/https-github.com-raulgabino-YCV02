@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { foursquareService } from "../../lib/foursquareService"
 import type { Place } from "../../lib/types"
-import { semanticTranslator } from "../../lib/semanticTranslator"
+import { translateVibe } from "../../lib/vibeTranslator"
 
 // Cache simple en memoria para reducir llamadas API
 const cache = new Map<string, { data: Place[]; timestamp: number }>()
@@ -11,18 +11,12 @@ const CACHE_DURATION = 5 * 60 * 1000 // 5 minutos
 export const dynamic = "force-dynamic"
 
 export async function GET(request: NextRequest) {
-  console.log("🚀 /api/places GET called")
-
   try {
-    // ARREGLADO: Usar searchParams directamente en lugar de new URL(request.url)
     const city = request.nextUrl.searchParams.get("city")
     const query = request.nextUrl.searchParams.get("query")
     const categories = request.nextUrl.searchParams.get("categories")
 
-    console.log("📝 Places API params:", { city, query, categories })
-
     if (!city) {
-      console.log("❌ Missing city parameter")
       return NextResponse.json({ error: "City parameter is required" }, { status: 400 })
     }
 
@@ -30,35 +24,38 @@ export async function GET(request: NextRequest) {
     const cacheKey = `${city}-${query || "default"}-${categories || ""}`
     const cached = cache.get(cacheKey)
     if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
-      console.log(`🚀 Cache hit for: ${cacheKey}`)
       return NextResponse.json(cached.data)
     }
 
-    console.log(`🔍 Searching places in ${city} with query: "${query || "none"}"`)
-
-    // Semantic translation
+    // 🎯 TRADUCCIÓN SEMÁNTICA
     let enhancedQuery = query
+    let searchCategories = categories
     let translationUsed = false
 
-    if (query && semanticTranslator.needsTranslation(query)) {
-      const translation = semanticTranslator.translateQuery(query)
-      enhancedQuery = translation.translatedQuery
-      translationUsed = true
+    if (query) {
+      const translation = await translateVibe(query)
 
-      console.log(`🔄 Semantic translation: "${query}" → "${enhancedQuery}"`)
-      console.log(`📊 Translation confidence: ${(translation.confidence * 100).toFixed(1)}%`)
+      if (translation.confidence >= 0.7) {
+        enhancedQuery = translation.translatedQuery
+        searchCategories = translation.categories?.join(",") || categories
+        translationUsed = true
+
+        console.log(
+          `🔄 Vibe translated: "${query}" → "${enhancedQuery}" (${translation.source}, ${translation.confidence})`,
+        )
+      }
     }
 
     // Buscar en Foursquare
     const foursquarePlaces = await foursquareService.searchPlaces({
       near: city,
       query: enhancedQuery || undefined,
-      categories: categories || undefined,
+      categories: searchCategories || undefined,
       limit: 50,
       sort: "POPULARITY",
     })
 
-    console.log(`📍 Foursquare returned ${foursquarePlaces.length} places`)
+    console.log(`📍 Found ${foursquarePlaces.length} places in ${city}${translationUsed ? " (translated)" : ""}`)
 
     // Mapear datos de Foursquare a nuestro tipo Place
     const mappedPlaces: Place[] = foursquarePlaces.map((place) => ({
@@ -73,7 +70,7 @@ export async function GET(request: NextRequest) {
       google_rating: place.rating ? place.rating.toString() : "0",
       price_level: mapPriceLevel(place.price),
       opening_hours: place.hours?.display || "Horarios no disponibles",
-      tags: generateTags(place),
+      tags: generateTags(place, enhancedQuery),
       review_snippets: [],
       last_checked: new Date().toISOString().split("T")[0],
       media: [],
@@ -82,10 +79,6 @@ export async function GET(request: NextRequest) {
     // Guardar en cache
     cache.set(cacheKey, { data: mappedPlaces, timestamp: Date.now() })
 
-    console.log(
-      `✅ Returning ${mappedPlaces.length} places for ${city}${translationUsed ? " (with semantic translation)" : ""}`,
-    )
-
     return NextResponse.json(mappedPlaces)
   } catch (error) {
     console.error("❌ Error in places API:", error)
@@ -93,7 +86,6 @@ export async function GET(request: NextRequest) {
       {
         error: "Failed to fetch places",
         details: error instanceof Error ? error.message : "Unknown error",
-        stack: error instanceof Error ? error.stack : undefined,
       },
       { status: 500 },
     )
@@ -117,8 +109,8 @@ function mapPriceLevel(price?: number): string {
   }
 }
 
-// Generar tags basados en la categoría y otros datos
-function generateTags(place: any): string[] {
+// Generar tags mejorados basados en la categoría y query traducido
+function generateTags(place: any, enhancedQuery?: string): string[] {
   const tags: string[] = []
 
   // Tags de categoría
@@ -133,7 +125,16 @@ function generateTags(place: any): string[] {
     if (category.includes("club") || category.includes("nightlife")) tags.push("fiesta", "baile", "noche")
     if (category.includes("park")) tags.push("aire libre", "relajado")
     if (category.includes("museum")) tags.push("cultura", "arte")
-    if (category.includes("theater")) tags.push("cultura", "entretenimiento")
+  }
+
+  // Tags del query traducido
+  if (enhancedQuery) {
+    const queryWords = enhancedQuery.toLowerCase().split(/\s+/)
+    queryWords.forEach((word) => {
+      if (word.length > 3 && !tags.includes(word)) {
+        tags.push(word)
+      }
+    })
   }
 
   // Tags de precio
@@ -144,12 +145,6 @@ function generateTags(place: any): string[] {
 
   // Tags de rating
   if (place.rating && place.rating >= 4.5) tags.push("popular", "recomendado")
-
-  // Tags de verificación
-  if (place.verified) tags.push("verificado")
-
-  // Tags de horario
-  if (place.hours?.open_now) tags.push("abierto")
 
   return [...new Set(tags)] // Remover duplicados
 }
