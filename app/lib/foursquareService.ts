@@ -76,17 +76,35 @@ export class FoursquareService {
 
   constructor() {
     this.apiKey = process.env.FOURSQUARE_API_KEY || ""
+
+    // Diagnóstico mejorado de API Key
     if (!this.apiKey) {
       console.error("❌ FOURSQUARE_API_KEY not found in environment variables")
+      console.error(
+        "📋 Available env vars:",
+        Object.keys(process.env).filter((key) => key.includes("FOURSQUARE")),
+      )
+    } else {
+      console.log("✅ Foursquare API Key loaded:", `${this.apiKey.substring(0, 8)}...${this.apiKey.slice(-4)}`)
+      console.log("🔑 API Key length:", this.apiKey.length)
+      console.log("🔑 API Key starts with:", this.apiKey.substring(0, 4))
     }
   }
 
   private getHeaders() {
-    return {
+    // CORRECCIÓN: Foursquare API v3 requiere la API key directamente en Authorization
+    const headers = {
       Authorization: this.apiKey,
       Accept: "application/json",
-      "Content-Type": "application/json",
     }
+
+    // Log headers para diagnóstico (sin exponer la key completa)
+    console.log("📤 Request headers:", {
+      ...headers,
+      Authorization: `${this.apiKey.substring(0, 8)}...${this.apiKey.slice(-4)}`,
+    })
+
+    return headers
   }
 
   async searchPlaces(params: {
@@ -144,7 +162,11 @@ export class FoursquareService {
 
       console.log("🔍 Foursquare API Request:", {
         url: url.toString(),
-        headers: this.getHeaders(),
+        method: "GET",
+        headers: {
+          ...this.getHeaders(),
+          Authorization: `${this.apiKey.substring(0, 8)}...${this.apiKey.slice(-4)}`,
+        },
       })
 
       const response = await fetch(url.toString(), {
@@ -152,25 +174,57 @@ export class FoursquareService {
         headers: this.getHeaders(),
       })
 
+      console.log("📡 Foursquare API Response Status:", response.status, response.statusText)
+
       if (!response.ok) {
         const errorText = await response.text()
-        console.error("❌ Foursquare API Error:", {
+        console.error("❌ Foursquare API Error Details:", {
           status: response.status,
           statusText: response.statusText,
+          headers: Object.fromEntries(response.headers.entries()),
           body: errorText,
+          url: url.toString(),
         })
-        throw new Error(`Foursquare API error: ${response.status} ${response.statusText}`)
+
+        // Diagnóstico específico por código de error
+        if (response.status === 401) {
+          console.error("🔐 401 Unauthorized - Posibles causas:")
+          console.error("   • API Key inválida o expirada")
+          console.error("   • Formato de header Authorization incorrecto")
+          console.error("   • API Key no tiene permisos para Places API")
+        } else if (response.status === 403) {
+          console.error("🚫 403 Forbidden - Posibles causas:")
+          console.error("   • API Key sin permisos para este endpoint")
+          console.error("   • Restricciones de dominio o IP")
+          console.error("   • Plan de API insuficiente")
+        } else if (response.status === 429) {
+          console.error("⏰ 429 Rate Limited - Posibles causas:")
+          console.error("   • Demasiadas requests por minuto/hora")
+          console.error("   • Límites del plan de API alcanzados")
+        }
+
+        throw new Error(`Foursquare API error: ${response.status} ${response.statusText} - ${errorText}`)
       }
 
       const data: FoursquareResponse = await response.json()
-      console.log("✅ Foursquare API Response:", {
+      console.log("✅ Foursquare API Success:", {
         resultsCount: data.results?.length || 0,
         firstResult: data.results?.[0]?.name || "None",
+        sampleCategories: data.results?.slice(0, 3).map((r) => r.categories?.[0]?.name) || [],
       })
 
       return data.results || []
     } catch (error) {
       console.error("❌ Error in Foursquare search:", error)
+
+      // Diagnóstico adicional para errores de red
+      if (error instanceof TypeError && error.message.includes("fetch")) {
+        console.error("🌐 Network Error - Posibles causas:")
+        console.error("   • Problemas de conectividad")
+        console.error("   • CORS issues en v0.dev")
+        console.error("   • URL base incorrecta")
+      }
+
       return []
     }
   }
@@ -196,20 +250,61 @@ export class FoursquareService {
         "photos",
       ].join(",")
 
+      console.log("🔍 Getting place details:", `${url}?fields=${fields}`)
+
       const response = await fetch(`${url}?fields=${fields}`, {
         method: "GET",
         headers: this.getHeaders(),
       })
 
       if (!response.ok) {
+        const errorText = await response.text()
+        console.error("❌ Place details error:", {
+          status: response.status,
+          statusText: response.statusText,
+          body: errorText,
+        })
         throw new Error(`Foursquare API error: ${response.status}`)
       }
 
       const data: FoursquarePlace = await response.json()
+      console.log("✅ Place details retrieved:", data.name)
       return data
     } catch (error) {
       console.error("❌ Error getting place details:", error)
       return null
+    }
+  }
+
+  // Test de conectividad básica
+  async testConnection(): Promise<{ success: boolean; error?: string; details?: any }> {
+    try {
+      console.log("🧪 Testing Foursquare API connection...")
+
+      const testUrl = `${this.baseUrl}/places/search?near=New York&limit=1`
+      const response = await fetch(testUrl, {
+        method: "GET",
+        headers: this.getHeaders(),
+      })
+
+      const responseText = await response.text()
+
+      return {
+        success: response.ok,
+        error: response.ok ? undefined : `${response.status} ${response.statusText}`,
+        details: {
+          status: response.status,
+          statusText: response.statusText,
+          headers: Object.fromEntries(response.headers.entries()),
+          body: responseText.substring(0, 500), // Primeros 500 caracteres
+        },
+      }
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown error",
+        details: { error },
+      }
     }
   }
 
