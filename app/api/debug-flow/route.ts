@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
     })
 
     // Step 2: Check API Key
-    const apiKey = process.env.FOURSQUARE_API_KEY
+    const apiKey = process.env.FSQ_API_KEY
     diagnostics.push({
       step: "2. API Key Check",
       status: apiKey ? "✅" : "❌",
@@ -32,7 +32,13 @@ export async function POST(request: NextRequest) {
     })
 
     if (!apiKey) {
-      return NextResponse.json({ diagnostics, error: "API Key missing" })
+      return NextResponse.json({
+        diagnostics,
+        error: "FSQ_API_KEY not found in environment variables",
+        details: {
+          availableEnvVars: Object.keys(process.env).filter((key) => key.includes("FSQ")),
+        },
+      })
     }
 
     // Step 3: Process Vibe

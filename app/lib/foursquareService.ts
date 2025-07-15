@@ -85,10 +85,10 @@ export class FoursquareService {
   private initialize() {
     if (this.initialized) return
 
-    this.apiKey = process.env.FOURSQUARE_API_KEY || null
+    this.apiKey = process.env.FSQ_API_KEY || null
 
     if (!this.apiKey) {
-      console.warn("⚠️ FOURSQUARE_API_KEY not found - service will be limited")
+      console.warn("⚠️ FSQ_API_KEY not found - service will be limited")
       this.initialized = true
       return
     }
@@ -106,7 +106,7 @@ export class FoursquareService {
     }
 
     if (!this.apiKey) {
-      throw new Error("FOURSQUARE_API_KEY environment variable is required")
+      throw new Error("FSQ_API_KEY environment variable is required")
     }
   }
 

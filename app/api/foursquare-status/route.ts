@@ -7,7 +7,7 @@ export async function GET(request: NextRequest) {
 
   try {
     // 1. Check Environment Variables
-    const apiKey = process.env.FOURSQUARE_API_KEY
+    const apiKey = process.env.FSQ_API_KEY
     diagnostics.push({
       step: "Environment Check",
       status: apiKey ? "✅" : "❌",
@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
         keyLength: apiKey?.length || 0,
         keyFormat: apiKey ? `${apiKey.substring(0, 8)}...${apiKey.slice(-4)}` : "MISSING",
         isV3Format: apiKey?.startsWith("fsq3") || false,
-        allEnvVars: Object.keys(process.env).filter((key) => key.includes("FOURSQUARE")),
+        allEnvVars: Object.keys(process.env).filter((key) => key.includes("FSQ")),
       },
       timestamp: Date.now() - startTime,
     })
@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
     if (!apiKey) {
       return NextResponse.json({
         success: false,
-        error: "FOURSQUARE_API_KEY not found",
+        error: "FSQ_API_KEY not found",
         diagnostics,
       })
     }

@@ -6,13 +6,13 @@ export async function POST(request: NextRequest) {
 
   try {
     // Test 1: Check API key
-    const apiKey = process.env.FOURSQUARE_API_KEY
+    const apiKey = process.env.FSQ_API_KEY
     if (!apiKey) {
       return NextResponse.json({
         success: false,
-        error: "FOURSQUARE_API_KEY not found in environment variables",
+        error: "FSQ_API_KEY not found in environment variables",
         details: {
-          availableEnvVars: Object.keys(process.env).filter((key) => key.includes("FOURSQUARE")),
+          availableEnvVars: Object.keys(process.env).filter((key) => key.includes("FSQ")),
         },
       })
     }

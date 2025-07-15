@@ -62,9 +62,9 @@ export interface FsqPlace {
 // Foursquare v3 API fetcher with runtime API key check
 export async function fsqFetch(path: string, params: Record<string, string | number> = {}): Promise<any> {
   // Check for API key at runtime, not build time
-  const apiKey = process.env.FOURSQUARE_API_KEY
+  const apiKey = process.env.FSQ_API_KEY
   if (!apiKey) {
-    throw new Error("FOURSQUARE_API_KEY environment variable is required")
+    throw new Error("FSQ_API_KEY environment variable is required")
   }
 
   // Build URL with parameters

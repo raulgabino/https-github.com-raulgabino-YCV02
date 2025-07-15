@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
     const { vibe, city } = await request.json()
 
     // 1. Check API Key availability (without throwing)
-    const apiKey = process.env.FOURSQUARE_API_KEY
+    const apiKey = process.env.FSQ_API_KEY
     diagnostics.push({
       step: "🔍 1. API Key Check",
       status: apiKey ? "✅" : "❌",
@@ -25,9 +25,9 @@ export async function POST(request: NextRequest) {
     if (!apiKey) {
       return NextResponse.json({
         success: false,
-        error: "FOURSQUARE_API_KEY not found",
+        error: "FSQ_API_KEY not found",
         diagnostics,
-        recommendation: "Add FOURSQUARE_API_KEY to environment variables",
+        recommendation: "Add FSQ_API_KEY to environment variables",
       })
     }
 
@@ -132,7 +132,7 @@ export async function POST(request: NextRequest) {
 
     let recommendation = ""
     if (!hasApiKey) {
-      recommendation = "🔑 Add FOURSQUARE_API_KEY environment variable"
+      recommendation = "🔑 Add FSQ_API_KEY environment variable"
     } else if (!vibeProcessingWorks) {
       recommendation = "🎭 Check vibe processing logic"
     } else {
