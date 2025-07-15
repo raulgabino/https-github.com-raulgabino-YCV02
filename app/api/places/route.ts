@@ -7,14 +7,17 @@ import { semanticTranslator } from "../../lib/semanticTranslator"
 const cache = new Map<string, { data: Place[]; timestamp: number }>()
 const CACHE_DURATION = 5 * 60 * 1000 // 5 minutos
 
+// Forzar dynamic rendering para este route
+export const dynamic = "force-dynamic"
+
 export async function GET(request: NextRequest) {
   console.log("🚀 /api/places GET called")
 
   try {
-    const { searchParams } = new URL(request.url)
-    const city = searchParams.get("city")
-    const query = searchParams.get("query")
-    const categories = searchParams.get("categories")
+    // ARREGLADO: Usar searchParams directamente en lugar de new URL(request.url)
+    const city = request.nextUrl.searchParams.get("city")
+    const query = request.nextUrl.searchParams.get("query")
+    const categories = request.nextUrl.searchParams.get("categories")
 
     console.log("📝 Places API params:", { city, query, categories })
 

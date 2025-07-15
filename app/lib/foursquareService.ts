@@ -87,9 +87,14 @@ export class FoursquareService {
       console.log("✅ Foursquare API Key loaded:", `${this.apiKey.substring(0, 8)}...${this.apiKey.slice(-4)}`)
       console.log("🔑 API Key length:", this.apiKey.length)
 
-      // Verificar formato de API key de Foursquare
-      if (!this.apiKey.startsWith("fsq3")) {
-        console.warn("⚠️ API Key might be invalid - Foursquare keys should start with 'fsq3'")
+      // ACTUALIZADO: Verificar formato de API key
+      if (this.apiKey.startsWith("fsq3")) {
+        console.log("✅ API Key format: Valid v3 format")
+      } else if (this.apiKey.length === 48) {
+        console.warn("⚠️ API Key appears to be v2 format - this might not work with v3 endpoints")
+        console.warn("🔄 Consider upgrading to v3 API key from developer.foursquare.com")
+      } else {
+        console.warn("⚠️ API Key format unknown - length:", this.apiKey.length)
       }
     }
   }
@@ -184,6 +189,7 @@ export class FoursquareService {
         if (response.status === 401) {
           console.error("🔐 401 Unauthorized - Posibles causas:")
           console.error("   • API Key inválida o expirada")
+          console.error("   • API Key v2 usada en endpoint v3")
           console.error("   • Formato de header Authorization incorrecto")
           console.error("   • API Key no tiene permisos para Places API")
         } else if (response.status === 403) {
@@ -291,6 +297,7 @@ export class FoursquareService {
           statusText: response.statusText,
           headers: Object.fromEntries(response.headers.entries()),
           body: responseText.substring(0, 500), // Primeros 500 caracteres
+          apiKeyFormat: this.apiKey.startsWith("fsq3") ? "v3" : "v2 or unknown",
         },
       }
     } catch (error) {

@@ -1,5 +1,8 @@
 import { type NextRequest, NextResponse } from "next/server"
 
+// Forzar dynamic rendering
+export const dynamic = "force-dynamic"
+
 export async function GET(request: NextRequest) {
   try {
     // This would be called by a cron job weekly (Monday 03:00 UTC)
@@ -36,7 +39,8 @@ Return JSON format:
         messages: [
           {
             role: "system",
-            content: "You are a trend analyst for Mexican urban culture and place recommendations.",
+            content:
+              "You are a trend analyst for Mexican urban culture and place recommendations. Always respond with valid JSON only.",
           },
           {
             role: "user",
@@ -56,9 +60,25 @@ Return JSON format:
     let suggestions
     try {
       const content = data.choices[0]?.message?.content || '{"suggested_tokens": []}'
-      suggestions = JSON.parse(content)
+
+      // ARREGLADO: Limpiar la respuesta antes de parsear JSON
+      const cleanContent = content.trim()
+
+      // Si la respuesta no empieza con {, es texto plano - extraer JSON
+      if (!cleanContent.startsWith("{")) {
+        // Buscar JSON en la respuesta
+        const jsonMatch = cleanContent.match(/\{[\s\S]*\}/)
+        if (jsonMatch) {
+          suggestions = JSON.parse(jsonMatch[0])
+        } else {
+          throw new Error("No JSON found in response")
+        }
+      } else {
+        suggestions = JSON.parse(cleanContent)
+      }
     } catch (error) {
       console.error("Error parsing OpenAI response:", error)
+      console.error("Raw content:", data.choices[0]?.message?.content)
       suggestions = { suggested_tokens: [] }
     }
 
