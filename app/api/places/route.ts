@@ -1,8 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server"
-import { foursquareService, type FoursquarePlace } from "../../lib/foursquareService"
+import { foursquareService } from "../../lib/foursquareService"
 import type { Place } from "../../lib/types"
-
-// Importar el traductor semántico al inicio del archivo
 import { semanticTranslator } from "../../lib/semanticTranslator"
 
 // Cache simple en memoria para reducir llamadas API
@@ -10,13 +8,18 @@ const cache = new Map<string, { data: Place[]; timestamp: number }>()
 const CACHE_DURATION = 5 * 60 * 1000 // 5 minutos
 
 export async function GET(request: NextRequest) {
+  console.log("🚀 /api/places GET called")
+
   try {
     const { searchParams } = new URL(request.url)
     const city = searchParams.get("city")
     const query = searchParams.get("query")
     const categories = searchParams.get("categories")
 
+    console.log("📝 Places API params:", { city, query, categories })
+
     if (!city) {
+      console.log("❌ Missing city parameter")
       return NextResponse.json({ error: "City parameter is required" }, { status: 400 })
     }
 
@@ -30,7 +33,7 @@ export async function GET(request: NextRequest) {
 
     console.log(`🔍 Searching places in ${city} with query: "${query || "none"}"`)
 
-    // Después de obtener los parámetros, antes de la llamada a Foursquare:
+    // Semantic translation
     let enhancedQuery = query
     let translationUsed = false
 
@@ -43,7 +46,7 @@ export async function GET(request: NextRequest) {
       console.log(`📊 Translation confidence: ${(translation.confidence * 100).toFixed(1)}%`)
     }
 
-    // Usar enhancedQuery en lugar de query para la búsqueda de Foursquare:
+    // Buscar en Foursquare
     const foursquarePlaces = await foursquareService.searchPlaces({
       near: city,
       query: enhancedQuery || undefined,
@@ -52,8 +55,10 @@ export async function GET(request: NextRequest) {
       sort: "POPULARITY",
     })
 
+    console.log(`📍 Foursquare returned ${foursquarePlaces.length} places`)
+
     // Mapear datos de Foursquare a nuestro tipo Place
-    const mappedPlaces: Place[] = foursquarePlaces.map((place: FoursquarePlace) => ({
+    const mappedPlaces: Place[] = foursquarePlaces.map((place) => ({
       name: place.name || "Unknown",
       category: place.categories?.[0]?.name || "general",
       city: place.location?.locality || city,
@@ -74,9 +79,8 @@ export async function GET(request: NextRequest) {
     // Guardar en cache
     cache.set(cacheKey, { data: mappedPlaces, timestamp: Date.now() })
 
-    // Al final, antes del return, agregar información de debug:
     console.log(
-      `✅ Found ${mappedPlaces.length} places for ${city}${translationUsed ? " (with semantic translation)" : ""}`,
+      `✅ Returning ${mappedPlaces.length} places for ${city}${translationUsed ? " (with semantic translation)" : ""}`,
     )
 
     return NextResponse.json(mappedPlaces)
@@ -86,6 +90,7 @@ export async function GET(request: NextRequest) {
       {
         error: "Failed to fetch places",
         details: error instanceof Error ? error.message : "Unknown error",
+        stack: error instanceof Error ? error.stack : undefined,
       },
       { status: 500 },
     )
@@ -110,7 +115,7 @@ function mapPriceLevel(price?: number): string {
 }
 
 // Generar tags basados en la categoría y otros datos
-function generateTags(place: FoursquarePlace): string[] {
+function generateTags(place: any): string[] {
   const tags: string[] = []
 
   // Tags de categoría
