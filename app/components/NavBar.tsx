@@ -1,40 +1,33 @@
-"use client"
+import type React from "react"
 
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { Home, Heart } from "lucide-react"
-import { copy } from "../lib/i18n"
-
-export default function NavBar() {
-  const pathname = usePathname()
-
+const NavBar: React.FC = () => {
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-gray-800/80 backdrop-blur-lg border-t border-spotify-green/20">
-      <div className="flex items-center justify-around py-3">
-        <Link
-          href="/"
-          className={`flex flex-col items-center gap-1 px-4 py-2 rounded-xl transition-all duration-200 ${
-            pathname === "/"
-              ? "bg-spotify-green/20 text-spotify-green"
-              : "text-gray-400 hover:text-spotify-green hover:bg-spotify-green/10"
-          }`}
-        >
-          <Home size={20} />
-          <span className="text-xs font-medium">{copy.navigation.home}</span>
-        </Link>
-
-        <Link
-          href="/favorites"
-          className={`flex flex-col items-center gap-1 px-4 py-2 rounded-xl transition-all duration-200 ${
-            pathname === "/favorites"
-              ? "bg-spotify-green/20 text-spotify-green"
-              : "text-gray-400 hover:text-spotify-green hover:bg-spotify-green/10"
-          }`}
-        >
-          <Heart size={20} />
-          <span className="text-xs font-medium">{copy.navigation.favorites}</span>
-        </Link>
+    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-gray-900 border-t border-gray-700">
+      <div className="container mx-auto">
+        <div className="flex justify-between items-center py-2">
+          <div className="text-white">
+            {/* Add your logo or brand name here */}
+            <span>My App</span>
+          </div>
+          <div className="space-x-4">
+            {/* Add your navigation links here */}
+            <a href="#" className="text-gray-300 hover:text-white">
+              Home
+            </a>
+            <a href="#" className="text-gray-300 hover:text-white">
+              About
+            </a>
+            <a href="#" className="text-gray-300 hover:text-white">
+              Services
+            </a>
+            <a href="#" className="text-gray-300 hover:text-white">
+              Contact
+            </a>
+          </div>
+        </div>
       </div>
     </nav>
   )
 }
+
+export default NavBar
