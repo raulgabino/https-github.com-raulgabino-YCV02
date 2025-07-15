@@ -1,3 +1,5 @@
+import { fsqFetch, type FsqPlace } from "./fetcher"
+
 interface FoursquarePlace {
   fsq_id: string
   name: string
@@ -53,21 +55,16 @@ interface FoursquarePlace {
   verified?: boolean
   closed_bucket?: string
   distance?: number
+  photos?: any // Assuming photos can be of any type for now
 }
 
-interface FoursquareResponse {
-  results: FoursquarePlace[]
-  context?: {
-    geo_bounds?: {
-      circle: {
-        center: {
-          latitude: number
-          longitude: number
-        }
-        radius: number
-      }
-    }
-  }
+interface SearchParams {
+  near: string
+  query?: string
+  categories?: string
+  limit?: number
+  radius?: number
+  sort?: "DISTANCE" | "POPULARITY" | "RATING"
 }
 
 export class FoursquareService {
@@ -75,23 +72,16 @@ export class FoursquareService {
   private baseUrl = "https://api.foursquare.com/v3"
 
   constructor() {
-    this.apiKey = process.env.FOURSQUARE_API_KEY || ""
-
-    // Enhanced logging for debugging
-    console.log("🔧 FoursquareService initialization:")
-    console.log(`   API Key exists: ${!!this.apiKey}`)
-
-    if (this.apiKey) {
-      console.log(`   API Key format: ${this.apiKey.substring(0, 8)}...${this.apiKey.slice(-4)}`)
-      console.log(`   API Key length: ${this.apiKey.length}`)
-      console.log(`   Is v3 format: ${this.apiKey.startsWith("fsq3")}`)
-    } else {
+    // Verify API key exists on initialization
+    if (!process.env.FOURSQUARE_API_KEY) {
       console.error("❌ FOURSQUARE_API_KEY missing!")
-      console.log(
-        "   Available env vars:",
-        Object.keys(process.env).filter((key) => key.includes("FOURSQUARE")),
-      )
+      throw new Error("FSQ_API_KEY environment variable is required")
     }
+
+    this.apiKey = process.env.FOURSQUARE_API_KEY
+    console.log("🔧 FoursquareService initialized:")
+    console.log(`   API Key format: ${this.apiKey.substring(0, 8)}...${this.apiKey.slice(-4)}`)
+    console.log(`   Is v3 format: ${this.apiKey.startsWith("fsq3")}`)
   }
 
   private getHeaders() {
@@ -102,47 +92,40 @@ export class FoursquareService {
     }
   }
 
-  async searchPlaces(params: {
-    near: string
-    query?: string
-    categories?: string
-    limit?: number
-    radius?: number
-    sort?: "DISTANCE" | "POPULARITY" | "RATING"
-  }): Promise<FoursquarePlace[]> {
+  async searchPlaces(params: SearchParams): Promise<FsqPlace[]> {
     const requestId = Math.random().toString(36).substr(2, 9)
 
     try {
-      console.log(`🔍 [${requestId}] Foursquare search starting:`, {
+      console.log(`🔍 [${requestId}] Foursquare search:`, {
         near: params.near,
         query: params.query,
         categories: params.categories,
         limit: params.limit,
       })
 
-      const url = new URL(`${this.baseUrl}/places/search`)
-
-      // Build parameters
-      url.searchParams.append("near", params.near)
-      url.searchParams.append("limit", (params.limit || 50).toString())
+      // Build search parameters
+      const searchParams: Record<string, string | number> = {
+        near: params.near,
+        limit: params.limit || 50,
+      }
 
       if (params.query) {
-        url.searchParams.append("query", params.query)
+        searchParams.query = params.query
       }
 
       if (params.categories) {
-        url.searchParams.append("categories", params.categories)
+        searchParams.categories = params.categories
       }
 
       if (params.radius) {
-        url.searchParams.append("radius", params.radius.toString())
+        searchParams.radius = params.radius
       }
 
       if (params.sort) {
-        url.searchParams.append("sort", params.sort)
+        searchParams.sort = params.sort
       }
 
-      // Fields we want
+      // Add fields we want from the API
       const fields = [
         "fsq_id",
         "name",
@@ -161,82 +144,31 @@ export class FoursquareService {
         "distance",
       ].join(",")
 
-      url.searchParams.append("fields", fields)
-
-      console.log(`🌐 [${requestId}] Request URL:`, url.toString())
-      console.log(`🔑 [${requestId}] Headers:`, {
-        ...this.getHeaders(),
-        Authorization: `${this.apiKey.substring(0, 8)}...${this.apiKey.slice(-4)}`,
-      })
+      searchParams.fields = fields
 
       const startTime = Date.now()
-      const response = await fetch(url.toString(), {
-        method: "GET",
-        headers: this.getHeaders(),
-      })
-
+      const response = await fsqFetch("/places/search", searchParams)
       const responseTime = Date.now() - startTime
-      console.log(`⏱️ [${requestId}] Response time: ${responseTime}ms`)
-      console.log(`📡 [${requestId}] Response status: ${response.status} ${response.statusText}`)
 
-      // Log response headers for debugging
-      console.log(`📋 [${requestId}] Response headers:`, Object.fromEntries(response.headers.entries()))
+      const places: FsqPlace[] = response.results || []
 
-      if (!response.ok) {
-        const errorText = await response.text()
-        console.error(`❌ [${requestId}] Foursquare API Error:`, {
-          status: response.status,
-          statusText: response.statusText,
-          body: errorText,
-          url: url.toString(),
-        })
+      console.log(`✅ [${requestId}] Success: ${places.length} places found in ${responseTime}ms`)
 
-        // Specific error diagnostics
-        if (response.status === 401) {
-          console.error(`🔐 [${requestId}] 401 Unauthorized - Possible causes:`)
-          console.error("   • Invalid or expired API key")
-          console.error("   • Wrong API version (v2 key on v3 endpoint)")
-          console.error("   • Incorrect Authorization header format")
-        } else if (response.status === 403) {
-          console.error(`🚫 [${requestId}] 403 Forbidden - Possible causes:`)
-          console.error("   • API key lacks permissions for this endpoint")
-          console.error("   • Rate limits exceeded")
-          console.error("   • Domain/IP restrictions")
-        } else if (response.status === 429) {
-          console.error(`⏰ [${requestId}] 429 Rate Limited`)
-        }
-
-        throw new Error(`Foursquare API error: ${response.status} ${response.statusText} - ${errorText}`)
+      if (places.length > 0) {
+        console.log(`   First result: ${places[0].name} (${places[0].categories?.[0]?.name})`)
       }
 
-      const data: FoursquareResponse = await response.json()
-      const resultsCount = data.results?.length || 0
-
-      console.log(`✅ [${requestId}] Success:`, {
-        resultsCount,
-        firstResult: data.results?.[0]?.name || "None",
-        sampleCategories: data.results?.slice(0, 3).map((r) => r.categories?.[0]?.name) || [],
-      })
-
-      return data.results || []
+      return places
     } catch (error) {
       console.error(`❌ [${requestId}] Search error:`, error)
-
-      // Network error diagnostics
-      if (error instanceof TypeError && error.message.includes("fetch")) {
-        console.error(`🌐 [${requestId}] Network Error - Possible causes:`)
-        console.error("   • Connectivity issues")
-        console.error("   • CORS problems")
-        console.error("   • Invalid base URL")
-      }
-
       return []
     }
   }
 
-  async getPlaceDetails(fsqId: string): Promise<FoursquarePlace | null> {
+  async getPlaceDetails(fsqId: string): Promise<FsqPlace | null> {
     try {
-      const url = `${this.baseUrl}/places/${fsqId}`
+      console.log("🔍 Getting place details for:", fsqId)
+
       const fields = [
         "fsq_id",
         "name",
@@ -255,62 +187,40 @@ export class FoursquareService {
         "photos",
       ].join(",")
 
-      console.log("🔍 Getting place details:", `${url}?fields=${fields}`)
+      const place = await fsqFetch(`/places/${fsqId}`, { fields })
 
-      const response = await fetch(`${url}?fields=${fields}`, {
-        method: "GET",
-        headers: this.getHeaders(),
-      })
-
-      if (!response.ok) {
-        const errorText = await response.text()
-        console.error("❌ Place details error:", {
-          status: response.status,
-          statusText: response.statusText,
-          body: errorText,
-        })
-        throw new Error(`Foursquare API error: ${response.status}`)
-      }
-
-      const data: FoursquarePlace = await response.json()
-      console.log("✅ Place details retrieved:", data.name)
-      return data
+      console.log("✅ Place details retrieved:", place.name)
+      return place
     } catch (error) {
       console.error("❌ Error getting place details:", error)
       return null
     }
   }
 
-  // Test de conectividad básica
   async testConnection(): Promise<{ success: boolean; error?: string; details?: any }> {
     const testId = Math.random().toString(36).substr(2, 9)
 
     try {
       console.log(`🧪 [${testId}] Testing Foursquare API connection...`)
 
-      const testUrl = `${this.baseUrl}/places/search?near=New York&limit=1`
-      const response = await fetch(testUrl, {
-        method: "GET",
-        headers: this.getHeaders(),
+      const response = await fsqFetch("/places/search", {
+        near: "New York",
+        limit: 1,
+        fields: "fsq_id,name,categories",
       })
 
-      const responseText = await response.text()
+      const success = response && response.results && response.results.length >= 0
 
       console.log(`🧪 [${testId}] Connection test result:`, {
-        status: response.status,
-        statusText: response.statusText,
-        bodyLength: responseText.length,
+        success,
+        resultsCount: response.results?.length || 0,
       })
 
       return {
-        success: response.ok,
-        error: response.ok ? undefined : `${response.status} ${response.statusText}`,
+        success,
         details: {
-          status: response.status,
-          statusText: response.statusText,
-          headers: Object.fromEntries(response.headers.entries()),
-          body: responseText.substring(0, 500),
-          apiKeyFormat: this.apiKey.startsWith("fsq3") ? "v3" : "v2 or unknown",
+          resultsCount: response.results?.length || 0,
+          firstResult: response.results?.[0]?.name || "None",
           timestamp: new Date().toISOString(),
         },
       }
@@ -328,23 +238,51 @@ export class FoursquareService {
     }
   }
 
-  // Categorías populares de Foursquare
-  static getPopularCategories() {
+  // Helper method to get category mappings
+  static getCategoryMappings() {
     return {
-      restaurants: "13065",
-      bars: "13003",
-      cafes: "13032",
-      nightlife: "13002",
-      shopping: "17000",
-      arts: "10000",
-      outdoors: "16000",
-      hotels: "19014",
-      services: "18000",
-      food: "13000",
+      // Food & Dining
+      restaurant: "13065",
+      "fast food": "13145",
+      cafe: "13032",
+      bakery: "13018",
+      "ice cream": "13068",
+
+      // Nightlife & Bars
+      bar: "13003",
+      nightclub: "13002",
+      lounge: "13004",
+      "cocktail bar": "13003",
+
+      // Entertainment
+      "movie theater": "10006",
+      "bowling alley": "10003",
+      casino: "10004",
+      "music venue": "10005",
+
+      // Shopping
+      "clothing store": "17016",
+      bookstore: "17007",
+      "electronics store": "17021",
+
+      // Outdoors & Recreation
+      park: "16032",
+      gym: "16014",
+      "sports club": "16046",
+
+      // Arts & Culture
+      museum: "10019",
+      "art gallery": "10002",
+      theater: "10007",
+
+      // Services
+      hotel: "19014",
+      hospital: "15014",
+      bank: "18005",
     }
   }
 
-  // Construir query inteligente basado en tokens de vibe
+  // Build search query with category mapping
   static buildSearchQuery(
     vibeTokens: string[],
     moodGroup: string | null,
@@ -352,35 +290,43 @@ export class FoursquareService {
     query?: string
     categories?: string
   } {
-    const categories = FoursquareService.getPopularCategories()
-
-    const vibeToCategory: Record<string, string> = {
-      bellakeo: categories.nightlife,
-      perrea: categories.nightlife,
-      antro: categories.nightlife,
-      bar: categories.bars,
-      restaurante: categories.restaurants,
-      café: categories.cafes,
-      coffee: categories.cafes,
-      comida: categories.food,
-      shopping: categories.shopping,
-      arte: categories.arts,
-      cultura: categories.arts,
-      parque: categories.outdoors,
-      hotel: categories.hotels,
-    }
-
+    const categoryMappings = FoursquareService.getCategoryMappings()
     const selectedCategories: string[] = []
     const queryTerms: string[] = []
 
+    // Map vibe tokens to categories or query terms
     vibeTokens.forEach((token) => {
-      const category = vibeToCategory[token.toLowerCase()]
+      const lowerToken = token.toLowerCase()
+
+      // Check for direct category matches
+      const category = categoryMappings[lowerToken as keyof typeof categoryMappings]
       if (category && !selectedCategories.includes(category)) {
         selectedCategories.push(category)
       } else {
+        // Add to query terms if not a category
         queryTerms.push(token)
       }
     })
+
+    // Add mood group categories
+    if (moodGroup) {
+      const moodCategories = {
+        nightlife: [categoryMappings.bar, categoryMappings.nightclub],
+        romantic: [categoryMappings.restaurant],
+        chill: [categoryMappings.cafe, categoryMappings.bar],
+        productive: [categoryMappings.cafe],
+        food: [categoryMappings.restaurant, categoryMappings.cafe],
+        culture: [categoryMappings.museum, categoryMappings.theater],
+        outdoor: [categoryMappings.park],
+      }
+
+      const moodCats = moodCategories[moodGroup as keyof typeof moodCategories] || []
+      moodCats.forEach((cat) => {
+        if (cat && !selectedCategories.includes(cat)) {
+          selectedCategories.push(cat)
+        }
+      })
+    }
 
     const result: { query?: string; categories?: string } = {}
 
@@ -397,4 +343,4 @@ export class FoursquareService {
 }
 
 export const foursquareService = new FoursquareService()
-export type { FoursquarePlace }
+export type { FsqPlace }

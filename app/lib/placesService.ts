@@ -1,57 +1,98 @@
 import type { Place } from "./types"
-import { FoursquareService } from "./foursquareService"
+import { foursquareService, type FsqPlace } from "./foursquareService"
 
-export async function getPlaces(city: string, query?: string): Promise<Place[]> {
-  try {
-    // Construir URL robusta (funciona en browser, v0.dev, localhost)
-    const searchParams = new URLSearchParams({ city })
-    if (query) searchParams.append("query", query)
-
-    const baseUrl =
-      typeof window !== "undefined"
-        ? "" // path relativo en navegador
-        : process.env.VERCEL_URL
-          ? `https://${process.env.VERCEL_URL}`
-          : "http://localhost:3000"
-
-    const requestUrl = `${baseUrl}/api/places?${searchParams.toString()}`
-    console.log(`🔍 Fetching places: ${requestUrl}`)
-
-    const response = await fetch(requestUrl, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-
-    if (!response.ok) {
-      console.error(`❌ Places service error: ${response.status}`)
-      return []
-    }
-
-    const places: Place[] = await response.json()
-    console.log(`✅ Places service returned ${places.length} places`)
-
-    return places
-  } catch (error) {
-    console.error("❌ Error in places service:", error)
-    return []
+// Convert Foursquare place to our internal Place type
+function mapFsqPlaceToPlace(fsqPlace: FsqPlace, city: string): Place {
+  return {
+    name: fsqPlace.name || "Unknown",
+    category: fsqPlace.categories?.[0]?.name || "general",
+    city: fsqPlace.location?.locality || city,
+    address: fsqPlace.location?.formatted_address || fsqPlace.location?.address || "",
+    lat: fsqPlace.geocodes?.main?.latitude || 0,
+    lng: fsqPlace.geocodes?.main?.longitude || 0,
+    phone: fsqPlace.tel || "",
+    website: fsqPlace.website || "",
+    google_rating: fsqPlace.rating ? fsqPlace.rating.toString() : "0",
+    price_level: mapPriceLevel(fsqPlace.price),
+    opening_hours: fsqPlace.hours?.display || "Horarios no disponibles",
+    tags: generateTags(fsqPlace),
+    review_snippets: [],
+    last_checked: new Date().toISOString().split("T")[0],
+    media: [],
   }
 }
 
-// Función helper mejorada para construir query inteligente
-export function buildFoursquareQuery(vibeTokens: string[], moodGroup: string | null): string {
-  const { query, categories } = FoursquareService.buildSearchQuery(vibeTokens, moodGroup)
+// Map Foursquare price (1-4) to our format
+function mapPriceLevel(price?: number): string {
+  if (!price) return "$"
+  switch (price) {
+    case 1:
+      return "$"
+    case 2:
+      return "$$"
+    case 3:
+      return "$$$"
+    case 4:
+      return "$$$$"
+    default:
+      return "$"
+  }
+}
 
-  // Combinar query y categorías en un string para la URL
-  const parts: string[] = []
-  if (query) parts.push(query)
-  if (categories) parts.push(`categories:${categories}`)
+// Generate tags from Foursquare place data
+function generateTags(fsqPlace: FsqPlace): string[] {
+  const tags: string[] = []
 
-  const finalQuery = parts.join(" ")
-  console.log(`🎯 Built Foursquare query: "${finalQuery}" from tokens:`, vibeTokens)
+  // Category-based tags
+  if (fsqPlace.categories?.[0]?.name) {
+    const category = fsqPlace.categories[0].name.toLowerCase()
+    tags.push(category)
 
-  return finalQuery
+    // Contextual tags based on category
+    if (category.includes("restaurant")) tags.push("comida", "cena")
+    if (category.includes("bar")) tags.push("bebidas", "noche")
+    if (category.includes("coffee") || category.includes("café")) tags.push("café", "tranquilo", "productivo")
+    if (category.includes("club") || category.includes("nightlife")) tags.push("fiesta", "baile", "noche")
+    if (category.includes("park")) tags.push("aire libre", "relajado")
+    if (category.includes("museum")) tags.push("cultura", "arte")
+  }
+
+  // Price-based tags
+  if (fsqPlace.price) {
+    if (fsqPlace.price <= 2) tags.push("económico")
+    if (fsqPlace.price >= 3) tags.push("elegante")
+  }
+
+  // Rating-based tags
+  if (fsqPlace.rating && fsqPlace.rating >= 4.5) tags.push("popular", "recomendado")
+
+  // Verification tag
+  if (fsqPlace.verified) tags.push("verificado")
+
+  return [...new Set(tags)] // Remove duplicates
+}
+
+export async function getPlaces(city: string, query?: string): Promise<Place[]> {
+  try {
+    console.log(`🔍 Getting places for city: ${city}, query: ${query}`)
+
+    // Search places using Foursquare service
+    const fsqPlaces = await foursquareService.searchPlaces({
+      near: city,
+      query: query || undefined,
+      limit: 50,
+      sort: "POPULARITY",
+    })
+
+    // Convert to our internal Place format
+    const places = fsqPlaces.map((fsqPlace) => mapFsqPlaceToPlace(fsqPlace, city))
+
+    console.log(`✅ Converted ${places.length} places for ${city}`)
+    return places
+  } catch (error) {
+    console.error("❌ Error in getPlaces:", error)
+    return []
+  }
 }
 
 export async function getPlacesByCity(city: string): Promise<Place[]> {
@@ -77,4 +118,19 @@ export async function getPlaceByName(name: string, city: string): Promise<Place 
 
 export async function getAllPlaces(): Promise<Place[]> {
   return getPlaces("Ciudad Victoria") // Default fallback
+}
+
+// Build optimized Foursquare query from vibe tokens
+export function buildFoursquareQuery(vibeTokens: string[], moodGroup: string | null): string {
+  const { query, categories } = foursquareService.buildSearchQuery(vibeTokens, moodGroup)
+
+  // Combine query and categories for logging
+  const parts: string[] = []
+  if (query) parts.push(query)
+  if (categories) parts.push(`categories:${categories}`)
+
+  const finalQuery = parts.join(" ")
+  console.log(`🎯 Built Foursquare query: "${finalQuery}" from tokens:`, vibeTokens)
+
+  return query || "" // Return just the query part for actual search
 }
