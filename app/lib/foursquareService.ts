@@ -77,7 +77,6 @@ export class FoursquareService {
   constructor() {
     this.apiKey = process.env.FOURSQUARE_API_KEY || ""
 
-    // Diagnóstico mejorado de API Key
     if (!this.apiKey) {
       console.error("❌ FOURSQUARE_API_KEY not found in environment variables")
       console.error(
@@ -87,24 +86,19 @@ export class FoursquareService {
     } else {
       console.log("✅ Foursquare API Key loaded:", `${this.apiKey.substring(0, 8)}...${this.apiKey.slice(-4)}`)
       console.log("🔑 API Key length:", this.apiKey.length)
-      console.log("🔑 API Key starts with:", this.apiKey.substring(0, 4))
+
+      // Verificar formato de API key de Foursquare
+      if (!this.apiKey.startsWith("fsq3")) {
+        console.warn("⚠️ API Key might be invalid - Foursquare keys should start with 'fsq3'")
+      }
     }
   }
 
   private getHeaders() {
-    // CORRECCIÓN: Foursquare API v3 requiere la API key directamente en Authorization
-    const headers = {
+    return {
       Authorization: this.apiKey,
       Accept: "application/json",
     }
-
-    // Log headers para diagnóstico (sin exponer la key completa)
-    console.log("📤 Request headers:", {
-      ...headers,
-      Authorization: `${this.apiKey.substring(0, 8)}...${this.apiKey.slice(-4)}`,
-    })
-
-    return headers
   }
 
   async searchPlaces(params: {
@@ -380,3 +374,4 @@ export class FoursquareService {
 }
 
 export const foursquareService = new FoursquareService()
+export type { FoursquarePlace }
