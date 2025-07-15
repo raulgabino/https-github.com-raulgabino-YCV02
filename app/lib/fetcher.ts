@@ -73,27 +73,73 @@ export async function fsqFetch(path: string, params: Record<string, string | num
     url.searchParams.append(key, value.toString())
   })
 
-  // Fixed headers for Foursquare v3
+  // Debug: Log the authorization format being used
+  console.log("🔍 Authorization header format:", `Bearer ${apiKey.substring(0, 8)}...${apiKey.slice(-4)}`)
+
+  // Try Bearer format first (most common for modern APIs)
   const headers = {
-    Authorization: apiKey,
+    Authorization: `Bearer ${apiKey}`,
     Accept: "application/json",
-    "Content-Type": "application/json",
     "X-Places-Api-Version": "2025-06-17",
   }
 
   try {
+    console.log("🌐 Making request to:", url.toString())
+    console.log("📋 Headers:", {
+      ...headers,
+      Authorization: `Bearer ${apiKey.substring(0, 8)}...${apiKey.slice(-4)}`, // Masked for logging
+    })
+
     const response = await fetch(url.toString(), {
       method: "GET",
       headers,
     })
 
+    console.log("📡 Response status:", response.status, response.statusText)
+
     if (!response.ok) {
       const errorText = await response.text()
+      console.error("❌ API Error Response:", errorText)
+
+      // If Bearer format fails with 401, try without Bearer
+      if (response.status === 401) {
+        console.log("🔄 Retrying without Bearer prefix...")
+
+        const fallbackHeaders = {
+          Authorization: apiKey,
+          Accept: "application/json",
+          "X-Places-Api-Version": "2025-06-17",
+        }
+
+        const fallbackResponse = await fetch(url.toString(), {
+          method: "GET",
+          headers: fallbackHeaders,
+        })
+
+        console.log("📡 Fallback response status:", fallbackResponse.status, fallbackResponse.statusText)
+
+        if (!fallbackResponse.ok) {
+          const fallbackErrorText = await fallbackResponse.text()
+          throw new Error(
+            `Foursquare API error (both formats tried): ${fallbackResponse.status} ${fallbackResponse.statusText} - ${fallbackErrorText}`,
+          )
+        }
+
+        return await fallbackResponse.json()
+      }
+
       throw new Error(`Foursquare API error: ${response.status} ${response.statusText} - ${errorText}`)
     }
 
-    return await response.json()
+    const data = await response.json()
+    console.log("✅ API Response received:", {
+      resultsCount: data.results?.length || 0,
+      hasResults: !!data.results,
+    })
+
+    return data
   } catch (error) {
+    console.error("💥 Fetch error:", error)
     if (error instanceof Error) {
       throw error
     }
