@@ -1,5 +1,5 @@
 // Foursquare v3 API Fetcher with build-time safety
-const FSQ_BASE_URL = "https://api.foursquare.com/v3"
+const FSQ_BASE_URL = "https://places-api.foursquare.com"
 
 // Foursquare Place type based on v3 API response
 export interface FsqPlace {
@@ -78,6 +78,7 @@ export async function fsqFetch(path: string, params: Record<string, string | num
     Authorization: apiKey,
     Accept: "application/json",
     "Content-Type": "application/json",
+    "X-Places-Api-Version": "2025-06-17",
   }
 
   try {

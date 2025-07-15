@@ -70,7 +70,7 @@ interface SearchParams {
 export class FoursquareService {
   private apiKey: string | null = null
   private initialized = false
-  private baseUrl = "https://api.foursquare.com/v3"
+  private baseUrl = "https://places-api.foursquare.com"
 
   constructor() {
     // Don't initialize during build time - defer until first use
